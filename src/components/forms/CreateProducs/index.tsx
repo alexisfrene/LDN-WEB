@@ -9,7 +9,6 @@ import { producsCategory } from "../../../mocks";
 export const CreateProducts: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string>(defaultImage);
   const [secondaryImages, setSecondaryImages] = useState<FileList | null>(null);
-
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -17,7 +16,6 @@ export const CreateProducts: React.FC = () => {
       setSelectedImage(imageUrl);
     }
   };
-
   const handleSecondaryImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files) {
@@ -62,25 +60,6 @@ export const CreateProducts: React.FC = () => {
         }) => (
           <form onSubmit={handleSubmit} className="mb-4">
             <div>
-              <h3>Ingresa una descripción :</h3>
-              <input
-                name="description"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.description}
-                className="p-2 border rounded w-full bg-slate-150"
-              />
-            </div>
-            <Field name="category">
-              {({ field }: FieldProps<string>) => (
-                <DropdownInput
-                  title="Selecciona una opción:"
-                  options={producsCategory}
-                  name={field.name}
-                />
-              )}
-            </Field>
-            <div>
               <h3>Selecciona una imagen principal :</h3>
               <input
                 type="file"
@@ -107,7 +86,87 @@ export const CreateProducts: React.FC = () => {
                 className="p-2 border rounded w-full"
               />
             </div>
-
+            <div>
+              <h3>Ingresa una descripción :</h3>
+              <input
+                name="description"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.description}
+                className="p-2 border rounded w-full bg-slate-150"
+              />
+            </div>
+            <Field name="category">
+              {({ field }: FieldProps<string>) => (
+                <DropdownInput
+                  title="Selecciona una opción:"
+                  options={producsCategory}
+                  name={field.name}
+                />
+              )}
+            </Field>
+            <Field name="color">
+              {({ field }: FieldProps<string>) => (
+                <DropdownInput
+                  title="Selecciona un color"
+                  options={[
+                    { type: "RED", title: "ROJO 🟥" },
+                    { type: "BLUE", title: "AZUL 🔵" },
+                    { type: "GREEN", title: "VERDE 🟩" },
+                    { type: "YELLOW", title: "AMARILLO 🟨" },
+                    { type: "ORANGE", title: "NARANJA 🟧" },
+                    { type: "PURPLE", title: "VIOLETA 🟪" },
+                    { type: "PINK", title: "ROSADO 🌸" },
+                    { type: "BROWN", title: "MARRÓN 🟫" },
+                    { type: "GRAY", title: "GRIS 🟨" },
+                    { type: "BLACK", title: "NEGRO ⚫" },
+                    { type: "WHITE", title: "BLANCO ⚪" },
+                    { type: "UNSPECIFIED", title: "SIN ESPECIFICAR ❓" },
+                  ]}
+                  name={field.name}
+                />
+              )}
+            </Field>
+            <Field name="gender">
+              {({ field }: FieldProps<string>) => (
+                <DropdownInput
+                  title="Selecciona un genero"
+                  options={[
+                    { type: "MALE", title: "MASCULINO" },
+                    { type: "FEMALE", title: "FEMENINO" },
+                    { type: "UNSPECIFIED", title: "SIN ESPECIFICAR" },
+                  ]}
+                  name={field.name}
+                />
+              )}
+            </Field>
+            <Field name="brand">
+              {({ field }: FieldProps<string>) => (
+                <DropdownInput
+                  title="Selecciona una marca"
+                  options={[
+                    { type: "NIKE", title: "NIKE" },
+                    { type: "PUMA", title: "PUMA" },
+                    { type: "ADDIDAS", title: "ADDIDAS" },
+                    { type: "OTHER", title: "OTRA" },
+                  ]}
+                  name={field.name}
+                />
+              )}
+            </Field>
+            <Field name="style">
+              {({ field }: FieldProps<string>) => (
+                <DropdownInput
+                  title="Selecciona estilo"
+                  options={[
+                    { type: "URBAN", title: "URBANAS" },
+                    { type: "SPORTS", title: "DEPORTIVAS" },
+                    { type: "UNSPECIFIED", title: "SIN ESPECIFICAR" },
+                  ]}
+                  name={field.name}
+                />
+              )}
+            </Field>
             <button
               type="submit"
               disabled={isSubmitting}
@@ -121,63 +180,3 @@ export const CreateProducts: React.FC = () => {
     </div>
   );
 };
-
-// import { useState, ChangeEvent } from "react";
-// import { Formik } from "formik";
-// import defaultImage from "../../../assets/default.png";
-// import { useSubmit } from "./useSubmit";
-// import { useForm, FormData } from "./useForm"; // Importa FormData
-
-// export const CreateProducts: React.FC = () => {
-//   const [selectedImage, setSelectedImage] = useState<string>(defaultImage);
-//   const [secondaryImages, setSecondaryImages] = useState<FileList | null>(null);
-
-//   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-//     const file = event.target.files?.[0];
-//     if (file) {
-//       const imageUrl = URL.createObjectURL(file);
-//       setSelectedImage(imageUrl);
-//     }
-//   };
-
-//   const handleSecondaryImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-//     const files = event.target.files;
-//     if (files) {
-//       setSecondaryImages(files);
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-screen flex bg-gray-300 p-10">
-//       <div className="bg-slate-200 p-10 rounded shadow-md w-screen ">
-//         <div className="h-96">
-//           {/* ... (código restante sin cambios) */}
-//         </div>
-//         <Formik initialValues={useForm()} onSubmit={useSubmit}>
-//           {({
-//             values,
-//             handleChange,
-//             handleBlur,
-//             handleSubmit,
-//             isSubmitting,
-//             setFieldValue,
-//           }) => (
-//             <form onSubmit={handleSubmit} className="mb-4">
-//               <div>
-//                 <h3>Ingresa una descripción :</h3>
-//                 <input
-//                   name="description"
-//                   onChange={handleChange}
-//                   onBlur={handleBlur}
-//                   value={values.description}
-//                   className="p-2 border rounded w-full bg-slate-150"
-//                 />
-//               </div>
-//               {/* ... (código restante sin cambios) */}
-//             </form>
-//           )}
-//         </Formik>
-//       </div>
-//     </div>
-//   );
-// };

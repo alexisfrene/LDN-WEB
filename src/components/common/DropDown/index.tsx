@@ -25,10 +25,8 @@ export const DropdownInput: React.FC<DropdownInputProps> = ({
   };
 
   return (
-    <div className="mt-4">
-      <label htmlFor={name} className="block text-sm font-medium text-gray-700">
-        {title}
-      </label>
+    <div className="mt-1">
+      <h3>{title}</h3>
       <select
         {...field}
         onChange={handleOptionChange}
