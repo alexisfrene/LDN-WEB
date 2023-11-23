@@ -6,8 +6,8 @@ import { ProductCard } from "./ProductCard";
 import { ProductsBySupabase } from "../../../types";
 import { productsSize } from "../../../mocks";
 import { getProductsBySupabase, handleFilterSubmit } from "../../../services";
-import { LoadingIndicator } from "../../../components";
-import { Modal } from "../../../components";
+import { LoadingIndicator, Modal } from "../../../components";
+import { ProductsDetailsModal } from "./ProductsDetailsModal";
 
 interface Filters {
   category: string | boolean;
@@ -18,6 +18,9 @@ export const LoadedProducts = () => {
   const [products, setProducts] = useState<ProductsBySupabase[] | null>([]);
   const [modalCategory, setModalCategory] = useState<boolean>(false);
   const [modalSize, setModalSize] = useState<boolean>(false);
+  const [modalDetailProduct, setModalDetailProduct] = useState<boolean>(false);
+  const [productSelected, setProductSelected] =
+    useState<ProductsBySupabase | null>(null);
   const [filter, setFilter] = useState<Filters>({
     category: false,
     size: false,
@@ -37,9 +40,18 @@ export const LoadedProducts = () => {
         setFilter={setFilter}
       />
       {products?.map((product) => {
-        return <ProductCard product={product} key={product.id} />;
+        return (
+          <ProductCard
+            product={product}
+            key={product.id}
+            handleClick={() => {
+              setModalDetailProduct(true);
+              setProductSelected(product);
+            }}
+          />
+        );
       })}
-      <LoadingIndicator isLoading={!!products} />
+      <LoadingIndicator isLoading={products?.length === 0} />
       <Modal
         isOpen={modalCategory}
         onRequestClose={() => setModalCategory(false)}
@@ -57,6 +69,14 @@ export const LoadedProducts = () => {
           filter={filter}
           setModalSize={setModalSize}
         />
+      </Modal>
+      <Modal
+        isOpen={modalDetailProduct}
+        onRequestClose={() => setModalDetailProduct(false)}
+      >
+        {productSelected && (
+          <ProductsDetailsModal productSelected={productSelected} />
+        )}
       </Modal>
     </div>
   );

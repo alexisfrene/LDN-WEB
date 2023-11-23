@@ -1,10 +1,15 @@
-export type Product = {
+export type VariationsType = {
+  name: string;
+  id: string;
+  images: string[];
+};
+export type ImageVariantsProduct = {
   description: string;
-  primaryImage: string;
+  primary_image: string;
   category: string;
   id: string;
-  variations: string[];
-  miniatureImage: string;
+  variations: VariationsType[];
+  miniature_image: string;
   createdAt: string;
   updatedAt: string;
 };

@@ -1,2 +1,2 @@
-export { deleteProductById, fetchProducts } from "./products";
+export { deleteProductById, fetchProducts, insertImageId } from "./products";
 export { getProductsBySupabase, handleFilterSubmit } from "./loadProducts";

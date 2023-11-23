@@ -1,10 +1,10 @@
 import { useState, ChangeEvent } from "react";
 import { Field, FieldProps, Formik } from "formik";
-import defaultImage from "../../../assets/default.png";
 import { useSubmit } from "./useSubmit";
 import { useForm } from "./useForm";
-import { DropdownInput } from "../../common/DropDown";
+import { DropdownInput } from "../../../components";
 import { producsCategory } from "../../../mocks";
+import defaultImage from "../../../assets/default.png";
 
 export const CreateProducts: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string>(defaultImage);
@@ -94,8 +94,18 @@ export const CreateProducts: React.FC = () => {
                 onBlur={handleBlur}
                 value={values.description}
                 className="p-2 border rounded w-full bg-slate-150"
+                placeholder="Zapatillas Nike Blancas ..."
               />
             </div>
+            <h3>Nombre de la coleccion de imagenes: :</h3>
+            <input
+              name="collection"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.collection}
+              className="p-2 border rounded w-full bg-slate-150 mt-3"
+              placeholder="Imagenes sin fondo ..."
+            />
             <Field name="category">
               {({ field }: FieldProps<string>) => (
                 <DropdownInput

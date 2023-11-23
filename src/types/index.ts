@@ -1,1 +1,1 @@
-export type { Product, ProductsBySupabase } from "./Product";
+export type { ImageVariantsProduct, ProductsBySupabase } from "./Product";

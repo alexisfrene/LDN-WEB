@@ -1,88 +1,125 @@
 import React, { useState } from "react";
-import { Product } from "../../types";
+import { ImageVariantsProduct } from "../../types";
 import { deleteProductById } from "../../services";
-import ReactModal from "react-modal";
+import { Modal } from "..";
 
 export const ProductGrid: React.FC<{
-  products: Product[] | undefined;
-  setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+  products: ImageVariantsProduct[] | undefined;
+  setProducts: React.Dispatch<React.SetStateAction<ImageVariantsProduct[]>>;
 }> = ({ products, setProducts }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [productSelected, setProductSelected] = useState<Product | null>(null);
+  const [modalDeleteIsOpen, setModalDeleteIsOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState<string>("");
+  const [productSelected, setProductSelected] =
+    useState<ImageVariantsProduct | null>(null);
   const handleDeleteProduct = async (id: string) => {
     try {
       await deleteProductById(id);
       setProducts((prevProducts) =>
         prevProducts?.filter((product) => product.id !== id)
       );
+      setModalDeleteIsOpen(false);
     } catch (error) {
       console.error("Error al eliminar un producto por id");
     }
   };
-  const handlerGalleryImage = (product: Product) => {
+  const handlerGalleryImage = (product: ImageVariantsProduct) => {
     setProductSelected(product);
     setModalIsOpen(true);
   };
 
   return (
-    <div className="grid gap-5 grid-cols-3 md:grid-cols-5 lg:grid-cols-9 mt-2 mx-1">
+    <div className="grid gap-5 grid-cols-4">
       {products?.map((product) => (
-        <div key={product.id} className="border-2 px-2 py-1">
-          <h3 className="flex justify-between">
-            {product.description}
+        <span
+          className="group bg-gradient-to-t from-amber-600 via-amber-100 to-orange-400 cursor-pointer rounded-xl "
+          key={product.id}
+        >
+          <div className="rounded-xl border-4 col-span-1 group-hover:border-amber-600 shadow-sm hover:shadow-xl relative transition-all duration-300 ">
             <button
-              className="bg-white h-7 w-7 p-1"
-              onClick={() => handleDeleteProduct(product.id)}
+              className="bg-white h-9 w-9 absolute top-0 right-0 transition-all duration-300"
+              onClick={() => {
+                setSelectedId(product.id);
+                setModalDeleteIsOpen(true);
+              }}
             >
               X
             </button>
-          </h3>
-          <h4>{product.category}</h4>
-          <img
-            src={`http://localhost:3001/${product.miniatureImage}`}
-            alt={product.description}
-            className="mb-2 cursor-pointer"
-            onClick={() => handlerGalleryImage(product)}
-          />
-          <h5>{product.id}</h5>
-        </div>
+            <h3 className="text-lg bg-amber-600 truncate h-9 flex items-center justify-center transition-all duration-300 rounded-t33-xl">
+              {product.description}
+            </h3>
+
+            <div className="flex flex-col items-center">
+              <h4 className="text-base transition-all duration-300">
+                {product.category}
+              </h4>
+              <img
+                src={`http://localhost:3001/${product.miniature_image}`}
+                alt={product.description}
+                className="self-center rounded-t-lg w-96 object-cover border-x-4 border-t-4 transition-all duration-300 group-hover:border-amber-600 h-96"
+                onClick={() => handlerGalleryImage(product)}
+              />
+            </div>
+          </div>
+        </span>
       ))}
 
-      <ReactModal
-        isOpen={modalIsOpen}
-        onRequestClose={() => setModalIsOpen(false)}
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-        overlayClassName="fixed top-0 left-0 right-0 bottom-0"
-        style={{
-          overlay: {
-            backgroundColor: "rgba(0, 0, 0, 0.5)", // Color y opacidad del fondo
-          },
-        }}
-      >
-        <div className="bg-amber-600 flex justify-center flex-col rounded shadow-lg">
+      <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
+        <div className="bg-amber-600 flex flex-col rounded shadow-lg">
           <button
             onClick={() => setModalIsOpen(false)}
-            className="absolute top-1 right-1 m-1 bg-white hover:bg-slate-200 font-bold py-2 px-4 rounded"
+            className="absolute top-0 right-0 bg-white hover:bg-slate-200 font-bold h-9 w-9 transition-all duration-300"
           >
             X
           </button>
-          <h2 className="text-2xl mb-4 text-center bg-amber-700 w-full p-1">
-            {productSelected?.description.toLocaleUpperCase()}
+          <h2 className="text-2xl mb-4 text-center bg-amber-700 text-white rounded transition-all duration-300 h-9">
+            {productSelected?.description?.toUpperCase()}
           </h2>
-          <div className="grid grid-cols-12 gap-2 m-2">
-            {productSelected?.variations?.map((variation) => {
-              return (
+
+          {productSelected?.variations?.map((variation, index) => (
+            <div
+              key={index}
+              className="grid grid-cols-12 gap-4 mb-4 transition-all duration-300"
+            >
+              <h3 className="col-span-12 text-lg font-bold text-white transition-all duration-300">
+                {variation.name}
+              </h3>
+              {variation.images.map((image: string, imageIndex: number) => (
                 <img
-                  key={productSelected?.description}
-                  src={`http://localhost:3001/${variation}`}
-                  alt={productSelected?.description}
-                  className="object-contain col-span-4"
+                  key={imageIndex}
+                  src={`http://localhost:3001/${image}`}
+                  alt={`Image ${imageIndex + 1}`}
+                  className="object-cover col-span-4 rounded-md overflow-hidden transition-all duration-300"
                 />
-              );
-            })}
+              ))}
+            </div>
+          ))}
+        </div>
+      </Modal>
+      <Modal
+        isOpen={modalDeleteIsOpen}
+        onRequestClose={() => setModalDeleteIsOpen(false)}
+      >
+        <div className="bg-white rounded-sm shadow-md p-6">
+          <h3 className="text-xl font-semibold mb-4">
+            ¿Estás seguro de eliminar este producto?
+          </h3>
+          <div className="flex justify-around">
+            <button
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring focus:border-blue-300"
+              onClick={() => handleDeleteProduct(selectedId)}
+            >
+              Aceptar
+            </button>
+            <button
+              className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 focus:outline-none focus:ring focus:border-blue-300"
+              onClick={() => setModalDeleteIsOpen(false)}
+            >
+              Cancelar
+            </button>
           </div>
         </div>
-      </ReactModal>
+      </Modal>
     </div>
   );
 };
