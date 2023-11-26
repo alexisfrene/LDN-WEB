@@ -65,7 +65,7 @@ export const ProductGrid: React.FC<{
       ))}
 
       <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
-        <div className="bg-amber-600 flex flex-col rounded shadow-lg">
+        <div className="bg-amber-600 flex flex-col rounded shadow-lg overflow-y-auto">
           <button
             onClick={() => setModalIsOpen(false)}
             className="absolute top-0 right-0 bg-white hover:bg-slate-200 font-bold h-9 w-9 transition-all duration-300"
@@ -79,7 +79,7 @@ export const ProductGrid: React.FC<{
           {productSelected?.variations?.map((variation, index) => (
             <div
               key={index}
-              className="grid grid-cols-12 gap-4 mb-4 transition-all duration-300"
+              className="grid grid-cols-12 gap-4 mb-4 transition-all duration-300 px-5"
             >
               <h3 className="col-span-12 text-lg font-bold text-white transition-all duration-300">
                 {variation.name}
@@ -89,7 +89,7 @@ export const ProductGrid: React.FC<{
                   key={imageIndex}
                   src={`http://localhost:3001/${image}`}
                   alt={`Image ${imageIndex + 1}`}
-                  className="object-cover col-span-4 rounded-md overflow-hidden transition-all duration-300"
+                  className="object-contain col-span-4 w-56 h-56 rounded-md transition-all duration-300 bg-amber-500"
                 />
               ))}
             </div>

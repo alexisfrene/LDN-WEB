@@ -2,13 +2,16 @@ import { useState } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { ProductsBySupabase } from "../../../../types";
 import { ImagesVariants } from "./ImagesVariants";
+import { DataOfProducts } from "./ImagesVariants/DataOfProducts";
 
 interface ProductsDetailsModalProps {
   productSelected: ProductsBySupabase;
+  reloadProducts: () => void;
 }
 
 export const ProductsDetailsModal: React.FC<ProductsDetailsModalProps> = ({
   productSelected,
+  reloadProducts,
 }) => {
   const [activeTab, setActiveTab] = useState(0);
   const handleTabSelect = (index: number) => {
@@ -16,7 +19,7 @@ export const ProductsDetailsModal: React.FC<ProductsDetailsModalProps> = ({
   };
 
   return (
-    <div className="bg-amber-400 p-4 rounded-lg overflow-hidden">
+    <div className="bg-amber-400 p-4 rounded-lg overflow-y-auto">
       <Tabs
         selectedIndex={activeTab}
         onSelect={handleTabSelect}
@@ -47,11 +50,6 @@ export const ProductsDetailsModal: React.FC<ProductsDetailsModalProps> = ({
         </TabList>
 
         <div className="mt-3">
-          <div className="info-item text-2xl font-bold mb-2">
-            {`Nombre del producto: ${
-              productSelected.produc_name ?? "Sin nombre"
-            }`}
-          </div>
           <img
             src={`https://zswiaehagcrvvuvlxsmg.supabase.co/storage/v1/object/public/ldn_bucket/${productSelected.produc_image_url}`} //TODO:Acomodar esto
             className="object-cover h-96 w-96 rounded-lg mb-3"
@@ -59,21 +57,10 @@ export const ProductsDetailsModal: React.FC<ProductsDetailsModalProps> = ({
           />
           <div className="h-44">
             <TabPanel>
-              <div className="info-item text-lg mb-2">{`Descripción: ${
-                productSelected.produc_description ?? "Sin descripción"
-              }`}</div>
-              <div className="info-item text-lg mb-2">{`Precio: ${
-                "$" + productSelected.produc_price ?? "Sin precio"
-              }`}</div>
-              <div className="info-item text-lg mb-2">{`Marca: ${
-                productSelected.produc_brand ?? "Sin marca"
-              }`}</div>
-              <div className="info-item text-lg mb-2">{`Numero/Talle: ${
-                productSelected.produc_size ?? "Sin definir"
-              }`}</div>
-              <div className="info-item text-lg mb-2">{`Categoria: ${
-                productSelected.produc_category ?? "Sin categoria"
-              }`}</div>
+              <DataOfProducts
+                productSelected={productSelected}
+                reloadProducts={reloadProducts}
+              />
             </TabPanel>
             <TabPanel>
               <div className="info-item text-lg mb-2">{`Estilo: ${

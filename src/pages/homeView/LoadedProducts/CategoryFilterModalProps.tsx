@@ -16,14 +16,16 @@ export const CategoryFilterModal: React.FC<CategoryFilterModalProps> = ({
   setFilter,
 }) => {
   return (
-    <div className="bg-white grid grid-cols-4 p-3 gap-2">
+    <div className="bg-white grid grid-cols-4 p-3 gap-2 rounded-lg">
       <h3 className="col-span-4 mb-3 text-xl font-semibold">
         Selecciona una categoría para filtrar:
       </h3>
       {producsCategory.map((category) => (
         <div
           key={category.type}
-          className="bg-slate-300 border-2 text-center p-2 col-span-1 cursor-pointer hover:bg-slate-400"
+          className={`${
+            filter.category === category.type ? "bg-amber-400" : "bg-slate-300"
+          } border-2 text-center p-2 col-span-1 cursor-pointer hover:bg-slate-400`}
           onClick={() =>
             setFilter({ category: category.type, size: filter.size })
           }
@@ -31,15 +33,15 @@ export const CategoryFilterModal: React.FC<CategoryFilterModalProps> = ({
           {filterAndMapTitles(category.type, producsCategory)}
         </div>
       ))}
-      <div className="col-span-4 mt-3">
+      <div className="col-span-4 mt-3 font-medium">
         <button
-          className="bg-green-400 w-1/2 h-10 hover:bg-green-500"
+          className="bg-green-400 w-52 h-10 hover:bg-green-500 mx-3"
           onClick={() => setModalCategory(false)}
         >
           Aceptar
         </button>
         <button
-          className="bg-red-500 w-1/2 h-10 hover:bg-red-600"
+          className="bg-red-500 w-52 h-10 hover:bg-red-600 mx-3"
           onClick={() => setModalCategory(false)}
         >
           Cancelar

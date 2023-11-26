@@ -1,7 +1,6 @@
-export const filterAndMapTitles = (
-  filterType: string | boolean,
-  producsCategory: any
-): string | undefined => {
+import { producsCategory } from "../mocks";
+
+export const filterAndMapTitles = (filterType: string): string | undefined => {
   const matchingCategory = producsCategory.find(
     (category) => category.type === filterType
   );

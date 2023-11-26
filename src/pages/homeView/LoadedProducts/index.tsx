@@ -5,7 +5,11 @@ import { FilterControls } from "./FilterControls";
 import { ProductCard } from "./ProductCard";
 import { ProductsBySupabase } from "../../../types";
 import { productsSize } from "../../../mocks";
-import { getProductsBySupabase, handleFilterSubmit } from "../../../services";
+import {
+  getProductsBySupabase,
+  handleFilterSubmit,
+  removeProductsBySupabase,
+} from "../../../services";
 import { LoadingIndicator, Modal } from "../../../components";
 import { ProductsDetailsModal } from "./ProductsDetailsModal";
 
@@ -18,6 +22,8 @@ export const LoadedProducts = () => {
   const [products, setProducts] = useState<ProductsBySupabase[] | null>([]);
   const [modalCategory, setModalCategory] = useState<boolean>(false);
   const [modalSize, setModalSize] = useState<boolean>(false);
+  const [modalRemove, setModalRemove] = useState<boolean>(false);
+  const [removeId, setModalRemovEId] = useState<string>("");
   const [modalDetailProduct, setModalDetailProduct] = useState<boolean>(false);
   const [productSelected, setProductSelected] =
     useState<ProductsBySupabase | null>(null);
@@ -26,6 +32,17 @@ export const LoadedProducts = () => {
     size: false,
   });
   const sizes = productsSize();
+
+  const removeProduct = async () => {
+    await removeProductsBySupabase(removeId);
+    setModalRemove(false);
+    await handleFilterSubmit(filter, setProducts);
+  };
+
+  const reloadProducts = () => {
+    handleFilterSubmit(filter, setProducts);
+    setModalDetailProduct(false);
+  };
   useEffect(() => {
     getProductsBySupabase(setProducts);
   }, []);
@@ -47,6 +64,10 @@ export const LoadedProducts = () => {
             handleClick={() => {
               setModalDetailProduct(true);
               setProductSelected(product);
+            }}
+            handleClose={() => {
+              setModalRemovEId(product.id);
+              setModalRemove(true);
             }}
           />
         );
@@ -75,8 +96,32 @@ export const LoadedProducts = () => {
         onRequestClose={() => setModalDetailProduct(false)}
       >
         {productSelected && (
-          <ProductsDetailsModal productSelected={productSelected} />
+          <ProductsDetailsModal
+            productSelected={productSelected}
+            reloadProducts={reloadProducts}
+          />
         )}
+      </Modal>
+      <Modal isOpen={modalRemove} onRequestClose={() => setModalRemove(false)}>
+        <div className="bg-white rounded-sm shadow-md p-6">
+          <h3 className="text-xl font-semibold mb-4">
+            ¿Estás seguro de eliminar este producto?
+          </h3>
+          <div className="flex justify-around">
+            <button
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring focus:border-blue-300"
+              onClick={removeProduct}
+            >
+              Aceptar
+            </button>
+            <button
+              className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 focus:outline-none focus:ring focus:border-blue-300"
+              onClick={() => setModalRemove(false)}
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
       </Modal>
     </div>
   );

@@ -3,12 +3,12 @@ import { PlusCircleIcon } from "@heroicons/react/20/solid";
 import { useEffect, useState, ChangeEvent } from "react";
 import { Modal } from "../../../../../components";
 import { producsCategory } from "../../../../../mocks";
-import { ImageVariantsProduct } from "../../../../../types";
+import { ImageVariantsProduct, ProductsBySupabase } from "../../../../../types";
 import {
   fetchProductById,
   fetchProductsForCategory,
   insertImageId,
-} from "../../../../../services/products";
+} from "../../../../../services";
 
 interface ImageGalleryProps {
   setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -48,7 +48,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
 
   return (
     <Modal isOpen={isOpenModal} onRequestClose={() => setIsOpenModal(false)}>
-      <div className="bg-white text-2xl p-3 rounded-sm shadow-sm">
+      <div className="bg-white text-2xl p-3 rounded-sm shadow-sm h-[900px] overflow-y-auto">
         <h3 className="bg-slate-200 p-3 font-semibold">
           Selecciona las variantes de este producto:
         </h3>
@@ -181,18 +181,18 @@ const GalleryImagesVariants: React.FC<GalleryImagesVariantsProps> = ({
   }, []);
 
   return (
-    <div>
+    <div className="pb-5">
       {imageVariants && (
         <div>
           <h3>{imageVariants.description}</h3>
           {imageVariants.variations.map((variation, index) => (
-            <div key={index} className="grid grid-cols-4 gap-3">
+            <div key={index} className="grid grid-cols-3 gap-1">
               {variation.images.map((image, imageIndex) => (
                 <img
                   key={imageIndex}
                   src={`http://localhost:3001/${image}`}
                   alt={image}
-                  className="w-full h-32 object-cover mb-2 rounded shadow-md transition-all duration-300 transform hover:scale-105 col-span-1"
+                  className="h-32 w-32 object-cover rounded shadow-md transition-all duration-300 transform hover:scale-105 col-span-1"
                 />
               ))}
             </div>
@@ -204,10 +204,7 @@ const GalleryImagesVariants: React.FC<GalleryImagesVariantsProps> = ({
 };
 
 interface ImagesVariantsProps {
-  productSelected: {
-    produc_variations: string | null;
-    id: string;
-  };
+  productSelected: ProductsBySupabase;
 }
 
 export const ImagesVariants: React.FC<ImagesVariantsProps> = ({

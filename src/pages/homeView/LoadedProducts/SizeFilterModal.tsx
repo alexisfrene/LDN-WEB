@@ -1,3 +1,5 @@
+import React from "react";
+
 interface SizeFilterModalProps {
   sizes: { number: number[]; letter: string[] };
   filter: { category: string | boolean; size: string | boolean };
@@ -21,7 +23,9 @@ const SizeFilterModal: React.FC<SizeFilterModalProps> = ({
       {sizes.number.map((size) => (
         <div
           key={size}
-          className="bg-slate-300 border-2 text-center p-2 col-span-1 cursor-pointer hover:bg-slate-400"
+          className={`${
+            filter.size === size.toString() ? "bg-amber-400" : "bg-slate-300"
+          } border-2 text-center p-2 col-span-1 cursor-pointer hover:bg-slate-400`}
           onClick={() =>
             setFilter({
               category: filter.category,
@@ -38,7 +42,9 @@ const SizeFilterModal: React.FC<SizeFilterModalProps> = ({
       {sizes.letter.map((size) => (
         <div
           key={size}
-          className="bg-slate-300 border-2 text-center p-2 col-span-1 cursor-pointer hover:bg-slate-400"
+          className={`${
+            filter.size === size.toString() ? "bg-amber-400" : "bg-slate-300"
+          } border-2 text-center p-2 col-span-1 cursor-pointer hover:bg-slate-400`}
           onClick={() =>
             setFilter({
               category: filter.category,

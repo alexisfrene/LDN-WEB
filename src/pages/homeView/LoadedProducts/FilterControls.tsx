@@ -11,6 +11,7 @@ interface FilterControlsProps {
     React.SetStateAction<{ category: string | boolean; size: string | boolean }>
   >;
 }
+
 export const FilterControls: React.FC<FilterControlsProps> = ({
   onCategoryClick,
   onSizeClick,
@@ -18,25 +19,26 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
   filter,
   setFilter,
 }) => {
-  //Estos estilos se pueden simplificar
-  return (
-    <div className="col-span-12 flex justify-start gap-10 items-center bg-amber-200 h-12 px-3">
-      <span>Filtrar por : </span>
+  const buttonStyles =
+    "cursor-pointer py-3 px-6 rounded-lg shadow-lg hover:bg-amber-600 hover:text-slate-600";
 
+  return (
+    <div className="col-span-12 flex justify-start gap-10 items-center bg-amber-400 h-12 p-3 rounded-xl">
+      <span>Filtrar por : </span>
       <div
-        className="bg-amber-500 hover:bg-amber-400 hover:text-slate-600 cursor-pointer p-3 rounded-lg shadow-lg"
+        className={`bg-amber-500 ${buttonStyles}`}
         onClick={() => onCategoryClick(true)}
       >
         Categoria
       </div>
       <div
-        className="bg-amber-500 hover:bg-amber-400 hover:text-slate-600 cursor-pointer py-3 px-6 rounded-lg shadow-lg"
+        className={`bg-amber-500 ${buttonStyles}`}
         onClick={() => onSizeClick(true)}
       >
         Talle
       </div>
       <div
-        className="bg-white hover:bg-slate-200 hover:text-slate-600 cursor-pointer py-3 px-6 rounded-lg shadow-lg"
+        className={`bg-white ${buttonStyles} hover:bg-slate-200 hover:text-slate-600`}
         onClick={() => onFilterSubmit()}
       >
         Filtrar
@@ -49,10 +51,8 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
       {filter.size && <p>{"Numero/Talle :" + filter.size}</p>}
       {(filter.category || filter.size) && (
         <div
-          className="bg-white hover:bg-slate-200 hover:text-slate-600 cursor-pointer py-3 px-6 rounded-lg shadow-lg"
-          onClick={() => {
-            setFilter({ category: false, size: false });
-          }}
+          className={`bg-white ${buttonStyles} hover:bg-slate-200 hover:text-slate-600`}
+          onClick={() => setFilter({ category: false, size: false })}
         >
           Borrar filtros
         </div>

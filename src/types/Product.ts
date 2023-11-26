@@ -34,5 +34,5 @@ export interface ProductsBySupabase {
   produc_discount: string;
   produc_brand: string;
   produc_dollar_today: number;
-  publicUrl: string;
+  produc_variations: string;
 }
