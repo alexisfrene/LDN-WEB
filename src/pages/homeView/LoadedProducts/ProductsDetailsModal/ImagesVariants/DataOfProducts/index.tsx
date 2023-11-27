@@ -1,4 +1,3 @@
-import { ProductsBySupabase } from "../../../../../../types";
 import {
   ArrowSmallLeftIcon,
   PencilSquareIcon,
@@ -8,6 +7,8 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import { getDynamicValue, useForm } from "./useForm";
 import { handleSubmit } from "./handleSubmit";
+import { ProductsBySupabase } from "../../../../../../types";
+
 interface DataOfProductsProps {
   productSelected: ProductsBySupabase;
   reloadProducts: () => void;
@@ -26,28 +27,29 @@ export const DataOfProducts: React.FC<DataOfProductsProps> = ({
     produc_description,
     id,
   } = productSelected;
+
   const dataVist = [
     {
-      label: "Descripcion :",
+      label: "Descripcion:",
       value: produc_description,
       name: "produc_description",
     },
     {
-      label: "Precio :",
+      label: "Precio:",
       value: `$ ${produc_price}`,
       name: "produc_price",
     },
     {
-      label: "Marca :",
+      label: "Marca:",
       value: produc_brand,
       name: "produc_brand",
     },
     {
-      label: "Categoria :",
+      label: "Categoria:",
       value: filterAndMapTitles(produc_category),
       name: "produc_category",
     },
-    { label: "Numero/Talle :", value: produc_size, name: "produc_size" },
+    { label: "Numero/Talle:", value: produc_size, name: "produc_size" },
   ];
 
   const initialValues = useForm();
@@ -57,58 +59,56 @@ export const DataOfProducts: React.FC<DataOfProductsProps> = ({
     onSubmit: (values, { resetForm }) =>
       handleSubmit(values, { resetForm }, id, reloadProducts),
   });
+
   return (
-    <>
-      {modalEdit ? (
-        <div>
+    <div className="p-4 border rounded-md shadow-md">
+      <div className="flex items-center mb-4">
+        {modalEdit ? (
           <ArrowSmallLeftIcon
             height={35}
             className="cursor-pointer hover:text-slate-800 hover:scale-105"
             onClick={() => setModalEdit(false)}
           />
-          <form onSubmit={formik.handleSubmit}>
-            {dataVist.map(({ label, value, name }, i) => {
-              return (
-                <div
-                  className="w-full flex flex-row justify-between text-xl border-b-2"
-                  key={`${i}+$`}
-                >
-                  <h3 className="font-bold">{label}</h3>
-                  <input
-                    name={name}
-                    placeholder={value}
-                    className="bg-amber-300"
-                    onChange={formik.handleChange}
-                    value={getDynamicValue(formik.values, name)}
-                  />
-                </div>
-              );
-            })}
-            <button type="submit">Enviar</button>
-          </form>
-        </div>
-      ) : (
-        <div>
+        ) : (
           <PencilSquareIcon
             height={30}
             className="cursor-pointer hover:text-slate-800 hover:scale-105"
             onClick={() => setModalEdit(true)}
           />
-          {dataVist.map(({ label, value }, i) => {
-            return (
-              <div
-                className="w-full flex flex-row justify-between text-xl border-b-2"
-                key={i}
-              >
-                <h3 className="font-bold">{label}</h3>
-                <h2 className="font-semibold">
-                  {value ? value : "No cargado"}
-                </h2>
-              </div>
-            );
-          })}
-        </div>
-      )}
-    </>
+        )}
+        <h2 className="ml-2 text-xl font-semibold">Detalles del Producto</h2>
+      </div>
+
+      <form onSubmit={formik.handleSubmit}>
+        {dataVist.map(({ label, value, name }, i) => (
+          <div
+            key={i}
+            className="flex items-center justify-between text-xl border-b-2 mb-2"
+          >
+            <label className="font-bold">{label}</label>
+            {modalEdit ? (
+              <input
+                name={name}
+                placeholder={value}
+                className="p-2 bg-amber-100 rounded-md"
+                onChange={formik.handleChange}
+                value={getDynamicValue(formik.values, name)}
+              />
+            ) : (
+              <div className="font-semibold">{value || "No cargado"}</div>
+            )}
+          </div>
+        ))}
+
+        {modalEdit && (
+          <button
+            type="submit"
+            className="w-full px-4 py-2 mt-4 bg-amber-500 text-white rounded-md hover:bg-amber-400"
+          >
+            Enviar
+          </button>
+        )}
+      </form>
+    </div>
   );
 };

@@ -1,7 +1,6 @@
 import { filterAndMapTitles } from "../../../utils";
 import { ProductsBySupabase } from "../../../types";
-import React from "react";
-
+import { Cloudinary } from "@cloudinary/url-gen";
 interface ProductCardProps {
   product: ProductsBySupabase;
   handleClick: () => void;
@@ -13,6 +12,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   handleClick,
   handleClose,
 }) => {
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName: "ldn-img",
+    },
+  });
+
+  const myImage =
+    cld.image(product.produc_image_url).toURL() ||
+    `https://zswiaehagcrvvuvlxsmg.supabase.co/storage/v1/object/public/ldn_bucket/${product.produc_image_url}`;
+
   return (
     <div
       className={`col-span-3 cursor-pointer transition transform duration-150  rounded-lg border-2 p-4 flex flex-col items-center justify-center ${
@@ -30,7 +39,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       <div onClick={handleClick}>
         <h3 className="text-lg font-bold mb-2">{product.produc_name}</h3>
         <img
-          src={`https://zswiaehagcrvvuvlxsmg.supabase.co/storage/v1/object/public/ldn_bucket/${product.produc_image_url}`} //TODO: Acomodar esto
+          src={myImage}
           className="object-cover h-96 w-full rounded-md mb-2"
           alt={product.produc_name}
         />

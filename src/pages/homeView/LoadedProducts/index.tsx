@@ -14,8 +14,8 @@ import { LoadingIndicator, Modal } from "../../../components";
 import { ProductsDetailsModal } from "./ProductsDetailsModal";
 
 interface Filters {
-  category: string | boolean;
-  size: string | boolean;
+  category: string;
+  size: string;
 }
 
 export const LoadedProducts = () => {
@@ -28,8 +28,8 @@ export const LoadedProducts = () => {
   const [productSelected, setProductSelected] =
     useState<ProductsBySupabase | null>(null);
   const [filter, setFilter] = useState<Filters>({
-    category: false,
-    size: false,
+    category: "",
+    size: "",
   });
   const sizes = productsSize();
 
@@ -43,6 +43,21 @@ export const LoadedProducts = () => {
     handleFilterSubmit(filter, setProducts);
     setModalDetailProduct(false);
   };
+  const sortProductsByPrice = (direction: "+" | "-") => {
+    if (products) {
+      const sortedProducts = [...products];
+
+      if (direction === "+") {
+        setProducts(
+          sortedProducts.sort((a, b) => b.produc_price - a.produc_price)
+        );
+      } else if (direction === "-") {
+        setProducts(
+          sortedProducts.sort((a, b) => a.produc_price - b.produc_price)
+        );
+      }
+    }
+  };
   useEffect(() => {
     getProductsBySupabase(setProducts);
   }, []);
@@ -55,6 +70,7 @@ export const LoadedProducts = () => {
         onFilterSubmit={() => handleFilterSubmit(filter, setProducts)}
         filter={filter}
         setFilter={setFilter}
+        orderByPrice={sortProductsByPrice}
       />
       {products?.map((product) => {
         return (

@@ -1,10 +1,11 @@
-import React from "react";
+import React from 'react';
+import { PrimaryButton } from '../../../components';
 
 interface SizeFilterModalProps {
   sizes: { number: number[]; letter: string[] };
-  filter: { category: string | boolean; size: string | boolean };
+  filter: { category: string; size: string };
   setFilter: React.Dispatch<
-    React.SetStateAction<{ category: string | boolean; size: string | boolean }>
+    React.SetStateAction<{ category: string; size: string }>
   >;
   setModalSize: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -24,7 +25,7 @@ const SizeFilterModal: React.FC<SizeFilterModalProps> = ({
         <div
           key={size}
           className={`${
-            filter.size === size.toString() ? "bg-amber-400" : "bg-slate-300"
+            filter.size === size.toString() ? 'bg-amber-400' : 'bg-slate-300'
           } border-2 text-center p-2 col-span-1 cursor-pointer hover:bg-slate-400`}
           onClick={() =>
             setFilter({
@@ -43,7 +44,7 @@ const SizeFilterModal: React.FC<SizeFilterModalProps> = ({
         <div
           key={size}
           className={`${
-            filter.size === size.toString() ? "bg-amber-400" : "bg-slate-300"
+            filter.size === size.toString() ? 'bg-amber-400' : 'bg-slate-300'
           } border-2 text-center p-2 col-span-1 cursor-pointer hover:bg-slate-400`}
           onClick={() =>
             setFilter({
@@ -55,19 +56,17 @@ const SizeFilterModal: React.FC<SizeFilterModalProps> = ({
           {size.toString()}
         </div>
       ))}
-      <div className="col-span-12 mt-3">
-        <button
-          className="bg-green-400 w-1/2 h-10 hover:bg-green-500"
+      <div className="col-span-12 mt-3 font-medium flex justify-evenly">
+        <PrimaryButton
           onClick={() => setModalSize(false)}
-        >
-          Aceptar
-        </button>
-        <button
-          className="bg-red-500 w-1/2 h-10 hover:bg-red-600"
+          label="Aceptar"
+          additionalClasses="bg-green-400 hover:bg-green-500"
+        />
+        <PrimaryButton
           onClick={() => setModalSize(false)}
-        >
-          Cancelar
-        </button>
+          label="Cancelar"
+          additionalClasses="bg-red-500 hover:bg-red-600"
+        />
       </div>
     </div>
   );

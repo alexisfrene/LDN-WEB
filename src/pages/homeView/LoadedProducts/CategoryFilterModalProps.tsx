@@ -1,12 +1,13 @@
-import React from "react";
-import { filterAndMapTitles } from "../../../utils";
-import { producsCategory } from "../../../mocks";
+import React from 'react';
+import { filterAndMapTitles } from '../../../utils';
+import { producsCategory } from '../../../mocks';
+import { PrimaryButton } from '../../../components';
 
 interface CategoryFilterModalProps {
   setModalCategory: React.Dispatch<React.SetStateAction<boolean>>;
   filter: { category: string | boolean; size: string | boolean };
   setFilter: React.Dispatch<
-    React.SetStateAction<{ category: string | boolean; size: string | boolean }>
+    React.SetStateAction<{ category: string; size: string }>
   >;
 }
 
@@ -24,28 +25,26 @@ export const CategoryFilterModal: React.FC<CategoryFilterModalProps> = ({
         <div
           key={category.type}
           className={`${
-            filter.category === category.type ? "bg-amber-400" : "bg-slate-300"
+            filter.category === category.type ? 'bg-amber-400' : 'bg-slate-300'
           } border-2 text-center p-2 col-span-1 cursor-pointer hover:bg-slate-400`}
           onClick={() =>
-            setFilter({ category: category.type, size: filter.size })
+            setFilter({ category: category.type, size: filter.size.toString() })
           }
         >
-          {filterAndMapTitles(category.type, producsCategory)}
+          {filterAndMapTitles(category.type)}
         </div>
       ))}
-      <div className="col-span-4 mt-3 font-medium">
-        <button
-          className="bg-green-400 w-52 h-10 hover:bg-green-500 mx-3"
+      <div className="col-span-4 mt-3 font-medium flex justify-evenly">
+        <PrimaryButton
           onClick={() => setModalCategory(false)}
-        >
-          Aceptar
-        </button>
-        <button
-          className="bg-red-500 w-52 h-10 hover:bg-red-600 mx-3"
+          label="Aceptar"
+          additionalClasses="bg-green-400 hover:bg-green-500"
+        />
+        <PrimaryButton
           onClick={() => setModalCategory(false)}
-        >
-          Cancelar
-        </button>
+          label="Cancelar"
+          additionalClasses="bg-red-500 hover:bg-red-600"
+        />
       </div>
     </div>
   );

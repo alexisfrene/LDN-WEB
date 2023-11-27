@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { PlusCircleIcon } from "@heroicons/react/20/solid";
-import { useEffect, useState, ChangeEvent } from "react";
-import { Modal } from "../../../../../components";
-import { producsCategory } from "../../../../../mocks";
-import { ImageVariantsProduct, ProductsBySupabase } from "../../../../../types";
+import { PlusCircleIcon } from '@heroicons/react/20/solid';
+import { useEffect, useState, ChangeEvent } from 'react';
+import { Modal } from '../../../../../components';
+import { producsCategory } from '../../../../../mocks';
+import { ImageVariantsProduct, ProductsBySupabase } from '../../../../../types';
 import {
   fetchProductById,
   fetchProductsForCategory,
   insertImageId,
-} from "../../../../../services";
+} from '../../../../../services';
 
 interface ImageGalleryProps {
   setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,7 +22,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
   productSelectedId,
 }) => {
   const [productImages, setProductImages] = useState<ImageVariantsProduct[]>(
-    []
+    [],
   );
   const [selectedProductId, setSelectedProductId] =
     useState<ImageVariantsProduct | null>(null);
@@ -80,8 +80,8 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
               key={product.id}
               className={`bg-white border p-4 rounded-md overflow-hidden cursor-pointer ${
                 product.id === selectedProductId?.id
-                  ? "border-amber-600"
-                  : "border-gray-300"
+                  ? 'border-amber-600'
+                  : 'border-gray-300'
               }`}
               onClick={() => handleCardClick(product)}
             >

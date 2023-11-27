@@ -6,7 +6,9 @@ export const getProductsBySupabase = async (
 ) => {
   try {
     const { data } = await supabase.from("ldn_producs").select();
-    return setProducts(data);
+    if (data) {
+      return setProducts(data?.sort((a, b) => b.produc_price - a.produc_price));
+    }
   } catch (error) {
     console.error(error);
     return null;
@@ -27,7 +29,9 @@ export const handleFilterSubmit = async (
       .eq("produc_category", filter.category)
       .eq("produc_size", filter.size);
 
-    return setProducts(data);
+    if (data) {
+      return setProducts(data?.sort((a, b) => b.produc_price - a.produc_price));
+    }
   }
 
   if (filter.category) {
@@ -36,7 +40,9 @@ export const handleFilterSubmit = async (
       .select()
       .eq("produc_category", filter.category);
 
-    return setProducts(data);
+    if (data) {
+      return setProducts(data?.sort((a, b) => b.produc_price - a.produc_price));
+    }
   }
 
   if (filter.size) {
@@ -44,7 +50,9 @@ export const handleFilterSubmit = async (
       .from("ldn_producs")
       .select()
       .eq("produc_size", filter.size);
-    return setProducts(data);
+    if (data) {
+      return setProducts(data?.sort((a, b) => b.produc_price - a.produc_price));
+    }
   }
 
   return getProductsBySupabase(setProducts);
