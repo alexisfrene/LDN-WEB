@@ -88,6 +88,7 @@ export interface NewProduct {
   produc_state: boolean;
   produc_stock: number;
   produc_discount: string;
+  produc_variations: string;
 }
 
 export const newProduc: NewProduct = {
@@ -106,6 +107,7 @@ export const newProduc: NewProduct = {
   produc_state: true,
   produc_stock: 10,
   produc_discount: "asds",
+  produc_variations: "variaciones de imagenes",
 };
 
 interface ProductSizes {

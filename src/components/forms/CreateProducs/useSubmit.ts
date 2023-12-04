@@ -9,6 +9,7 @@ export interface ProductFormData {
   gender: string;
   brand: string;
   style: string;
+  collection: string;
 }
 
 export const useSubmit = async (values: ProductFormData): Promise<void> => {
@@ -16,6 +17,7 @@ export const useSubmit = async (values: ProductFormData): Promise<void> => {
     const formData = new FormData();
     formData.append("description", values.description);
     formData.append("category", values.category);
+    formData.append("collection", values.collection);
     if (values.mainImage) {
       formData.append("mainImage", values.mainImage.name);
       formData.append("files", values.mainImage);

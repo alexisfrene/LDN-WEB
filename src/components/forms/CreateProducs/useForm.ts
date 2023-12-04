@@ -7,6 +7,7 @@ export interface ProductFormData {
   gender: string;
   brand: string;
   style: string;
+  collection: string;
 }
 export const useForm = (): ProductFormData => {
   return {
@@ -18,5 +19,6 @@ export const useForm = (): ProductFormData => {
     gender: "UNSPECIFIED",
     brand: "UNSPECIFIED",
     style: "UNSPECIFIED",
+    collection: "",
   };
 };

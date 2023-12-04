@@ -1,10 +1,15 @@
-export type Product = {
+export type VariationsType = {
+  name: string;
+  id: string;
+  images: string[];
+};
+export type ImageVariantsProduct = {
   description: string;
-  primaryImage: string;
+  primary_image: string;
   category: string;
   id: string;
-  variations: string[];
-  miniatureImage: string;
+  variations: VariationsType[];
+  miniature_image: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -29,5 +34,5 @@ export interface ProductsBySupabase {
   produc_discount: string;
   produc_brand: string;
   produc_dollar_today: number;
-  publicUrl: string;
+  produc_variations: string;
 }

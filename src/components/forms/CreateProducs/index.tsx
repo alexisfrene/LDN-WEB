@@ -1,14 +1,16 @@
 import { useState, ChangeEvent } from "react";
 import { Field, FieldProps, Formik } from "formik";
-import defaultImage from "../../../assets/default.png";
 import { useSubmit } from "./useSubmit";
 import { useForm } from "./useForm";
-import { DropdownInput } from "../../common/DropDown";
+import { DropdownInput } from "../../../components";
 import { producsCategory } from "../../../mocks";
+import defaultImage from "../../../assets/default.png";
 
 export const CreateProducts: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string>(defaultImage);
-  const [secondaryImages, setSecondaryImages] = useState<FileList | null>(null);
+  const [secondaryImages, setSecondaryImages] = useState<
+    FileList | null | File[]
+  >(null);
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -25,30 +27,6 @@ export const CreateProducts: React.FC = () => {
 
   return (
     <div className="p-10 rounded shadow-md w-full">
-      <div className="h-96 overflow-y-auto overflow-x-hidden">
-        {selectedImage && (
-          <img
-            src={selectedImage}
-            alt="Imagen principal"
-            className="m-1 w-80 h-80 object-contain"
-          />
-        )}
-        <div className="flex flex-wrap">
-          {secondaryImages &&
-            Array.from(secondaryImages).map((file, index) => {
-              const imageUrl = URL.createObjectURL(file);
-              return (
-                <div key={index} className="m-1">
-                  <img
-                    src={imageUrl}
-                    alt={`Imagen secundaria ${index + 1}`}
-                    className="w-40 h-40 object-contain"
-                  />
-                </div>
-              );
-            })}
-        </div>
-      </div>
       <Formik initialValues={useForm()} onSubmit={useSubmit}>
         {({
           values,
@@ -59,6 +37,56 @@ export const CreateProducts: React.FC = () => {
           setFieldValue,
         }) => (
           <form onSubmit={handleSubmit} className="mb-4">
+            <div className="h-96 overflow-y-auto overflow-x-hidden">
+              {selectedImage && (
+                <div className="relative w-80 h-80">
+                  <img
+                    src={selectedImage}
+                    alt="Imagen principal"
+                    className="m-1  object-contain"
+                  />
+                  {defaultImage !== selectedImage && (
+                    <button
+                      onClick={() => {
+                        setFieldValue("mainImage", null);
+                        setSelectedImage(defaultImage);
+                      }}
+                      className="absolute top-0 right-0 mt-1 h-8 w-8 bg-red-500 text-white rounded-full cursor-pointer transition-transform transform hover:scale-110"
+                    >
+                      X
+                    </button>
+                  )}
+                </div>
+              )}
+              <div className="grid grid-cols-5 gap-5">
+                {secondaryImages &&
+                  Array.from(secondaryImages).map((file, index) => {
+                    const imageUrl = URL.createObjectURL(file);
+                    return (
+                      <div key={index} className="relative col-span-1">
+                        <img
+                          src={imageUrl}
+                          alt={`Imagen secundaria ${index + 1}`}
+                          className="m-1 object-cover"
+                        />
+                        <button
+                          onClick={() => {
+                            const filesArray = Array.from(secondaryImages);
+                            const newFileList = filesArray.filter(
+                              (e) => e.name !== file.name
+                            );
+                            setFieldValue("secondaryImages", newFileList);
+                            setSecondaryImages(newFileList);
+                          }}
+                          className="absolute top-0 right-0 mt-1 h-8 w-8 bg-red-500 text-white rounded-full cursor-pointer transition-transform transform hover:scale-110"
+                        >
+                          X
+                        </button>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
             <div>
               <h3>Selecciona una imagen principal :</h3>
               <input
@@ -94,8 +122,18 @@ export const CreateProducts: React.FC = () => {
                 onBlur={handleBlur}
                 value={values.description}
                 className="p-2 border rounded w-full bg-slate-150"
+                placeholder="Zapatillas Nike Blancas ..."
               />
             </div>
+            <h3>Nombre de la coleccion de imagenes: :</h3>
+            <input
+              name="collection"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.collection}
+              className="p-2 border rounded w-full bg-slate-150 mt-3"
+              placeholder="Imagenes sin fondo ..."
+            />
             <Field name="category">
               {({ field }: FieldProps<string>) => (
                 <DropdownInput
