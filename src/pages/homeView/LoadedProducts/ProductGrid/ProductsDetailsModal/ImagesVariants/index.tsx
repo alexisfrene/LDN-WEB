@@ -1,14 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { PlusCircleIcon } from '@heroicons/react/20/solid';
 import { useEffect, useState, ChangeEvent } from 'react';
-import { Modal } from '../../../../../components';
-import { producsCategory } from '../../../../../mocks';
-import { ImageVariantsProduct, ProductsBySupabase } from '../../../../../types';
+import {
+  ImageVariantsProduct,
+  ProductsBySupabase,
+} from '../../../../../../types';
 import {
   fetchProductById,
   fetchProductsForCategory,
   insertImageId,
-} from '../../../../../services';
+} from '../../../../../../services';
+import { producsCategory } from '../../../../../../mocks';
+import { Modal } from '../../../../../../components';
 
 interface ImageGalleryProps {
   setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -41,8 +44,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
 
   const handleInsertIdImage = async () => {
     if (productSelectedId && selectedProductId) {
-      const res = await insertImageId(productSelectedId, selectedProductId.id);
-      console.log(res);
+      await insertImageId(productSelectedId, selectedProductId.id);
     }
   };
 
@@ -139,8 +141,8 @@ const AddVariations: React.FC<AddVariationsProps> = ({ productSelectedId }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   return (
-    <div className="flex flex-col justify-center items-center p-2">
-      <h3 className="text-xl mt-3">
+    <div className="flex flex-col justify-center items-center">
+      <h3 className="text-lg mt-3">
         ¿Deseas agregar más imágenes del producto?
       </h3>
       <PlusCircleIcon
@@ -181,18 +183,18 @@ const GalleryImagesVariants: React.FC<GalleryImagesVariantsProps> = ({
   }, []);
 
   return (
-    <div className="pb-5">
+    <div>
       {imageVariants && (
         <div>
           <h3>{imageVariants.description}</h3>
           {imageVariants.variations.map((variation, index) => (
-            <div key={index} className="grid grid-cols-3 gap-1">
+            <div key={index} className="grid grid-cols-3 gap-5">
               {variation.images.map((image, imageIndex) => (
                 <img
                   key={imageIndex}
                   src={`http://localhost:3001/${image}`}
                   alt={image}
-                  className="h-32 w-32 object-cover rounded shadow-md transition-all duration-300 transform hover:scale-105 col-span-1"
+                  className="h-28 w-28 object-cover rounded shadow-md transition-all duration-300 transform hover:scale-105 col-span-1"
                 />
               ))}
             </div>

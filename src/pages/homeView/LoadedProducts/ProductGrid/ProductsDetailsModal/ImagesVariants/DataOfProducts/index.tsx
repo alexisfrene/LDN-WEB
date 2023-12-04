@@ -1,13 +1,14 @@
 import {
   ArrowSmallLeftIcon,
   PencilSquareIcon,
-} from "@heroicons/react/20/solid";
-import { filterAndMapTitles } from "../../../../../../utils";
-import { useState } from "react";
-import { useFormik } from "formik";
-import { getDynamicValue, useForm } from "./useForm";
-import { handleSubmit } from "./handleSubmit";
-import { ProductsBySupabase } from "../../../../../../types";
+} from '@heroicons/react/20/solid';
+
+import { useState } from 'react';
+import { useFormik } from 'formik';
+import { getDynamicValue, useForm } from './useForm';
+import { handleSubmit } from './handleSubmit';
+import { ProductsBySupabase } from '../../../../../../../types';
+import { filterAndMapTitles } from '../../../../../../../utils';
 
 interface DataOfProductsProps {
   productSelected: ProductsBySupabase;
@@ -30,26 +31,26 @@ export const DataOfProducts: React.FC<DataOfProductsProps> = ({
 
   const dataVist = [
     {
-      label: "Descripcion:",
+      label: 'Descripcion:',
       value: produc_description,
-      name: "produc_description",
+      name: 'produc_description',
     },
     {
-      label: "Precio:",
+      label: 'Precio:',
       value: `$ ${produc_price}`,
-      name: "produc_price",
+      name: 'produc_price',
     },
     {
-      label: "Marca:",
+      label: 'Marca:',
       value: produc_brand,
-      name: "produc_brand",
+      name: 'produc_brand',
     },
     {
-      label: "Categoria:",
+      label: 'Categoria:',
       value: filterAndMapTitles(produc_category),
-      name: "produc_category",
+      name: 'produc_category',
     },
-    { label: "Numero/Talle:", value: produc_size, name: "produc_size" },
+    { label: 'Numero/Talle:', value: produc_size, name: 'produc_size' },
   ];
 
   const initialValues = useForm();
@@ -61,11 +62,11 @@ export const DataOfProducts: React.FC<DataOfProductsProps> = ({
   });
 
   return (
-    <div className="p-4 border rounded-md shadow-md">
-      <div className="flex items-center mb-4">
+    <div className="border rounded-md shadow-md">
+      <div className="flex items-center mb-2">
         {modalEdit ? (
           <ArrowSmallLeftIcon
-            height={35}
+            height={44}
             className="cursor-pointer hover:text-slate-800 hover:scale-105"
             onClick={() => setModalEdit(false)}
           />
@@ -83,19 +84,19 @@ export const DataOfProducts: React.FC<DataOfProductsProps> = ({
         {dataVist.map(({ label, value, name }, i) => (
           <div
             key={i}
-            className="flex items-center justify-between text-xl border-b-2 mb-2"
+            className="flex items-center justify-between text-xl border-b-2"
           >
-            <label className="font-bold">{label}</label>
+            <label className="font-bold px-1">{label}</label>
             {modalEdit ? (
               <input
                 name={name}
                 placeholder={value}
-                className="p-2 bg-amber-100 rounded-md"
+                className="bg-amber-100 rounded-md"
                 onChange={formik.handleChange}
                 value={getDynamicValue(formik.values, name)}
               />
             ) : (
-              <div className="font-semibold">{value || "No cargado"}</div>
+              <div className="font-semibold pb-3">{value || 'No cargado'}</div>
             )}
           </div>
         ))}
@@ -103,7 +104,7 @@ export const DataOfProducts: React.FC<DataOfProductsProps> = ({
         {modalEdit && (
           <button
             type="submit"
-            className="w-full px-4 py-2 mt-4 bg-amber-500 text-white rounded-md hover:bg-amber-400"
+            className="w-full px-4 py-2 mt-2 bg-amber-500 text-white rounded-md hover:bg-amber-400"
           >
             Enviar
           </button>

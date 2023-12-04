@@ -1,5 +1,5 @@
-import { updateProductsBySupabase } from "../../../../../../services";
-import { useFormProps } from "./useForm";
+import { updateProductsBySupabase } from '../../../../../../../services';
+import { useFormProps } from './useForm';
 
 interface SubmitParams {
   resetForm: () => void;
@@ -10,10 +10,10 @@ export const handleSubmit = async (
   values: { [key in keyof useFormProps]: any },
   { resetForm }: SubmitParams,
   id: string,
-  reloadProducts: () => void
+  reloadProducts: () => void,
 ) => {
   const filteredObject = Object.fromEntries(
-    Object.entries(values).filter(([, value]) => value !== "")
+    Object.entries(values).filter(([, value]) => value !== ''),
   ) as useFormProps;
   await updateProductsBySupabase(filteredObject, id);
   reloadProducts();

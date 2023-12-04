@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { ProductsBySupabase } from '../../../../types';
 import { ImagesVariants } from './ImagesVariants';
 import { DataOfProducts } from './ImagesVariants/DataOfProducts';
 import { Cloudinary } from '@cloudinary/url-gen';
-import { PrimaryButton } from '../../../../components';
+import { ProductsBySupabase } from '../../../../../types';
+import { fetchProductById } from '../../../../../services';
+import { PrimaryButton } from '../../../../../components';
+
 interface ProductsDetailsModalProps {
   productSelected: ProductsBySupabase;
   reloadProducts: () => void;
@@ -15,6 +17,7 @@ export const ProductsDetailsModal: React.FC<ProductsDetailsModalProps> = ({
   reloadProducts,
 }) => {
   const [activeTab, setActiveTab] = useState(0);
+  const [imageUrl, setImageUrl] = useState('');
   const handleTabSelect = (index: number) => {
     setActiveTab(index);
   };
@@ -31,9 +34,6 @@ export const ProductsDetailsModal: React.FC<ProductsDetailsModalProps> = ({
     produc_age,
     produc_gender,
   } = productSelected;
-  const myImage =
-    cld.image(produc_image_url).toURL() ||
-    `https://zswiaehagcrvvuvlxsmg.supabase.co/storage/v1/object/public/ldn_bucket/${produc_image_url}`;
 
   const handleStylesTabs = (position: number) => {
     return `${
@@ -42,7 +42,7 @@ export const ProductsDetailsModal: React.FC<ProductsDetailsModalProps> = ({
   };
   const renderTabs = () => {
     return (
-      <div>
+      <div className="h-72">
         <TabPanel>
           <DataOfProducts
             productSelected={productSelected}
@@ -69,6 +69,22 @@ export const ProductsDetailsModal: React.FC<ProductsDetailsModalProps> = ({
       </div>
     );
   };
+  const handleImageDestination = async () => {
+    if (productSelected.produc_variations) {
+      const { miniature_image } = await fetchProductById(
+        productSelected.produc_variations,
+      );
+
+      return setImageUrl(`http://localhost:3001/${miniature_image}`);
+    }
+
+    return setImageUrl(cld.image(produc_image_url).toURL());
+  };
+
+  useEffect(() => {
+    handleImageDestination();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="bg-amber-400 p-4 rounded-lg overflow-y-auto">
@@ -100,7 +116,7 @@ export const ProductsDetailsModal: React.FC<ProductsDetailsModalProps> = ({
 
         <div className="mt-3">
           <img
-            src={myImage}
+            src={imageUrl}
             className="object-cover h-96 w-96 rounded-lg mb-3"
             alt={produc_name}
           />

@@ -1,10 +1,10 @@
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
-import { filterAndMapTitles } from '../../../utils';
-import { PrimaryButton } from '../../../components';
+import { filterAndMapTitles } from '../../../../../utils';
+import { PrimaryButton } from '../../../../../components';
 
-interface FilterControlsProps {
-  onCategoryClick: (value: boolean) => void;
-  onSizeClick: (value: boolean) => void;
+interface NavFiltersProps {
+  onCategoryClick: () => void;
+  onSizeClick: () => void;
   onFilterSubmit: () => void;
   filter: { category: string; size: string };
   setFilter: React.Dispatch<
@@ -13,7 +13,7 @@ interface FilterControlsProps {
   orderByPrice: (direction: '+' | '-') => void;
 }
 
-export const FilterControls: React.FC<FilterControlsProps> = ({
+export const NavFilters: React.FC<NavFiltersProps> = ({
   onCategoryClick,
   onSizeClick,
   onFilterSubmit,
@@ -41,8 +41,8 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
   return (
     <div className="col-span-12 flex justify-start gap-10 items-center bg-amber-400 h-12 p-3 rounded-xl">
       <span>Filtrar por : </span>
-      <PrimaryButton onClick={() => onCategoryClick(true)} label="Categoria" />
-      <PrimaryButton onClick={() => onSizeClick(true)} label="Talle" />
+      <PrimaryButton onClick={onCategoryClick} label="Categoria" />
+      <PrimaryButton onClick={onSizeClick} label="Talle" />
       <PrimaryButton
         onClick={() => onFilterSubmit()}
         label="Filtrar"
