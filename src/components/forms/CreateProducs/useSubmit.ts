@@ -1,4 +1,4 @@
-import axios from "axios";
+import { createImageVariations } from '../../../services';
 
 export interface ProductFormData {
   description: string;
@@ -13,30 +13,5 @@ export interface ProductFormData {
 }
 
 export const useSubmit = async (values: ProductFormData): Promise<void> => {
-  try {
-    const formData = new FormData();
-    formData.append("description", values.description);
-    formData.append("category", values.category);
-    formData.append("collection", values.collection);
-    if (values.mainImage) {
-      formData.append("mainImage", values.mainImage.name);
-      formData.append("files", values.mainImage);
-    }
-    if (values.secondaryImages) {
-      for (let i = 0; i < values.secondaryImages.length; i++) {
-        formData.append("files", values.secondaryImages[i]);
-      }
-    }
-    formData.append("details[color]", values.color);
-    formData.append("details[gender]", values.gender);
-    formData.append("details[brand]", values.brand);
-    formData.append("details[style]", values.style);
-    await axios.post("http://localhost:3001/api/products", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-  } catch (error) {
-    console.error(error);
-  }
+  await createImageVariations(values); //TODO: agregar modal o un loading
 };

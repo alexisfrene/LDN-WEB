@@ -1,5 +1,5 @@
-import { Tab, Tabs, TabList } from "react-tabs";
-import React, { ReactNode } from "react";
+import React, { ReactNode } from 'react';
+import { TabsList, Tabs, TabsTrigger, Label } from '..';
 interface ProductsNavBarProps {
   tabs: string[];
   children: ReactNode;
@@ -9,19 +9,16 @@ export const ProductsNavBar: React.FC<ProductsNavBarProps> = ({
   tabs,
 }) => {
   return (
-    <Tabs>
-      <TabList className="bg-amber-600 border-b-4 border-white flex justify-evenly mb-3 col-span-12">
+    <Tabs defaultValue={tabs[0]}>
+      <TabsList className="w-full">
         {tabs.map((title) => {
           return (
-            <Tab
-              className="border-x-2 w-full text-center py-2 cursor-pointer hover:bg-amber-500 text-lg"
-              key={title}
-            >
-              {title}
-            </Tab>
+            <TabsTrigger key={title} value={title}>
+              <Label className="w-96 text-xl cursor-pointer">{title}</Label>
+            </TabsTrigger>
           );
         })}
-      </TabList>
+      </TabsList>
       {children}
     </Tabs>
   );

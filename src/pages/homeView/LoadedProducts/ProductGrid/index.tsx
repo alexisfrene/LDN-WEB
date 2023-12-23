@@ -69,7 +69,7 @@ export const ProductGrid: React.FC = () => {
   };
   const { callEndpoint } = useFetchAndLoad();
   const getProducs = async () => await callEndpoint(getProductsBySupabase());
-  useAsync(getProducs, (data) => setProducts(data.slice(1, 13)));
+  useAsync(getProducs, (data) => setProducts(data));
 
   return (
     <div className="grid grid-cols-12 gap-3 mx-5">

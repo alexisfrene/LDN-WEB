@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { ImageVariantsProduct } from '../../../../types';
 import { useAsync, useFetchAndLoad, useModal } from '../../../../hooks';
 import { deleteProductById, fetchProducts } from '../../../../services';
-import { LoadingIndicator } from '../../../../components';
+import { LoadingIndicator, ModalDelete } from '../../../../components';
 import { ModalGallery } from './ModalGallery';
-import { ModalDelete } from './ModalDelete';
 import { CardImageVariations } from './CardImageVariations';
 
 export const ImageGrid: React.FC = () => {
@@ -44,7 +43,7 @@ export const ImageGrid: React.FC = () => {
   useAsync(getImageVariations, (data) => setVariationsImages(data.data));
 
   return (
-    <div className="grid gap-5 grid-cols-4">
+    <div className="grid gap-5 grid-cols-4 mx-3">
       <LoadingIndicator isLoading={!variationsImages.length} />
       {!loading &&
         variationsImages?.map((product) => (
@@ -58,11 +57,13 @@ export const ImageGrid: React.FC = () => {
             onCLickImage={() => handlerGalleryImage(product)}
           />
         ))}
-      <ModalGallery
-        isGalleryModalOpen={isGalleryModalOpen}
-        hideGalleryModal={hideGalleryModal}
-        productSelected={productSelected}
-      />
+      {productSelected && (
+        <ModalGallery
+          isGalleryModalOpen={isGalleryModalOpen}
+          hideGalleryModal={hideGalleryModal}
+          productSelected={productSelected}
+        />
+      )}
       <ModalDelete
         isDeleteModalOpen={isDeleteModalOpen}
         hideDeleteModal={hideDeleteModal}

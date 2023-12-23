@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import ReactModal from 'react-modal';
-import { PrimaryButton } from '..';
+import { Button } from '@/components';
 
 interface ModalProps {
   isOpen: boolean;
@@ -49,16 +49,46 @@ export const ModalWhite: React.FC<ModalWhiteProps> = ({
         <h3 className="col-span-12 mb-3 text-xl font-semibold">{label}</h3>
         {children}
         <div className="col-span-12 mt-3 font-medium flex justify-evenly">
-          <PrimaryButton
-            onClick={() => setModal()}
-            label="Aceptar"
-            additionalClasses="bg-green-400 hover:bg-green-500"
-          />
-          <PrimaryButton
-            onClick={() => setModal()}
-            label="Cancelar"
-            additionalClasses="bg-red-500 hover:bg-red-600"
-          />
+          <Button onClick={() => setModal()} variant="default">
+            Aceptar
+          </Button>
+
+          <Button onClick={() => setModal()} variant="destructive">
+            Cancelar
+          </Button>
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+interface ModalDeleteProps {
+  isDeleteModalOpen: boolean;
+  hideDeleteModal: () => void;
+  handleDeleteProduct: () => void;
+  text?: string;
+}
+
+export const ModalDelete: React.FC<ModalDeleteProps> = ({
+  isDeleteModalOpen,
+  hideDeleteModal,
+  handleDeleteProduct,
+  text = '¿Estás seguro de eliminar este producto?',
+}) => {
+  return (
+    <Modal isOpen={isDeleteModalOpen} onRequestClose={hideDeleteModal}>
+      <div className="bg-white rounded-sm shadow-md p-6">
+        <h3 className="text-xl font-semibold mb-4">{text}</h3>
+        <div className="flex justify-around">
+          <Button variant="destructive" onClick={handleDeleteProduct}>
+            Aceptar
+          </Button>
+          <Button
+            className="bg-gray-300 hover:bg-gray-350"
+            onClick={hideDeleteModal}
+          >
+            Cancelar
+          </Button>
         </div>
       </div>
     </Modal>

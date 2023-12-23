@@ -1,6 +1,6 @@
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
 import { filterAndMapTitles } from '../../../../../utils';
-import { PrimaryButton } from '../../../../../components';
+import { Button } from '../../../../../components';
 
 interface NavFiltersProps {
   onCategoryClick: () => void;
@@ -37,25 +37,24 @@ export const NavFilters: React.FC<NavFiltersProps> = ({
     setFilter({ category: '', size: '' });
   };
 
-  const buttonStyle = 'bg-white hover:bg-slate-200 text-slate-900';
   return (
     <div className="col-span-12 flex justify-start gap-10 items-center bg-amber-400 h-12 p-3 rounded-xl">
       <span>Filtrar por : </span>
-      <PrimaryButton onClick={onCategoryClick} label="Categoria" />
-      <PrimaryButton onClick={onSizeClick} label="Talle" />
-      <PrimaryButton
-        onClick={() => onFilterSubmit()}
-        label="Filtrar"
-        additionalClasses={buttonStyle}
-      />
+      <Button onClick={onCategoryClick} variant="secondary">
+        Categoria
+      </Button>
+      <Button onClick={onSizeClick} variant="secondary">
+        Talle
+      </Button>
+      <Button onClick={() => onFilterSubmit()} variant="secondary">
+        Filtrar
+      </Button>
       {renderCategoryInfo()}
       {renderSizeInfo()}
       {(category || size) && (
-        <PrimaryButton
-          onClick={clearFilters}
-          label="Borrar filtros"
-          additionalClasses={buttonStyle}
-        />
+        <Button onClick={clearFilters} variant="destructive">
+          Borrar filtros
+        </Button>
       )}
       <div className="flex">
         <ChevronUpIcon

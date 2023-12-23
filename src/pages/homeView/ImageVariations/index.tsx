@@ -1,18 +1,21 @@
 import React from 'react';
-import { TabPanel } from 'react-tabs';
-import { CreateProducts, ProductsNavBar } from '../../../components';
+import {
+  CreateProducts,
+  ProductsNavBar,
+  TabsContent,
+} from '../../../components';
 import { ImageGrid } from './ImageGrid';
 
 const imageTabs = ['Ver Productos', 'Crear Producto'];
 export const ImageVariations: React.FC = () => {
   return (
     <ProductsNavBar tabs={imageTabs}>
-      <TabPanel>
+      <TabsContent value="Ver Productos">
         <ImageGrid />
-      </TabPanel>
-      <TabPanel>
+      </TabsContent>
+      <TabsContent value="Crear Producto">
         <CreateProducts />
-      </TabPanel>
+      </TabsContent>
     </ProductsNavBar>
   );
 };

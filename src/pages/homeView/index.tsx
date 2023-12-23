@@ -1,7 +1,8 @@
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { BuildingStorefrontIcon, PhotoIcon } from '@heroicons/react/20/solid';
 import { LoadedProducts } from './LoadedProducts';
 import { ImageVariations } from './ImageVariations';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components';
+import logo from '../../../public/favicon.png';
 
 const tabButtons = [
   { title: 'Imagenes', icon: <PhotoIcon className="h-16" /> },
@@ -10,26 +11,29 @@ const tabButtons = [
 
 const HomeView = () => {
   return (
-    <Tabs className="grid grid-cols-12 grid-rows-6">
-      <TabList className="bg-gradient-to-br from-orange-100 to-orange-400 col-span-1 row-span-6 min-h-screen">
-        {tabButtons.map(({ title, icon }) => (
-          <Tab
-            className="h-20 bg-gradient-to-b from-orange-150 to-orange-450 m-0.5 rounded-xl cursor-pointer flex flex-col justify-center"
-            key={title}
-          >
-            <p className="text-center text-lg mt-1">{title}</p>
-            {icon}
-          </Tab>
-        ))}
-      </TabList>
-      <div className="col-span-11 row-span-6">
-        <TabPanel>
-          <ImageVariations />
-        </TabPanel>
-        <TabPanel>
-          <LoadedProducts />
-        </TabPanel>
+    <Tabs defaultValue="Imagenes" className="grid grid-cols-12">
+      <div className="bg-gradient-to-t from-amber-200 to-amber-400 h-20 p-1 mt-[-5px] col-span-12">
+        <img src={logo} className="w-20 ml-6" loading="lazy" alt="logo-ldn" />
       </div>
+      <TabsList className="col-span-1 flex flex-col min-h-screen h-full justify-start bg-gradient-to-t from-amber-200 to-amber-400">
+        {tabButtons.map(({ title, icon }) => (
+          <TabsTrigger
+            value={title}
+            key={title}
+            className="flex flex-col bg-amber-500 w-full m-1"
+          >
+            {title}
+            {icon}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+
+      <TabsContent value="Imagenes" className="col-span-11">
+        <ImageVariations />
+      </TabsContent>
+      <TabsContent value="Productos" className="col-span-11">
+        <LoadedProducts />
+      </TabsContent>
     </Tabs>
   );
 };

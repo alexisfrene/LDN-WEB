@@ -4,10 +4,13 @@ export {
   fetchProductsForCategory,
   insertImageId,
   fetchProducts,
-} from "./products";
+  createImageVariations,
+  addVariations,
+  removeCollection,
+} from './products';
 export {
   getProductsBySupabase,
   handleFilterSubmit,
   removeProductsBySupabase,
   updateProductsBySupabase,
-} from "./loadProducts";
+} from './loadProducts';

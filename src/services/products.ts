@@ -1,5 +1,15 @@
 import axios from 'axios';
-
+export interface ProductFormData {
+  description: string;
+  category: string;
+  mainImage: File | null;
+  secondaryImages: FileList | null;
+  color: string;
+  gender: string;
+  brand: string;
+  style: string;
+  collection: string;
+}
 const loadAbort = () => {
   const controller = new AbortController();
   return controller;
@@ -86,5 +96,78 @@ export const fetchProductById = async (id: string) => {
     }
   } catch (error) {
     console.error('Error al encontrado un producto por id');
+  }
+};
+
+export const createImageVariations = async (values: ProductFormData) => {
+  try {
+    const formData = new FormData();
+    formData.append('description', values.description);
+    formData.append('category', values.category);
+    formData.append('collection', values.collection);
+    if (values.mainImage) {
+      formData.append('mainImage', values.mainImage.name);
+      formData.append('files', values.mainImage);
+    }
+    if (values.secondaryImages) {
+      for (let i = 0; i < values.secondaryImages.length; i++) {
+        formData.append('files', values.secondaryImages[i]);
+      }
+    }
+    formData.append('details[color]', values.color);
+    formData.append('details[gender]', values.gender);
+    formData.append('details[brand]', values.brand);
+    formData.append('details[style]', values.style);
+    await axios.post('http://localhost:3001/api/products', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+interface addVariationsProps {
+  collection: string;
+  category: string;
+  images: FileList | null;
+  id: string;
+}
+
+export const addVariations = async (values: addVariationsProps) => {
+  try {
+    const formData = new FormData();
+    formData.append('collection', values.collection);
+    formData.append('category', values.category);
+    if (values.images) {
+      for (let i = 0; i < values.images.length; i++) {
+        formData.append('files', values.images[i]);
+      }
+    }
+    await axios.put(
+      `http://localhost:3001/api/products/${values.id}?variation_add=true`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      },
+    );
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const removeCollection = async (
+  idVariations: string,
+  idCollection: string,
+) => {
+  try {
+    await axios.delete(
+      `http://localhost:3001/api/products/${idVariations}?variation_remove=${idCollection}`,
+    );
+  } catch (error) {
+    console.log(error);
   }
 };
