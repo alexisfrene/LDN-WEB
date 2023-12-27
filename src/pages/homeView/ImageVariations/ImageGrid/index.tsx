@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { ImageVariantsProduct } from '../../../../types';
-import { useAsync, useFetchAndLoad, useModal } from '../../../../hooks';
-import { deleteProductById, fetchProducts } from '../../../../services';
+import { useModal } from '../../../../hooks';
+import { deleteProductById } from '../../../../services';
 import { LoadingIndicator, ModalDelete } from '../../../../components';
 import { ModalGallery } from './ModalGallery';
 import { CardImageVariations } from './CardImageVariations';
+import { NavFilters } from './NavFilters';
+import { useDataFetching } from './hook/useDataFetchingProps';
 
 export const ImageGrid: React.FC = () => {
-  const [variationsImages, setVariationsImages] = useState<
-    ImageVariantsProduct[] | []
-  >([]);
   const [selectedId, setSelectedId] = useState<string>('');
   const [productSelected, setProductSelected] =
     useState<ImageVariantsProduct | null>(null);
+  const { isLoading, variationsImages, setVariationsImages } =
+    useDataFetching();
   const {
     hideModal: hideGalleryModal,
     isOpenModal: isGalleryModalOpen,
@@ -38,25 +39,22 @@ export const ImageGrid: React.FC = () => {
     setProductSelected(product);
     showGalleryModal();
   };
-  const { loading, callEndpoint } = useFetchAndLoad();
-  const getImageVariations = async () => await callEndpoint(fetchProducts());
-  useAsync(getImageVariations, (data) => setVariationsImages(data.data));
 
   return (
     <div className="grid gap-5 grid-cols-4 mx-3">
-      <LoadingIndicator isLoading={!variationsImages.length} />
-      {!loading &&
-        variationsImages?.map((product) => (
-          <CardImageVariations
-            key={product.id}
-            product={product}
-            onClick={() => {
-              setSelectedId(product.id);
-              showDeleteModal();
-            }}
-            onCLickImage={() => handlerGalleryImage(product)}
-          />
-        ))}
+      <LoadingIndicator isLoading={isLoading} />
+      <NavFilters />
+      {variationsImages?.map((product) => (
+        <CardImageVariations
+          key={product.id}
+          product={product}
+          onClick={() => {
+            setSelectedId(product.id);
+            showDeleteModal();
+          }}
+          onCLickImage={() => handlerGalleryImage(product)}
+        />
+      ))}
       {productSelected && (
         <ModalGallery
           isGalleryModalOpen={isGalleryModalOpen}

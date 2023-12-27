@@ -22,7 +22,7 @@ export const ModalGallery: React.FC<ModalGalleryProps> = ({
           <TabsTrigger value="images">Ver imagenes</TabsTrigger>
           <TabsTrigger value="addImages">Agregar imagenes</TabsTrigger>
         </TabsList>
-        <ScrollArea className="h-[800px] w-[1200px]">
+        <ScrollArea className="min-h-[800px]">
           <ViewImage productSelected={productSelected} />
           <FormAddImages
             id={productSelected.id}

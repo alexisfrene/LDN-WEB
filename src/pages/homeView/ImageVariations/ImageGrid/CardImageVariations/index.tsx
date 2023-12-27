@@ -22,11 +22,11 @@ export const CardImageVariations: React.FC<CardImageVariationsProps> = ({
           </Button>
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex justify-center">
         <img
           src={`http://localhost:3001/${product.miniature_image}`}
           alt={product.description}
-          className="self-center rounded-t-lg w-96 object-cover border-x-4 border-t-4 transition-all duration-300 group-hover:border-amber-600 h-96 cursor-pointer"
+          className="rounded-lg w-96 h-96 object-cover border-4 cursor-pointer"
           onClick={onCLickImage}
           loading="lazy"
         />

@@ -9,6 +9,7 @@ import {
   Separator,
   TabsContent,
 } from '@/components';
+import { ImageWithSkeleton } from '@/components/common/ImageWithSkeleton';
 import { useModal } from '@/hooks';
 import { removeCollection } from '@/services';
 import { ImageVariantsProduct } from '@/types';
@@ -35,6 +36,8 @@ export const ViewImage: React.FC<ViewImageProps> = ({ productSelected }) => {
   ) => {
     await removeCollection(idVariations, idCollection);
   };
+
+  // useGetImageVariantsQuery()
 
   return (
     <TabsContent value="images">
@@ -64,12 +67,9 @@ export const ViewImage: React.FC<ViewImageProps> = ({ productSelected }) => {
             <ScrollArea className="h-80 mx-12 bg-slate-200">
               <div className="flex flex-wrap gap-1 justify-center">
                 {variation.images?.map((image: string, imageIndex: number) => (
-                  <img
+                  <ImageWithSkeleton
+                    url={`http://localhost:3001/${image}`}
                     key={imageIndex}
-                    src={`http://localhost:3001/${image}`}
-                    loading="lazy"
-                    alt={`Image ${imageIndex + 1}`}
-                    className="col-span-1 h-80 w-80"
                   />
                 ))}
               </div>

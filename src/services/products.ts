@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export interface ProductFormData {
   description: string;
   category: string;
@@ -14,6 +15,41 @@ const loadAbort = () => {
   const controller = new AbortController();
   return controller;
 };
+
+export const variantsApi = createApi({
+  reducerPath: 'variantsApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'http://localhost:3001/api/products',
+  }),
+  endpoints: (builder) => ({
+    getVariantsByCategory: builder.query({
+      query: (category) => `?category=${category}`,
+    }),
+    getAllVariants: builder.query({
+      query: () => `/`,
+    }),
+  }),
+});
+
+export const { useGetVariantsByCategoryQuery, useGetAllVariantsQuery } =
+  variantsApi;
+
+export const imagesVariantsApi = createApi({
+  reducerPath: 'imagesVariantsApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'http://localhost:3001/',
+  }),
+  endpoints: (builder) => ({
+    getImageVariants: builder.query({
+      query: (image) => image,
+    }),
+  }),
+});
+
+export const { useGetImageVariantsQuery } = imagesVariantsApi;
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
 export const fetchProducts = () => {
   const controller = loadAbort();
   return {

@@ -27,7 +27,6 @@ const HomeView = () => {
           </TabsTrigger>
         ))}
       </TabsList>
-
       <TabsContent value="Imagenes" className="col-span-11">
         <ImageVariations />
       </TabsContent>

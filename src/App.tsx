@@ -1,7 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Modal from 'react-modal';
 import { lazy } from 'react';
-//import { HomeView } from "./pages";
 const HomeView = lazy(() => import('./pages/homeView'));
 
 const router = createBrowserRouter([

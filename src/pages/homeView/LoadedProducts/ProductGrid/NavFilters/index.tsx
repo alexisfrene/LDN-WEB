@@ -38,7 +38,7 @@ export const NavFilters: React.FC<NavFiltersProps> = ({
   };
 
   return (
-    <div className="col-span-12 flex justify-start gap-10 items-center bg-amber-400 h-12 p-3 rounded-xl">
+    <div className="col-span-full flex justify-start gap-10 items-center bg-amber-400 h-12 p-3 rounded-xl">
       <span>Filtrar por : </span>
       <Button onClick={onCategoryClick} variant="secondary">
         Categoria

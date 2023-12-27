@@ -7,6 +7,7 @@ export {
   createImageVariations,
   addVariations,
   removeCollection,
+  useGetImageVariantsQuery,
 } from './products';
 export {
   getProductsBySupabase,

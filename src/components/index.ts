@@ -4,6 +4,7 @@ export {
   Modal,
   ModalWhite,
   ModalDelete,
+  Snackbar,
 } from './common';
 export {
   Button,
@@ -22,7 +23,16 @@ export {
   TabsContent,
   TabsList,
   TabsTrigger,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
 } from './ui';
 export { ProductsNavBar } from './NavBar';
 export { CreateProducts } from './forms';
-export { ProductsImage } from './images';

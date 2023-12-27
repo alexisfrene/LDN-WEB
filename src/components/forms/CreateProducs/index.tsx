@@ -1,10 +1,11 @@
-import { useState, ChangeEvent } from "react";
-import { Field, FieldProps, Formik } from "formik";
-import { useSubmit } from "./useSubmit";
-import { useForm } from "./useForm";
-import { DropdownInput } from "../../../components";
-import { producsCategory } from "../../../mocks";
-import defaultImage from "../../../assets/default.png";
+import { useState, ChangeEvent } from 'react';
+import { Field, FieldProps, Formik } from 'formik';
+import { useSubmit } from './useSubmit';
+import { useForm } from './useForm';
+import { DropdownInput } from '../../../components';
+import { producsCategory } from '../../../mocks';
+import defaultImage from '../../../assets/default.png';
+import { ImageWithSkeleton } from '@/components/common/ImageWithSkeleton';
 
 export const CreateProducts: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string>(defaultImage);
@@ -40,15 +41,11 @@ export const CreateProducts: React.FC = () => {
             <div className="h-96 overflow-y-auto overflow-x-hidden">
               {selectedImage && (
                 <div className="relative w-80 h-80">
-                  <img
-                    src={selectedImage}
-                    alt="Imagen principal"
-                    className="m-1  object-contain"
-                  />
+                  <ImageWithSkeleton url={selectedImage} />
                   {defaultImage !== selectedImage && (
                     <button
                       onClick={() => {
-                        setFieldValue("mainImage", null);
+                        setFieldValue('mainImage', null);
                         setSelectedImage(defaultImage);
                       }}
                       className="absolute top-0 right-0 mt-1 h-8 w-8 bg-red-500 text-white rounded-full cursor-pointer transition-transform transform hover:scale-110"
@@ -64,18 +61,14 @@ export const CreateProducts: React.FC = () => {
                     const imageUrl = URL.createObjectURL(file);
                     return (
                       <div key={index} className="relative col-span-1">
-                        <img
-                          src={imageUrl}
-                          alt={`Imagen secundaria ${index + 1}`}
-                          className="m-1 object-cover"
-                        />
+                        <ImageWithSkeleton url={imageUrl} />
                         <button
                           onClick={() => {
                             const filesArray = Array.from(secondaryImages);
                             const newFileList = filesArray.filter(
-                              (e) => e.name !== file.name
+                              (e) => e.name !== file.name,
                             );
-                            setFieldValue("secondaryImages", newFileList);
+                            setFieldValue('secondaryImages', newFileList);
                             setSecondaryImages(newFileList);
                           }}
                           className="absolute top-0 right-0 mt-1 h-8 w-8 bg-red-500 text-white rounded-full cursor-pointer transition-transform transform hover:scale-110"
@@ -94,7 +87,7 @@ export const CreateProducts: React.FC = () => {
                 name="mainImage"
                 onChange={(event) => {
                   handleImageChange(event);
-                  setFieldValue("mainImage", event.currentTarget.files![0]);
+                  setFieldValue('mainImage', event.currentTarget.files![0]);
                 }}
                 onBlur={handleBlur}
                 className="p-2 border rounded w-full"
@@ -108,7 +101,7 @@ export const CreateProducts: React.FC = () => {
                 multiple
                 onChange={(event) => {
                   handleSecondaryImageChange(event);
-                  setFieldValue("secondaryImages", event.currentTarget.files);
+                  setFieldValue('secondaryImages', event.currentTarget.files);
                 }}
                 onBlur={handleBlur}
                 className="p-2 border rounded w-full"
@@ -148,18 +141,18 @@ export const CreateProducts: React.FC = () => {
                 <DropdownInput
                   title="Selecciona un color"
                   options={[
-                    { type: "RED", title: "ROJO 🟥" },
-                    { type: "BLUE", title: "AZUL 🔵" },
-                    { type: "GREEN", title: "VERDE 🟩" },
-                    { type: "YELLOW", title: "AMARILLO 🟨" },
-                    { type: "ORANGE", title: "NARANJA 🟧" },
-                    { type: "PURPLE", title: "VIOLETA 🟪" },
-                    { type: "PINK", title: "ROSADO 🌸" },
-                    { type: "BROWN", title: "MARRÓN 🟫" },
-                    { type: "GRAY", title: "GRIS 🟨" },
-                    { type: "BLACK", title: "NEGRO ⚫" },
-                    { type: "WHITE", title: "BLANCO ⚪" },
-                    { type: "UNSPECIFIED", title: "SIN ESPECIFICAR ❓" },
+                    { type: 'RED', title: 'ROJO 🟥' },
+                    { type: 'BLUE', title: 'AZUL 🔵' },
+                    { type: 'GREEN', title: 'VERDE 🟩' },
+                    { type: 'YELLOW', title: 'AMARILLO 🟨' },
+                    { type: 'ORANGE', title: 'NARANJA 🟧' },
+                    { type: 'PURPLE', title: 'VIOLETA 🟪' },
+                    { type: 'PINK', title: 'ROSADO 🌸' },
+                    { type: 'BROWN', title: 'MARRÓN 🟫' },
+                    { type: 'GRAY', title: 'GRIS 🟨' },
+                    { type: 'BLACK', title: 'NEGRO ⚫' },
+                    { type: 'WHITE', title: 'BLANCO ⚪' },
+                    { type: 'UNSPECIFIED', title: 'SIN ESPECIFICAR ❓' },
                   ]}
                   name={field.name}
                 />
@@ -170,9 +163,9 @@ export const CreateProducts: React.FC = () => {
                 <DropdownInput
                   title="Selecciona un genero"
                   options={[
-                    { type: "MALE", title: "MASCULINO" },
-                    { type: "FEMALE", title: "FEMENINO" },
-                    { type: "UNSPECIFIED", title: "SIN ESPECIFICAR" },
+                    { type: 'MALE', title: 'MASCULINO' },
+                    { type: 'FEMALE', title: 'FEMENINO' },
+                    { type: 'UNSPECIFIED', title: 'SIN ESPECIFICAR' },
                   ]}
                   name={field.name}
                 />
@@ -183,10 +176,10 @@ export const CreateProducts: React.FC = () => {
                 <DropdownInput
                   title="Selecciona una marca"
                   options={[
-                    { type: "NIKE", title: "NIKE" },
-                    { type: "PUMA", title: "PUMA" },
-                    { type: "ADDIDAS", title: "ADDIDAS" },
-                    { type: "OTHER", title: "OTRA" },
+                    { type: 'NIKE', title: 'NIKE' },
+                    { type: 'PUMA', title: 'PUMA' },
+                    { type: 'ADDIDAS', title: 'ADDIDAS' },
+                    { type: 'OTHER', title: 'OTRA' },
                   ]}
                   name={field.name}
                 />
@@ -197,9 +190,9 @@ export const CreateProducts: React.FC = () => {
                 <DropdownInput
                   title="Selecciona estilo"
                   options={[
-                    { type: "URBAN", title: "URBANAS" },
-                    { type: "SPORTS", title: "DEPORTIVAS" },
-                    { type: "UNSPECIFIED", title: "SIN ESPECIFICAR" },
+                    { type: 'URBAN', title: 'URBANAS' },
+                    { type: 'SPORTS', title: 'DEPORTIVAS' },
+                    { type: 'UNSPECIFIED', title: 'SIN ESPECIFICAR' },
                   ]}
                   name={field.name}
                 />
