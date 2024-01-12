@@ -1,5 +1,7 @@
-import React, { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { Formik } from 'formik';
+import { useForm } from './useForm';
+import { useSubmit } from './useSubmit';
 import {
   LoadingIndicator,
   Card,
@@ -12,8 +14,6 @@ import {
   TabsContent,
   Button,
 } from '@/components';
-import { useForm } from './useForm';
-import { useSubmit } from './useSubmit';
 
 export const FormAddImages: React.FC<{ id: string; category: string }> = ({
   id,

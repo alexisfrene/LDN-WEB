@@ -15,6 +15,7 @@ const loadAbort = () => {
   const controller = new AbortController();
   return controller;
 };
+
 export const variantsApi = createApi({
   reducerPath: 'variantsApi',
   baseQuery: fetchBaseQuery({
