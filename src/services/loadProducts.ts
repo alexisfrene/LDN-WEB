@@ -47,7 +47,7 @@ export const createProductsBySupabase = async (values: ProductsBySupabase) => {
       return data;
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
