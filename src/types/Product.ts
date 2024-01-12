@@ -15,9 +15,9 @@ export type ImageVariantsProduct = {
 };
 
 export interface ProductsBySupabase {
-  id: string;
-  created_at: Date;
-  user: string;
+  id?: string;
+  created_at?: Date;
+  user?: string;
   produc_name: string;
   produc_style: string;
   produc_size: string;
@@ -28,11 +28,11 @@ export interface ProductsBySupabase {
   produc_image_url: string;
   produc_age: string;
   produc_gender: string;
-  produc_code: string;
+  produc_code?: string;
   produc_state: boolean;
-  produc_stock: number;
-  produc_discount: string;
+  produc_stock?: number;
+  produc_discount?: string;
   produc_brand: string;
-  produc_dollar_today: number;
-  produc_variations: string;
+  produc_dollar_today?: number;
+  produc_variations?: string;
 }

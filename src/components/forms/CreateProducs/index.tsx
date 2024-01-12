@@ -2,8 +2,14 @@ import { useState, ChangeEvent } from 'react';
 import { Field, FieldProps, Formik } from 'formik';
 import { useSubmit } from './useSubmit';
 import { useForm } from './useForm';
-import { DropdownInput } from '../../../components';
-import { producsCategory } from '../../../mocks';
+import { Dropdown, DropdownInput, Input, Label } from '../../../components';
+import {
+  brands,
+  colors,
+  genders,
+  producsCategory,
+  styles,
+} from '../../../mocks';
 import defaultImage from '../../../assets/default.png';
 import { ImageWithSkeleton } from '@/components/common/ImageWithSkeleton';
 
@@ -27,7 +33,7 @@ export const CreateProducts: React.FC = () => {
   };
 
   return (
-    <div className="p-10 rounded shadow-md w-full">
+    <div className="flex justify-center">
       <Formik initialValues={useForm()} onSubmit={useSubmit}>
         {({
           values,
@@ -37,10 +43,13 @@ export const CreateProducts: React.FC = () => {
           isSubmitting,
           setFieldValue,
         }) => (
-          <form onSubmit={handleSubmit} className="mb-4">
+          <form
+            onSubmit={handleSubmit}
+            className="mb-4 w-[1200px] bg-white p-10"
+          >
             <div className="h-96 overflow-y-auto overflow-x-hidden">
               {selectedImage && (
-                <div className="relative w-80 h-80">
+                <div className="relative h-80 m-3">
                   <ImageWithSkeleton url={selectedImage} />
                   {defaultImage !== selectedImage && (
                     <button
@@ -81,8 +90,8 @@ export const CreateProducts: React.FC = () => {
               </div>
             </div>
             <div>
-              <h3>Selecciona una imagen principal :</h3>
-              <input
+              <Label>Selecciona una imagen principal :</Label>
+              <Input
                 type="file"
                 name="mainImage"
                 onChange={(event) => {
@@ -90,12 +99,11 @@ export const CreateProducts: React.FC = () => {
                   setFieldValue('mainImage', event.currentTarget.files![0]);
                 }}
                 onBlur={handleBlur}
-                className="p-2 border rounded w-full"
               />
             </div>
             <div>
-              <h3>Selecciona las imágenes secundarias:</h3>
-              <input
+              <Label>Selecciona las imágenes secundarias:</Label>
+              <Input
                 type="file"
                 name="secondaryImages" // Nombre coincidente con el backend
                 multiple
@@ -104,27 +112,24 @@ export const CreateProducts: React.FC = () => {
                   setFieldValue('secondaryImages', event.currentTarget.files);
                 }}
                 onBlur={handleBlur}
-                className="p-2 border rounded w-full"
               />
             </div>
             <div>
-              <h3>Ingresa una descripción :</h3>
-              <input
+              <Label>Ingresa una descripción :</Label>
+              <Input
                 name="description"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.description}
-                className="p-2 border rounded w-full bg-slate-150"
                 placeholder="Zapatillas Nike Blancas ..."
               />
             </div>
-            <h3>Nombre de la coleccion de imagenes: :</h3>
-            <input
+            <Label>Nombre de la coleccion de imagenes: :</Label>
+            <Input
               name="collection"
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.collection}
-              className="p-2 border rounded w-full bg-slate-150 mt-3"
               placeholder="Imagenes sin fondo ..."
             />
             <Field name="category">
@@ -140,20 +145,7 @@ export const CreateProducts: React.FC = () => {
               {({ field }: FieldProps<string>) => (
                 <DropdownInput
                   title="Selecciona un color"
-                  options={[
-                    { type: 'RED', title: 'ROJO 🟥' },
-                    { type: 'BLUE', title: 'AZUL 🔵' },
-                    { type: 'GREEN', title: 'VERDE 🟩' },
-                    { type: 'YELLOW', title: 'AMARILLO 🟨' },
-                    { type: 'ORANGE', title: 'NARANJA 🟧' },
-                    { type: 'PURPLE', title: 'VIOLETA 🟪' },
-                    { type: 'PINK', title: 'ROSADO 🌸' },
-                    { type: 'BROWN', title: 'MARRÓN 🟫' },
-                    { type: 'GRAY', title: 'GRIS 🟨' },
-                    { type: 'BLACK', title: 'NEGRO ⚫' },
-                    { type: 'WHITE', title: 'BLANCO ⚪' },
-                    { type: 'UNSPECIFIED', title: 'SIN ESPECIFICAR ❓' },
-                  ]}
+                  options={colors}
                   name={field.name}
                 />
               )}
@@ -162,11 +154,7 @@ export const CreateProducts: React.FC = () => {
               {({ field }: FieldProps<string>) => (
                 <DropdownInput
                   title="Selecciona un genero"
-                  options={[
-                    { type: 'MALE', title: 'MASCULINO' },
-                    { type: 'FEMALE', title: 'FEMENINO' },
-                    { type: 'UNSPECIFIED', title: 'SIN ESPECIFICAR' },
-                  ]}
+                  options={genders}
                   name={field.name}
                 />
               )}
@@ -175,29 +163,21 @@ export const CreateProducts: React.FC = () => {
               {({ field }: FieldProps<string>) => (
                 <DropdownInput
                   title="Selecciona una marca"
-                  options={[
-                    { type: 'NIKE', title: 'NIKE' },
-                    { type: 'PUMA', title: 'PUMA' },
-                    { type: 'ADDIDAS', title: 'ADDIDAS' },
-                    { type: 'OTHER', title: 'OTRA' },
-                  ]}
+                  options={brands}
                   name={field.name}
                 />
               )}
             </Field>
-            <Field name="style">
+            {/* <Field name="style">
               {({ field }: FieldProps<string>) => (
                 <DropdownInput
                   title="Selecciona estilo"
-                  options={[
-                    { type: 'URBAN', title: 'URBANAS' },
-                    { type: 'SPORTS', title: 'DEPORTIVAS' },
-                    { type: 'UNSPECIFIED', title: 'SIN ESPECIFICAR' },
-                  ]}
+                  options={styles}
                   name={field.name}
                 />
               )}
-            </Field>
+            </Field> */}
+            <Dropdown variant="styles" />
             <button
               type="submit"
               disabled={isSubmitting}

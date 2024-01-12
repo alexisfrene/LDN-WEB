@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import variantsReducer from './variantsSlice';
-import { variantsApi } from '@/services/products';
+import { variantsApi } from '@/services/imagesProducts';
 export const store = configureStore({
   reducer: {
     variants: variantsReducer,

@@ -18,7 +18,7 @@ export const ModalGallery: React.FC<ModalGalleryProps> = ({
   return (
     <Modal isOpen={isGalleryModalOpen} onRequestClose={hideGalleryModal}>
       <Tabs defaultValue="images">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid grid-cols-2">
           <TabsTrigger value="images">Ver imagenes</TabsTrigger>
           <TabsTrigger value="addImages">Agregar imagenes</TabsTrigger>
         </TabsList>

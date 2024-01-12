@@ -7,11 +7,15 @@ import {
 } from '../../../../services';
 import { NavFilters } from './NavFilters';
 import { ProductCard } from './ProductCard';
-import { LoadingIndicator } from '../../../../components';
-import { ModalCategory } from './ModalCategory';
+import {
+  LoadingIndicator,
+  ModalCategory,
+  PaginationBar,
+  ScrollArea,
+  ModalSize,
+  ModalDelete,
+} from '../../../../components';
 import { useAsync, useFetchAndLoad, useModal } from '../../../../hooks';
-import { ModalSize } from './ModalSize';
-import { ModalDelete } from './ModalDelete';
 import { ModalDetails } from './ModalDetails';
 interface Filters {
   category: string;
@@ -20,6 +24,7 @@ interface Filters {
 export const ProductGrid: React.FC = () => {
   const [products, setProducts] = useState<ProductsBySupabase[] | null>([]);
   const [removeId, setRemoveId] = useState<string>('');
+  const [pagination, setPagination] = useState<ProductsBySupabase[] | null>([]);
   const [productSelected, setProductSelected] =
     useState<ProductsBySupabase | null>(null);
   const [filter, setFilter] = useState<Filters>({
@@ -48,8 +53,12 @@ export const ProductGrid: React.FC = () => {
   } = useModal();
 
   const handleRemoveProduct = async () => {
-    await removeProductsBySupabase(removeId);
-    await handleFilterSubmit(filter, setProducts);
+    const res = await removeProductsBySupabase(removeId);
+    console.log(res);
+    if (res) {
+      await handleFilterSubmit(filter, setProducts);
+      return hideDeleteModal();
+    }
   };
   const sortProductsByPrice = (direction: '+' | '-') => {
     if (products) {
@@ -69,10 +78,11 @@ export const ProductGrid: React.FC = () => {
   };
   const { callEndpoint } = useFetchAndLoad();
   const getProducs = async () => await callEndpoint(getProductsBySupabase());
-  useAsync(getProducs, (data) => setProducts(data));
+  useAsync(getProducs, (data) => setProducts(data.slice(0, 23)));
 
   return (
-    <div className="grid grid-cols-12 gap-3 mx-5">
+    <div className="mx-3">
+      <LoadingIndicator isLoading={products?.length === 0} />
       <NavFilters
         onCategoryClick={showCategoryModal}
         onSizeClick={showSizeModal}
@@ -81,20 +91,25 @@ export const ProductGrid: React.FC = () => {
         setFilter={setFilter}
         orderByPrice={sortProductsByPrice}
       />
-      {products?.map((product) => (
-        <ProductCard
-          product={product}
-          key={product.id}
-          handleClick={() => {
-            showDetailsModal();
-            setProductSelected(product);
-          }}
-          handleClose={() => {
-            setRemoveId(product.id);
-            showDeleteModal();
-          }}
-        />
-      ))}
+      <ScrollArea className="h-[71vh] col-span-full mt-3">
+        <div className="grid gap-5 grid-cols-12 mx-3">
+          {pagination?.map((product) => (
+            <ProductCard
+              product={product}
+              key={product.id}
+              handleClick={() => {
+                showDetailsModal();
+                setProductSelected(product);
+              }}
+              handleClose={() => {
+                if (product.id) setRemoveId(product.id);
+                showDeleteModal();
+              }}
+            />
+          ))}
+        </div>
+      </ScrollArea>
+      {products && <PaginationBar data={products} setState={setPagination} />}
       <ModalCategory
         isCategoryModalOpen={isCategoryModalOpen}
         handleFilterClick={handleFilterClick}
@@ -109,8 +124,8 @@ export const ProductGrid: React.FC = () => {
       />
       <ModalDelete
         isDeleteModalOpen={isDeleteModalOpen}
-        handleRemoveProduct={handleRemoveProduct}
-        handleCloseModal={hideDeleteModal}
+        handleDeleteProduct={handleRemoveProduct}
+        hideDeleteModal={hideDeleteModal}
       />
       {productSelected && (
         <ModalDetails
@@ -119,7 +134,6 @@ export const ProductGrid: React.FC = () => {
           handleCloseModal={hideDetailsModal}
         />
       )}
-      <LoadingIndicator isLoading={products?.length === 0} />
     </div>
   );
 };

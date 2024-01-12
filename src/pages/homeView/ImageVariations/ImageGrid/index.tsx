@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import { ImageVariantsProduct } from '../../../../types';
 import { useModal } from '../../../../hooks';
 import { deleteProductById } from '../../../../services';
-import { LoadingIndicator, ModalDelete } from '../../../../components';
+import {
+  LoadingIndicator,
+  ModalDelete,
+  PaginationBar,
+  ScrollArea,
+} from '../../../../components';
 import { ModalGallery } from './ModalGallery';
 import { CardImageVariations } from './CardImageVariations';
 import { NavFilters } from './NavFilters';
@@ -10,10 +15,10 @@ import { useDataFetching } from './hook/useDataFetchingProps';
 
 export const ImageGrid: React.FC = () => {
   const [selectedId, setSelectedId] = useState<string>('');
+  const [category, setCategory] = useState<ImageVariantsProduct[]>([]);
+  const [pagination, setPagination] = useState<ImageVariantsProduct[]>([]);
   const [productSelected, setProductSelected] =
     useState<ImageVariantsProduct | null>(null);
-  const { isLoading, variationsImages, setVariationsImages } =
-    useDataFetching();
   const {
     hideModal: hideGalleryModal,
     isOpenModal: isGalleryModalOpen,
@@ -39,22 +44,31 @@ export const ImageGrid: React.FC = () => {
     setProductSelected(product);
     showGalleryModal();
   };
+  const { isLoading, variationsImages, setVariationsImages } =
+    useDataFetching();
+  const productsToMap = category?.length ? category : variationsImages;
+  const renderProductCard = (product: ImageVariantsProduct) => (
+    <CardImageVariations
+      key={product.id}
+      product={product}
+      onClick={() => {
+        setSelectedId(product.id);
+        showDeleteModal();
+      }}
+      onCLickImage={() => handlerGalleryImage(product)}
+    />
+  );
 
   return (
-    <div className="grid gap-5 grid-cols-4 mx-3">
+    <div className="mx-3">
       <LoadingIndicator isLoading={isLoading} />
-      <NavFilters />
-      {variationsImages?.map((product) => (
-        <CardImageVariations
-          key={product.id}
-          product={product}
-          onClick={() => {
-            setSelectedId(product.id);
-            showDeleteModal();
-          }}
-          onCLickImage={() => handlerGalleryImage(product)}
-        />
-      ))}
+      <NavFilters setState={setCategory} />
+      <ScrollArea className="h-[70vh] col-span-full">
+        <div className="grid gap-5 grid-cols-4 mx-3">
+          {pagination && pagination.map(renderProductCard)}
+        </div>
+      </ScrollArea>
+      <PaginationBar data={productsToMap} setState={setPagination} />
       {productSelected && (
         <ModalGallery
           isGalleryModalOpen={isGalleryModalOpen}

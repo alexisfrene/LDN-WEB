@@ -2,7 +2,6 @@ import {
   ArrowSmallLeftIcon,
   PencilSquareIcon,
 } from '@heroicons/react/20/solid';
-
 import { useState } from 'react';
 import { useFormik } from 'formik';
 import { getDynamicValue, useForm } from './useForm';
@@ -31,7 +30,7 @@ export const DataOfProducts: React.FC<DataOfProductsProps> = ({
 
   const dataVist = [
     {
-      label: 'Descripcion:',
+      label: 'Descripción:',
       value: produc_description,
       name: 'produc_description',
     },
@@ -46,7 +45,7 @@ export const DataOfProducts: React.FC<DataOfProductsProps> = ({
       name: 'produc_brand',
     },
     {
-      label: 'Categoria:',
+      label: 'Categoría:',
       value: filterAndMapTitles(produc_category),
       name: 'produc_category',
     },
@@ -62,7 +61,7 @@ export const DataOfProducts: React.FC<DataOfProductsProps> = ({
   });
 
   return (
-    <div className="border rounded-md shadow-md">
+    <div className="border rounded-md shadow-md p-2 w-96">
       <div className="flex items-center mb-2">
         {modalEdit ? (
           <ArrowSmallLeftIcon

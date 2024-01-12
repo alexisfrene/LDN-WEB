@@ -8,10 +8,11 @@ export {
   addVariations,
   removeCollection,
   useGetImageVariantsQuery,
-} from './products';
+} from './imagesProducts';
 export {
   getProductsBySupabase,
   handleFilterSubmit,
   removeProductsBySupabase,
   updateProductsBySupabase,
+  createProductsBySupabase,
 } from './loadProducts';

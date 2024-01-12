@@ -1,5 +1,5 @@
 import { useLoading, useSnackbar } from '@/hooks';
-import { useGetAllVariantsQuery } from '@/services/products';
+import { useGetAllVariantsQuery } from '@/services/imagesProducts';
 import { ImageVariantsProduct } from '@/types';
 import { useEffect, useState } from 'react';
 
@@ -36,10 +36,6 @@ export const useDataFetching = () => {
     stopLoading,
     setVariationsImages,
   ]);
-
-  // if (isLoading) {
-  //   return <LoadingIndicator isLoading />;
-  // }
 
   return { isLoading, variationsImages, setVariationsImages };
 };

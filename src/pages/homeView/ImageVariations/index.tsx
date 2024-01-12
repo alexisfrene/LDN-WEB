@@ -5,12 +5,12 @@ import {
   TabsContent,
 } from '../../../components';
 import { ImageGrid } from './ImageGrid';
+const imageTabs = ['Ver imagenes', 'Crear Producto'];
 
-const imageTabs = ['Ver Productos', 'Crear Producto'];
 export const ImageVariations: React.FC = () => {
   return (
     <ProductsNavBar tabs={imageTabs}>
-      <TabsContent value="Ver Productos">
+      <TabsContent value="Ver imagenes">
         <ImageGrid />
       </TabsContent>
       <TabsContent value="Crear Producto">

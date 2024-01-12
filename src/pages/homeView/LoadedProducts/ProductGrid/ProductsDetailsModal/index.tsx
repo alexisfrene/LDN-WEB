@@ -81,19 +81,19 @@ export const ProductsDetailsModal: React.FC<ProductsDetailsModalProps> = ({
   }, []);
 
   return (
-    <div className="bg-amber-400 p-4 rounded-lg overflow-y-auto">
+    <div className="rounded-lg overflow-y-auto">
       <Tabs defaultValue="Datos del producto">
-        <TabsList className="flex justify-between bg-amber-300 rounded-t-lg p-2">
+        <TabsList className="flex justify-between rounded-t-lg p-2">
           <TabsTrigger value="Datos del producto">
             Datos del producto
           </TabsTrigger>
           <TabsTrigger value="Estilos">Estilos</TabsTrigger>
           <TabsTrigger value="Imágenes">Imágenes</TabsTrigger>
         </TabsList>
-        <div className="mt-3">
+        <div className="mt-3 flex justify-center items-center flex-col">
           <img
             src={imageUrl}
-            className="object-cover h-96 w-96 rounded-lg mb-3"
+            className="object-cover h-96 w-96 rounded-lg mb-3 mx-auto my-auto"
             alt={produc_name}
           />
           {renderTabs()}

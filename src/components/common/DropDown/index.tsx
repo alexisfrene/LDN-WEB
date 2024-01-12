@@ -1,5 +1,14 @@
-import React, { ChangeEvent } from "react";
-import { useFormikContext } from "formik";
+import React from 'react';
+import { Field, FieldProps, useFormikContext } from 'formik';
+import {
+  Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components';
+import { DropdownTypes } from '@/mocks';
 
 interface Option {
   type: string;
@@ -20,25 +29,55 @@ export const DropdownInput: React.FC<DropdownInputProps> = ({
   const formik = useFormikContext();
   const field = formik.getFieldProps(name);
 
-  const handleOptionChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    formik.setFieldValue(name, event.target.value);
+  const handleOptionChange = (value: string) => {
+    formik.setFieldValue(name, value);
   };
 
   return (
-    <div className="mt-1">
-      <h3>{title}</h3>
-      <select
-        {...field}
-        onChange={handleOptionChange}
-        className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300 transition duration-300 ease-in-out"
-      >
-        <option value="">Seleccionar...</option>
+    <Select
+      {...field}
+      onValueChange={handleOptionChange}
+      defaultValue={options[0].type}
+    >
+      <Label>{title}</Label>
+      <SelectTrigger>
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
         {options.map((option) => (
-          <option key={option.type} value={option.type}>
-            {option.title}
-          </option>
+          <SelectItem value={option.type} key={option.type}>
+            {option.title.toUpperCase()}
+          </SelectItem>
         ))}
-      </select>
-    </div>
+      </SelectContent>
+    </Select>
   );
+};
+
+type FieldFormProps = {
+  name: string;
+  title: string;
+  option: Option[];
+};
+export const FieldForm: React.FC<FieldFormProps> = ({
+  name,
+  title,
+  option,
+}) => {
+  return (
+    <Field name={name}>
+      {({ field }: FieldProps<string>) => (
+        <DropdownInput title={title} options={option} name={field.name} />
+      )}
+    </Field>
+  );
+};
+
+type DropdownProps = {
+  variant: 'colors' | 'genders' | 'brands' | 'styles' | 'ages';
+};
+
+export const Dropdown: React.FC<DropdownProps> = ({ variant }) => {
+  const { name, title, options } = DropdownTypes[variant];
+  return <FieldForm name={name} title={title} option={options} />;
 };

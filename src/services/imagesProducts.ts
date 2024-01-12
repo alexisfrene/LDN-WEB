@@ -138,7 +138,7 @@ export const fetchProductById = async (id: string) => {
 export const createImageVariations = async (values: ProductFormData) => {
   try {
     const formData = new FormData();
-    formData.append('description', values.description);
+    formData.append('description', values.description || 'Sin descripcion');
     formData.append('category', values.category);
     formData.append('collection', values.collection);
     if (values.mainImage) {

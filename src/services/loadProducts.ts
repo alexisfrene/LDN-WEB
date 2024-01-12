@@ -4,7 +4,9 @@ const loadAbort = () => {
   const controller = new AbortController();
   return controller;
 };
+
 type SetStateFunction<T> = React.Dispatch<React.SetStateAction<T>>;
+
 export const getProductsBySupabase = () => {
   const controller = loadAbort();
 
@@ -13,10 +15,57 @@ export const getProductsBySupabase = () => {
     controller,
   };
 };
+
+const removeEmptyStringProperties = (
+  obj: ProductsBySupabase,
+): ProductsBySupabase => {
+  const cleanedObject: Partial<ProductsBySupabase> = {};
+
+  for (const [key, value] of Object.entries(obj)) {
+    if (typeof value === 'string' && value.trim() !== '') {
+      cleanedObject[key as keyof ProductsBySupabase] = value as string;
+    } else if (typeof value !== 'string') {
+      cleanedObject[key as keyof ProductsBySupabase] = value;
+    }
+  }
+
+  // Si es necesario, puedes realizar una conversión de tipo seguro
+  return cleanedObject as ProductsBySupabase;
+};
+export const createProductsBySupabase = async (values: ProductsBySupabase) => {
+  values.produc_price = Number(values.produc_price);
+  values.user = '13fc1ae1-ba0d-42c6-b83c-91c96831d623';
+  const newProducts = removeEmptyStringProperties(values);
+  console.log('NEWWW', newProducts);
+  try {
+    const { data, error } = await supabase
+      .from('ldn_producs')
+      .insert([
+        {
+          produc_name: 'asdasdasd',
+          produc_price: 999,
+          produc_category: 'other',
+          produc_image_url: newProducts.produc_image_url,
+        },
+      ])
+      .select();
+
+    console.log(error);
+    if (error) {
+      return 'Error al crear un producto en labase de datos';
+    } else {
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 interface filterProps {
   category: string | boolean;
   size: string | boolean;
 }
+
 export const handleFilterSubmit = async (
   filter: filterProps,
   setProducts: SetStateFunction<ProductsBySupabase[] | null>,
@@ -32,6 +81,7 @@ export const handleFilterSubmit = async (
       return setProducts(data?.sort((a, b) => b.produc_price - a.produc_price));
     }
   }
+
   if (filter.category) {
     const { data } = await supabase
       .from('ldn_producs')
@@ -42,6 +92,7 @@ export const handleFilterSubmit = async (
       return setProducts(data?.sort((a, b) => b.produc_price - a.produc_price));
     }
   }
+
   if (filter.size) {
     const { data } = await supabase
       .from('ldn_producs')
@@ -59,7 +110,8 @@ export const removeProductsBySupabase = async (id: string) => {
       .from('ldn_producs')
       .update({ produc_state: false })
       .eq('id', id);
-    if (!error) return data;
+    if (!error) return true;
+    return false;
   } catch (error) {
     console.error(error);
   }
