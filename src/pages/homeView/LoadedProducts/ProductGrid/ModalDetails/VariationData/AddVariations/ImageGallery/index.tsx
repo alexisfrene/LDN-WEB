@@ -1,17 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { PlusCircleIcon } from '@heroicons/react/20/solid';
-import { useEffect, useState, ChangeEvent } from 'react';
-import {
-  ImageVariantsProduct,
-  ProductsBySupabase,
-} from '../../../../../../types';
-import {
-  fetchProductById,
-  fetchProductsForCategory,
-  insertImageId,
-} from '../../../../../../services';
-import { producsCategory } from '../../../../../../mocks';
-import { Modal } from '../../../../../../components';
+import { producsCategory } from '@/mocks';
+import { fetchProductsForCategory, insertImageId } from '@/services';
+import { ImageVariantsProduct } from '@/types';
+import { ChangeEvent, useState } from 'react';
 
 interface ImageGalleryProps {
   setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,9 +9,8 @@ interface ImageGalleryProps {
   productSelectedId: string | null;
 }
 
-const ImageGallery: React.FC<ImageGalleryProps> = ({
+export const ImageGallery: React.FC<ImageGalleryProps> = ({
   setIsOpenModal,
-  isOpenModal,
   productSelectedId,
 }) => {
   const [productImages, setProductImages] = useState<ImageVariantsProduct[]>(
@@ -49,8 +38,11 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
   };
 
   return (
-    <Modal isOpen={isOpenModal} onRequestClose={() => setIsOpenModal(false)}>
-      <div className="bg-white text-2xl p-3 rounded-sm shadow-sm h-[900px] overflow-y-auto">
+    <>
+      <div
+        className="bg-white text-2xl p-3 rounded-sm shadow-sm h-[910px] w-screen overflow-y-auto
+        mr-96"
+      >
         <h3 className="bg-slate-200 p-3 font-semibold">
           Selecciona las variantes de este producto:
         </h3>
@@ -124,103 +116,14 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
           >
             Guardar
           </button>
-          <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mx-2">
+          <button
+            className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mx-2"
+            onClick={() => setIsOpenModal(false)}
+          >
             Cancelar
           </button>
         </div>
       </div>
-    </Modal>
-  );
-};
-
-interface AddVariationsProps {
-  productSelectedId: string | null;
-}
-
-const AddVariations: React.FC<AddVariationsProps> = ({ productSelectedId }) => {
-  const [isOpenModal, setIsOpenModal] = useState(false);
-
-  return (
-    <div className="flex flex-col justify-center items-center">
-      <h3 className="text-lg mt-3">
-        ¿Deseas agregar más imágenes del producto?
-      </h3>
-      <PlusCircleIcon
-        height={100}
-        className="text-green-600 hover:text-green-900 cursor-pointer"
-        onClick={() => {
-          setIsOpenModal(true);
-        }}
-      />
-      <ImageGallery
-        setIsOpenModal={setIsOpenModal}
-        isOpenModal={isOpenModal}
-        productSelectedId={productSelectedId}
-      />
-    </div>
-  );
-};
-
-interface GalleryImagesVariantsProps {
-  ImageVariantsId: string | null;
-}
-
-const GalleryImagesVariants: React.FC<GalleryImagesVariantsProps> = ({
-  ImageVariantsId,
-}) => {
-  const [imageVariants, setImageVariants] =
-    useState<ImageVariantsProduct | null>(null);
-
-  const handleFetchImages = async () => {
-    if (ImageVariantsId) {
-      const imageSelected = await fetchProductById(ImageVariantsId);
-      setImageVariants(imageSelected);
-    }
-  };
-
-  useEffect(() => {
-    handleFetchImages();
-  }, []);
-
-  return (
-    <div>
-      {imageVariants && (
-        <div>
-          <h3>{imageVariants.description}</h3>
-          {imageVariants.variations.map((variation, index) => (
-            <div key={index} className="grid grid-cols-3 gap-5">
-              {variation.images.map((image, imageIndex) => (
-                <img
-                  key={imageIndex}
-                  src={`http://localhost:3001/${image}`}
-                  alt={image}
-                  className="h-28 w-28 object-cover rounded shadow-md transition-all duration-300 transform hover:scale-105 col-span-1"
-                />
-              ))}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
-
-interface ImagesVariantsProps {
-  productSelected: ProductsBySupabase;
-}
-
-export const ImagesVariants: React.FC<ImagesVariantsProps> = ({
-  productSelected,
-}) => {
-  return (
-    <div>
-      {productSelected.produc_variations ? (
-        <GalleryImagesVariants
-          ImageVariantsId={productSelected.produc_variations}
-        />
-      ) : (
-        <AddVariations productSelectedId={productSelected.id} />
-      )}
-    </div>
+    </>
   );
 };

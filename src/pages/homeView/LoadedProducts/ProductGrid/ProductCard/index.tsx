@@ -27,7 +27,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       cloudName: 'ldn-img',
     },
   });
-
   const handleImageDestination = async () => {
     if (product.produc_variations) {
       const { miniature_image } = await fetchProductById(
@@ -37,14 +36,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     }
     return setImageUrl(cld.image(product.produc_image_url).toURL());
   };
-
   useEffect(() => {
     handleImageDestination();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <Card className="col-span-3 text-lg">
+    <Card className="col-span-5 lg:col-span-3 text-lg">
       <CardHeader>
         <CardTitle className="flex flex-row justify-between ml-2">
           <p
@@ -63,7 +61,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         <AspectRatio ratio={1 / 1} className="bg-muted">
           <img
             src={imageUrl}
-            className={`object-cover h-96 w-96 rounded-md mb-2 ${
+            className={`object-cover h-44 w-44 lg:w-52 lg:h-52 xl:w-96 xl:h-96 rounded-md mb-2 ${
               product.produc_variations &&
               'border-2 border-amber-900 border-dashed'
             }`}

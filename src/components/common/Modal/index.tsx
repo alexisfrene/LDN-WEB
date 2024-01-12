@@ -20,12 +20,14 @@ export const Modal: React.FC<ModalProps> = ({
   isOpen,
   onRequestClose,
   children,
+  ...props
 }) => {
   return (
     <Dialog
       open={isOpen}
       defaultOpen={false}
       onOpenChange={() => onRequestClose()}
+      {...props}
     >
       <DialogContent>{children}</DialogContent>
     </Dialog>

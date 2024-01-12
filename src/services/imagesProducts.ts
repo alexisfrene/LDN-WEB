@@ -15,7 +15,6 @@ const loadAbort = () => {
   const controller = new AbortController();
   return controller;
 };
-
 export const variantsApi = createApi({
   reducerPath: 'variantsApi',
   baseQuery: fetchBaseQuery({
@@ -26,14 +25,10 @@ export const variantsApi = createApi({
       query: (category) => `?category=${category}`,
     }),
     getAllVariants: builder.query({
-      query: () => `/`,
+      query: () => '/',
     }),
   }),
 });
-
-export const { useGetVariantsByCategoryQuery, useGetAllVariantsQuery } =
-  variantsApi;
-
 export const imagesVariantsApi = createApi({
   reducerPath: 'imagesVariantsApi',
   baseQuery: fetchBaseQuery({
@@ -45,11 +40,6 @@ export const imagesVariantsApi = createApi({
     }),
   }),
 });
-
-export const { useGetImageVariantsQuery } = imagesVariantsApi;
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-
 export const fetchProducts = () => {
   const controller = loadAbort();
   return {
@@ -207,3 +197,6 @@ export const removeCollection = async (
     console.log(error);
   }
 };
+export const { useGetImageVariantsQuery } = imagesVariantsApi;
+export const { useGetVariantsByCategoryQuery, useGetAllVariantsQuery } =
+  variantsApi;
