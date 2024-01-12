@@ -34,25 +34,15 @@ const removeEmptyStringProperties = (
 };
 export const createProductsBySupabase = async (values: ProductsBySupabase) => {
   values.produc_price = Number(values.produc_price);
-  values.user = '13fc1ae1-ba0d-42c6-b83c-91c96831d623';
+  values.user = '13fc1ae1-ba0d-42c6-b83c-91c96831d623'; //TODO:ver esto
   const newProducts = removeEmptyStringProperties(values);
-  console.log('NEWWW', newProducts);
   try {
     const { data, error } = await supabase
       .from('ldn_producs')
-      .insert([
-        {
-          produc_name: 'asdasdasd',
-          produc_price: 999,
-          produc_category: 'other',
-          produc_image_url: newProducts.produc_image_url,
-        },
-      ])
+      .insert(newProducts)
       .select();
-
-    console.log(error);
     if (error) {
-      return 'Error al crear un producto en labase de datos';
+      return 'Error al crear un producto en la base de datos';
     } else {
       return data;
     }
@@ -106,7 +96,7 @@ export const handleFilterSubmit = async (
 
 export const removeProductsBySupabase = async (id: string) => {
   try {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('ldn_producs')
       .update({ produc_state: false })
       .eq('id', id);

@@ -1,9 +1,12 @@
-//import { useContext } from 'react';
-import { ProductsBySupabase } from '@/types';
+/* eslint-disable no-useless-escape */
+import { useContext } from 'react';
 import { FormikHelpers } from 'formik';
 import { createProductsBySupabase } from '../../../../services';
-//import { SnackbarContext, LoadingContext } from '../../../../context';
+import { SnackbarContext, LoadingContext } from '../../../../context';
+import { ProductsBySupabase } from '@/types';
+
 interface SpecProps extends submitProps, Spec {}
+
 type submitProps = { image: string; category: string; size: string };
 type Spec = {
   name: string;
@@ -17,39 +20,35 @@ type Spec = {
 };
 
 export const useSubmit = ({ image, category, size }: submitProps) => {
-  // const { showErrorSnackbar, showSuccessSnackbar, showWarningSnackbar } =
-  //   useContext(SnackbarContext);
-  // const { startLoading, stopLoading } = useContext(LoadingContext);
-
+  const { showErrorSnackbar, showSuccessSnackbar } =
+    useContext(SnackbarContext);
+  const { startLoading, stopLoading } = useContext(LoadingContext);
   return async (spec: Spec, formikActions: FormikHelpers<Spec>) => {
     try {
-      // startLoading();
+      startLoading();
       const res = await axiosPromise({ image, category, size, ...spec });
-      console.log(res);
-      // formikActions.resetForm();
-      // if (membershipStatus.includes('NO HABILITADO')) {
-      //   showWarningSnackbar(membershipStatus);
-      // } else {
-      //   showSuccessSnackbar(membershipStatus);
-      // }
+      if (res?.length) {
+        formikActions.resetForm();
+        showSuccessSnackbar(`Producto creado : ${res[0].produc_name}`);
+      }
     } catch (err) {
-      //showErrorSnackbar(err.message);
+      showErrorSnackbar(`Error : ${err}`);
     } finally {
       formikActions.setSubmitting(false);
-      //  stopLoading();
+      stopLoading();
     }
   };
 };
 
-export const formatUrl = (image_url, category) => {
-  if (!!image_url) {
+export const formatUrl = (image_url: string, category: string) => {
+  if (image_url) {
     const fileExt = image_url.split('.').pop();
     const fileName = image_url.replace(/^.*[\\\/]/, '');
     const filePath = `${category}/${Date.now()}`;
     const formData = new FormData();
     const photo = {
       uri: image_url,
-      type: `ìmage/${fileExt}`,
+      type: `image/${fileExt}`,
       name: fileName,
     };
     formData.append('file', photo.uri);
@@ -84,42 +83,23 @@ const uploadImageProduc = async (image_url: string, category: string) => {
 const axiosPromise = async (spec: SpecProps) => {
   const { image, category } = spec;
   const url_image = await uploadImageProduc(image, category);
-
   if (url_image) {
     spec.image = url_image;
     const values = transformSpec(spec);
-    return await createProductsBySupabase(values);
-  }
-  const apiSpec = transformSpec(spec);
 
-  console.log('APISPEC', apiSpec);
-  const res = await createProductsBySupabase(apiSpec);
-  return res;
+    return await createProductsBySupabase(values);
+  } else {
+    console.error('Error al subir la imagen');
+  }
 };
 
-interface Dashg {
-  produc_gender: string;
-  produc_age: string;
-  produc_style: string;
-  produc_brand: string;
-  produc_size: string;
-  produc_name: string;
-  produc_description: string;
-  produc_price: string;
-  produc_color: string;
-  produc_category: string;
-  produc_image_url: string;
-  produc_dollar_today: number;
-  user: string;
-}
-
-const transformSpec = (spec: SpecProps): Dashg => {
+const transformSpec = (spec: SpecProps): ProductsBySupabase => {
   return {
     produc_name: spec.name,
     produc_style: spec.style,
     produc_size: spec.size,
     produc_description: spec.description,
-    produc_price: spec.price,
+    produc_price: Number(spec.price),
     produc_color: spec.color,
     produc_category: spec.category,
     produc_image_url: spec.image,

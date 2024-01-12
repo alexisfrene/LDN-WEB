@@ -1,22 +1,29 @@
+import { ChangeEvent, useState } from 'react';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import { useModal } from '@/hooks';
+import imageDefault from '../../../../assets/not_image.png';
+import { useForm } from './useForm';
+import { useSubmit } from './useSubmit';
 import {
   Button,
   Dropdown,
   Input,
   Label,
-  LoadingIndicator,
   ModalCategory,
   ModalSize,
 } from '@/components';
-import { Formik } from 'formik';
-import { useForm } from './useForm';
-import { useModal } from '@/hooks';
-import { ChangeEvent, useState } from 'react';
-import imageDefault from '../../../../assets/not_image.png';
-import { useSubmit } from './useSubmit';
+
 interface Filters {
   category: string;
   size: string;
 }
+
+const ProductSchema = Yup.object().shape({
+  name: Yup.string()
+    .required('El nombre es obligatoria')
+    .max(20, 'El nombre debe tener como máximo 20 caracteres'),
+});
 export const CreateProducts = () => {
   const [image, setImage] = useState<string>(imageDefault);
   const [filter, setFilter] = useState<Filters>({
@@ -59,13 +66,14 @@ export const CreateProducts = () => {
     <div className="flex justify-center">
       <Formik
         initialValues={initialValues}
+        validationSchema={ProductSchema}
         onSubmit={useSubmit({
           image,
           category: filter.category,
           size: filter.size,
         })}
       >
-        {({ handleSubmit, isSubmitting, setFieldValue }) => (
+        {({ handleSubmit, setFieldValue, errors, touched }) => (
           <div className="flex flex-col gap-3 w-[1200px] bg-white p-10">
             <Label className="font-bold text-xl text-center mb-3 bg-slate-100 p-3 ">
               Crear producto
@@ -102,8 +110,16 @@ export const CreateProducts = () => {
             <Button onClick={() => showCategoryModal()}>
               Selecciona una categoría
             </Button>
-            <Button onClick={() => handleSubmit()}>Crear producto</Button>
-            <LoadingIndicator isLoading={isSubmitting} />
+
+            <Button
+              onClick={() => handleSubmit()}
+              disabled={!(filter.category.length && filter.size.length)}
+            >
+              Crear producto
+            </Button>
+            {errors.name && touched.name ? (
+              <div className="text-red-600">{errors.name}</div>
+            ) : null}
           </div>
         )}
       </Formik>
