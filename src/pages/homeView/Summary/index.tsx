@@ -8,6 +8,8 @@ import { addMovement, getMovement } from '@/services/finance';
 import { NewMoment } from './NewMoment';
 import { TableMoment } from './TableMoment';
 import { AddMovementProps, Movement } from '@/types';
+import { TableTotal } from './TableTotal';
+import { ImportantDates } from './ImportantDates';
 
 export const Summary: React.FC = () => {
   const [movement, setMovement] = useState<Movement[] | []>([]);
@@ -50,15 +52,11 @@ export const Summary: React.FC = () => {
       <ResizablePanel defaultSize={50}>
         <ResizablePanelGroup direction="vertical">
           <ResizablePanel defaultSize={25}>
-            <div className="flex h-full items-center justify-center p-6">
-              <span className="font-semibold">Two</span>
-            </div>
+            <TableTotal />
           </ResizablePanel>
           <ResizableHandle />
           <ResizablePanel defaultSize={75}>
-            <div className="flex h-full items-center justify-center p-6">
-              <span className="font-semibold">Three</span>
-            </div>
+            <ImportantDates />
           </ResizablePanel>
         </ResizablePanelGroup>
       </ResizablePanel>
