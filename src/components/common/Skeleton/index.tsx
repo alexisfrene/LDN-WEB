@@ -1,4 +1,4 @@
-import { Skeleton } from '@/components/ui/';
+import { Skeleton } from '@/components';
 import React from 'react';
 
 export const SkeletonLoading: React.FC = () => {

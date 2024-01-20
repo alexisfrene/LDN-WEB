@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import { producsCategory, productsSize } from '@/mocks';
-import { filterAndMapTitles } from '@/utils';
+import { filterAndMapTitles } from '@/lib';
 import { Button, Dialog, DialogContent } from '@/components';
 
 interface ModalProps {

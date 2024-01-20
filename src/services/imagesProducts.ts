@@ -15,6 +15,7 @@ const loadAbort = () => {
   const controller = new AbortController();
   return controller;
 };
+
 export const variantsApi = createApi({
   reducerPath: 'variantsApi',
   baseQuery: fetchBaseQuery({
@@ -194,7 +195,7 @@ export const removeCollection = async (
       `http://localhost:3001/api/products/${idVariations}?variation_remove=${idCollection}`,
     );
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 export const { useGetImageVariantsQuery } = imagesVariantsApi;

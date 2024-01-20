@@ -1,7 +1,7 @@
-import { useLoading, useSnackbar } from '@/hooks';
-import { useGetAllVariantsQuery } from '@/services/imagesProducts';
-import { ImageVariantsProduct } from '@/types';
 import { useEffect, useState } from 'react';
+import { useLoading, useSnackbar } from '@/hooks';
+import { useGetAllVariantsQuery } from '@/services';
+import { ImageVariantsProduct } from '@/types';
 
 export const useDataFetching = () => {
   const [variationsImages, setVariationsImages] = useState<
@@ -28,14 +28,7 @@ export const useDataFetching = () => {
     };
 
     fetchData();
-  }, [
-    data,
-    error,
-    showErrorSnackbar,
-    startLoading,
-    stopLoading,
-    setVariationsImages,
-  ]);
+  }, [data, error, showErrorSnackbar, startLoading, stopLoading, setVariationsImages]);
 
   return { isLoading, variationsImages, setVariationsImages };
 };

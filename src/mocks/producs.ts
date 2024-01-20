@@ -16,9 +16,10 @@ import jeans from '../assets/icons/jeans.png';
 import sandalias from '../assets/icons/sandalias.png';
 import remera from '../assets/icons/remera.png';
 import zapatilla from '../assets/icons/zapatilla.png';
+import { CategoryProduct } from '@/types/Product';
 
 interface ProductCategory {
-  type: string;
+  type: CategoryProduct;
   title: string;
   icon: string;
 }
@@ -72,44 +73,6 @@ export const inputProducs: InputProduct[] = [
   },
 ];
 
-export interface NewProduct {
-  user: string;
-  produc_name: string;
-  produc_brand: string;
-  produc_style: string;
-  produc_size: string;
-  produc_description: string;
-  produc_price: number;
-  produc_color: string;
-  produc_category: string;
-  produc_image_url: string;
-  produc_age: string;
-  produc_gender: string;
-  produc_state: boolean;
-  produc_stock: number;
-  produc_discount: string;
-  produc_variations: string;
-}
-
-export const newProduc: NewProduct = {
-  user: 'id del usuario',
-  produc_name: 'Nombre del producto OBLIGATORIO',
-  produc_brand: 'marca del producto typarlo',
-  produc_style: 'estilo Depo , formal etc',
-  produc_size: 'talla , typarlo',
-  produc_description: 'des',
-  produc_price: 999,
-  produc_color: 'colores',
-  produc_category: 'categorias (fotos)',
-  produc_image_url: 'image',
-  produc_age: '',
-  produc_gender: 'genero',
-  produc_state: true,
-  produc_stock: 10,
-  produc_discount: 'asds',
-  produc_variations: 'variaciones de imagenes',
-};
-
 interface ProductSizes {
   number: number[];
   letter: string[];
@@ -155,26 +118,26 @@ export const colors = [
   { type: 'GRAY', title: 'GRIS 🟨' },
   { type: 'BLACK', title: 'NEGRO ⚫' },
   { type: 'WHITE', title: 'BLANCO ⚪' },
-  { type: 'UNSPECIFIED', title: 'SIN ESPECIFICAR ❓' },
+  { type: 'unspecified', title: 'SIN ESPECIFICAR ❓' },
 ];
 
 export const genders = [
-  { type: 'MALE', title: 'MASCULINO' },
-  { type: 'FEMALE', title: 'FEMENINO' },
-  { type: 'UNSPECIFIED', title: 'SIN ESPECIFICAR' },
+  { type: 'male', title: 'MASCULINO' },
+  { type: 'female', title: 'FEMENINO' },
+  { type: 'unspecified', title: 'SIN ESPECIFICAR' },
 ];
 
 export const brands = [
-  { type: 'NIKE', title: 'NIKE' },
-  { type: 'PUMA', title: 'PUMA' },
-  { type: 'ADDIDAS', title: 'ADDIDAS' },
-  { type: 'OTHER', title: 'OTRA' },
+  { type: 'nike', title: 'NIKE' },
+  { type: 'puma', title: 'PUMA' },
+  { type: 'addidas', title: 'ADDIDAS' },
+  { type: 'other', title: 'OTRA' },
 ];
 
 export const styles = [
-  { type: 'URBAN', title: 'URBANAS' },
-  { type: 'SPORTS', title: 'DEPORTIVAS' },
-  { type: 'UNSPECIFIED', title: 'SIN ESPECIFICAR' },
+  { type: 'urban', title: 'URBANAS' },
+  { type: 'sports', title: 'DEPORTIVAS' },
+  { type: 'unspecified', title: 'SIN ESPECIFICAR' },
 ];
 
 export const DropdownTypes = {
@@ -202,8 +165,8 @@ export const DropdownTypes = {
     name: 'age',
     title: 'Selecciona una edad :',
     options: [
-      { title: 'NIÑO', type: 'CHILD' },
-      { title: 'ADULTO', type: 'ADULT' },
+      { title: 'NIÑO', type: 'child' },
+      { title: 'ADULTO', type: 'adult' },
     ],
   },
 };

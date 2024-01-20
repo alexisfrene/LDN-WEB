@@ -54,7 +54,6 @@ export const ProductGrid: React.FC = () => {
 
   const handleRemoveProduct = async () => {
     const res = await removeProductsBySupabase(removeId);
-    console.log(res);
     if (res) {
       await handleFilterSubmit(filter, setProducts);
       return hideDeleteModal();

@@ -13,7 +13,7 @@ export function useForm() {
 function getInitialValues() {
   const specs = {
     name: '',
-    price: 1,
+    price: '',
     brand: '',
     color: '',
     description: '',

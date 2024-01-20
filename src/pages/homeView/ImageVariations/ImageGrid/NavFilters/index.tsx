@@ -1,9 +1,10 @@
+import React, { useContext, useState } from 'react';
 import { Button, ModalCategory } from '@/components';
 import { SnackbarContext } from '@/context';
-import { fetchProductsForCategory } from '@/services/imagesProducts';
+import { fetchProductsForCategory } from '@/services';
+import { filterAndMapTitles } from '@/lib';
 import { ImageVariantsProduct } from '@/types';
-import { filterAndMapTitles } from '@/utils';
-import React, { useContext, useState } from 'react';
+
 type NavFiltersProps = {
   setState: (data: ImageVariantsProduct[]) => void;
 };

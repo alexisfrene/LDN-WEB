@@ -1,5 +1,5 @@
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
-import { filterAndMapTitles } from '../../../../../utils';
+import { filterAndMapTitles } from '../../../../../lib';
 import { Button } from '../../../../../components';
 
 interface NavFiltersProps {
@@ -23,7 +23,7 @@ export const NavFilters: React.FC<NavFiltersProps> = ({
 }) => {
   const renderCategoryInfo = () => {
     if (category) {
-      return <p>{'Categoria :' + filterAndMapTitles(category)}</p>;
+      return <p>{'Categoría :' + filterAndMapTitles(category)}</p>;
     }
     return null;
   };

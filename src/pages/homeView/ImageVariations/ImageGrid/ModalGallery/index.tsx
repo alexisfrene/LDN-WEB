@@ -1,8 +1,7 @@
-import { Modal } from '../../../../../components';
 import { ImageVariantsProduct } from '../../../../../types';
-import { Tabs, TabsList, TabsTrigger, ScrollArea } from '@/components/ui';
 import { ViewImage } from './ViewImage';
 import { FormAddImages } from './FormAddImages';
+import { Tabs, TabsList, TabsTrigger, ScrollArea,Modal } from '@/components';
 
 interface ModalGalleryProps {
   isGalleryModalOpen: boolean;

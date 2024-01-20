@@ -1,6 +1,6 @@
-import React from 'react';
 import { ImageVariantsProduct } from '../../../../../types';
 import { Button, Card, CardContent, CardHeader, CardTitle } from '@/components';
+
 interface CardImageVariationsProps {
   product: ImageVariantsProduct;
   onClick: () => void;
