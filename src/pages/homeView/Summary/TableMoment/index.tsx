@@ -1,34 +1,34 @@
-import { Card, CardContent, CardHeader } from '@/components';
+import React from 'react';
 import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableFooter,
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { getMovement } from '@/services/finance';
-import React, { useEffect, useState } from 'react';
+} from '@/components';
+import { Movement } from '@/types';
 
-export const TableMoment: React.FC = () => {
-  const [movement, setMovement] = useState([]);
-  const ff = async () => {
-    const res = await getMovement();
+type TableMomentProps = {
+  movement: Movement[] | [];
+  total: number;
+};
 
-    return setMovement(res);
-  };
-  useEffect(() => {
-    ff();
-  }, []);
-
+export const TableMoment: React.FC<TableMomentProps> = ({
+  movement,
+  total,
+}) => {
   return (
     <Card className="h-full">
-      <CardHeader>Últimos movimientos</CardHeader>
+      <CardHeader>Historial de movimientos</CardHeader>
       <CardContent>
+        <CardDescription>Últimos 10 movimientos</CardDescription>
         <Table>
-          <TableCaption>A list of your recent invoices.</TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead className="w-[100px]">Cantidad</TableHead>
@@ -38,21 +38,26 @@ export const TableMoment: React.FC = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {movement?.map((movement) => (
-              <TableRow key={movement.id}>
-                <TableCell className="font-medium">{movement.amount}</TableCell>
-                <TableCell>{movement.description}</TableCell>
-                <TableCell>{movement.date}</TableCell>
-                <TableCell className="text-right">
-                  {'$ ' + movement.price}
-                </TableCell>
-              </TableRow>
-            ))}
+            {Array.from({ length: 10 }).map((_, index) => {
+              const movementItem = movement[index];
+              return (
+                <TableRow key={index}>
+                  <TableCell className="font-medium">
+                    {movementItem?.amount || ''}
+                  </TableCell>
+                  <TableCell>{movementItem?.description || ''}</TableCell>
+                  <TableCell>{movementItem?.date || ''}</TableCell>
+                  <TableCell className="text-right">
+                    {movementItem?.price ? `$ ${movementItem?.price}` : '-'}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
           <TableFooter>
             <TableRow>
               <TableCell colSpan={3}>Total</TableCell>
-              <TableCell className="text-right">$2,500.00</TableCell>
+              <TableCell className="text-right">${total}</TableCell>
             </TableRow>
           </TableFooter>
         </Table>

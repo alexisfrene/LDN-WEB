@@ -1,31 +1,35 @@
-import {
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Input,
-  Select,
-  Label,
-  SelectContent,
-  SelectTrigger,
-  SelectValue,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-} from '@/components';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { useEffect, useState } from 'react';
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from '@/components/ui/resizable';
-import { addMovement } from '@/services/finance';
-import { useEffect } from 'react';
+} from '@/components';
+import { addMovement, getMovement } from '@/services/finance';
 import { NewMoment } from './NewMoment';
 import { TableMoment } from './TableMoment';
+import { AddMovementProps, Movement } from '@/types';
 
 export const Summary: React.FC = () => {
-  // useEffect(() => console.log(addMovement()), []);
+  const [movement, setMovement] = useState<Movement[] | []>([]);
+  const [total, setTotal] = useState(1);
+  const fetchMovements = async () => {
+    const res = await getMovement();
+    if (Array.isArray(res) && res.length > 0) {
+      const totalPrice = res.reduce((sum, movement) => sum + movement.price, 0);
+      setTotal(totalPrice);
+      return setMovement(res);
+    }
+  };
+  const handleSubmit = async (values: AddMovementProps) => {
+    const res = await addMovement(values);
+    if (res) {
+      fetchMovements();
+    }
+  };
+  useEffect(() => {
+    fetchMovements();
+  }, []);
+
   return (
     <ResizablePanelGroup
       direction="horizontal"
@@ -34,11 +38,11 @@ export const Summary: React.FC = () => {
       <ResizablePanel defaultSize={50}>
         <ResizablePanelGroup direction="vertical">
           <ResizablePanel defaultSize={65} maxSize={65}>
-            <TableMoment />
+            <TableMoment movement={movement} total={total} />
           </ResizablePanel>
           <ResizableHandle />
           <ResizablePanel defaultSize={35} maxSize={35}>
-            <NewMoment />
+            <NewMoment handleSubmit={handleSubmit} />
           </ResizablePanel>
         </ResizablePanelGroup>
       </ResizablePanel>

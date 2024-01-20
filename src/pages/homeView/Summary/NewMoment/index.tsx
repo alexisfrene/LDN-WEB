@@ -1,3 +1,6 @@
+import React from 'react';
+import { Form, Formik } from 'formik';
+import { getCurrentFormattedDate } from '@/lib';
 import {
   Button,
   Card,
@@ -12,24 +15,17 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
+  RadioGroup,
+  RadioGroupItem,
 } from '@/components';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { addMovement } from '@/services/finance';
-import { Form, Formik } from 'formik';
-import React from 'react';
-const fechaActual = new Date();
+import { AddMovementProps } from '@/types';
 
-// Obtener el año, el mes y el día
-const anio = fechaActual.getFullYear();
-const mes = ('0' + (fechaActual.getMonth() + 1)).slice(-2); // Agregar 1 al mes porque los meses van de 0 a 11
-const dia = ('0' + fechaActual.getDate()).slice(-2);
+type NewMomentProps = {
+  handleSubmit: (values: AddMovementProps) => void;
+};
 
-// Formatear la fecha
-const fechaFormateada = anio + '-' + mes + '-' + dia;
-export const NewMoment: React.FC = () => {
-  const handleSubmit = async (values) => {
-    await addMovement(values);
-  };
+export const NewMoment: React.FC<NewMomentProps> = ({ handleSubmit }) => {
+  const date = getCurrentFormattedDate();
   return (
     <Card className="h-full">
       <CardHeader>Cargar un movimiento:</CardHeader>
@@ -41,7 +37,7 @@ export const NewMoment: React.FC = () => {
           category: '',
           payment_method: 'cash',
           transaction_type: 'inflow_of_money',
-          date: fechaFormateada,
+          date: date,
         }}
         onSubmit={async (values) => {
           await handleSubmit(values);
@@ -67,13 +63,13 @@ export const NewMoment: React.FC = () => {
               </Label>
               <Label className="col-span-1">
                 {/* <p>Seleccionar producto :</p>
-                <Button variant="outline">Productos</Button> */}
+                <Button variant="outline">Productos</Button> //TODO:Ver como hacer esto */}
                 <p>Selecciona una fecha :</p>
                 <Input
                   name="date"
                   type="date"
                   onChange={(e) => setFieldValue('date', e.target.value)}
-                  defaultValue={fechaFormateada}
+                  defaultValue={date}
                 />
               </Label>
               <div className="col-span-1 flex gap-1">

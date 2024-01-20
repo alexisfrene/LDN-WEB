@@ -1,4 +1,4 @@
-export { Button } from './button';
+export { Button, buttonVariants } from './button';
 export {
   Card,
   CardContent,
@@ -47,3 +47,19 @@ export {
   SelectSeparator,
 } from './select';
 export { AspectRatio } from './aspect-ratio';
+export {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from './resizable';
+export {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from './table';
+export { RadioGroup, RadioGroupItem } from './radio-group';

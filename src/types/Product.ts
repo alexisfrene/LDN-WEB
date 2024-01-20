@@ -1,14 +1,28 @@
-export type VariationsType = {
-  name: string;
-  id: UUID;
-  images: string[];
-};
-export type CategoryProduct = 't-shirts'| 'pants'| 'sneakers'|'sweatshirts'| 'accessories'| 'toys'| 'jackets' | 'cap' | 'boots' | 'handbags' |'bags' | 'bed sheets' | 'socks'| 'underwear' |'leggings'| 'jeans'| 'sandals' | 'other';
-export type StyleProduct = "urban" | "sports" | "unspecified";
-export type AgeProduct = "child" | "adult";
-export type BrandProduct = "nike" | "puma" | "addidas" | "other";
-export type GenderProduct = "male" | "female" | "unspecified"
+export type StyleProduct = 'urban' | 'sports' | 'unspecified';
+export type AgeProduct = 'child' | 'adult';
+export type BrandProduct = 'nike' | 'puma' | 'addidas' | 'other';
+export type GenderProduct = 'male' | 'female' | 'unspecified';
 export type UUID = `${string}-${string}-${string}-${string}-${string}`;
+export type CategoryProduct =
+  | 't-shirts'
+  | 'pants'
+  | 'sneakers'
+  | 'sweatshirts'
+  | 'accessories'
+  | 'toys'
+  | 'jackets'
+  | 'cap'
+  | 'boots'
+  | 'handbags'
+  | 'bags'
+  | 'bed sheets'
+  | 'socks'
+  | 'underwear'
+  | 'leggings'
+  | 'jeans'
+  | 'sandals'
+  | 'other';
+
 export type ImageVariantsProduct = {
   description: string;
   primary_image: string;
@@ -18,6 +32,12 @@ export type ImageVariantsProduct = {
   miniature_image: string;
   createdAt: Date;
   updatedAt: Date;
+};
+
+export type VariationsType = {
+  name: string;
+  id: UUID;
+  images: string[];
 };
 
 export interface ProductsBySupabase {

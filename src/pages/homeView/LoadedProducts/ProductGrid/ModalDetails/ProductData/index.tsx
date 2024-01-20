@@ -9,7 +9,7 @@ import { handleSubmit } from './handleSubmit';
 
 import { Button } from '@/components';
 import { ProductsBySupabase } from '@/types';
-import { filterAndMapTitles } from '@/utils';
+import { filterAndMapTitles } from '@/lib';
 interface DataOfProductsProps {
   productSelected: ProductsBySupabase;
   reloadProducts: () => void;
