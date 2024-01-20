@@ -7,6 +7,7 @@ interface ModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
   children: ReactNode;
+  className?: string;
 }
 
 interface ModalWhiteProps {
@@ -20,6 +21,7 @@ export const Modal: React.FC<ModalProps> = ({
   isOpen,
   onRequestClose,
   children,
+  className,
   ...props
 }) => {
   return (
@@ -27,9 +29,10 @@ export const Modal: React.FC<ModalProps> = ({
       open={isOpen}
       defaultOpen={false}
       onOpenChange={() => onRequestClose()}
-      {...props}
     >
-      <DialogContent>{children}</DialogContent>
+      <DialogContent {...props} className={className}>
+        {children}
+      </DialogContent>
     </Dialog>
   );
 };
