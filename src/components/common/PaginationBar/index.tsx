@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import {
   Pagination,
@@ -9,25 +10,19 @@ import {
   PaginationPrevious,
   Separator,
 } from '@/components';
-import { ImageVariantsProduct, ProductsBySupabase } from '@/types';
 
 type PaginationBarProps = {
-  data: ImageVariantsProduct[] | ProductsBySupabase[];
+  data: Array<any>;
   itemsPerPage?: number;
-  setState: Dispatch<
-    SetStateAction<ImageVariantsProduct[] | ProductsBySupabase[]>
-  >;
+  setState: Dispatch<SetStateAction<any>>;
 };
 
 interface ChunkArrayParams {
-  data: ImageVariantsProduct[] | ProductsBySupabase[];
+  data: Array<any>;
   chunkSize: number;
 }
 
-const chunkArray = ({
-  data,
-  chunkSize,
-}: ChunkArrayParams): (ImageVariantsProduct[] | ProductsBySupabase[])[] => {
+const chunkArray = ({ data, chunkSize }: ChunkArrayParams) => {
   const result = [];
 
   for (let i = 0; i <= data.length; i += chunkSize) {

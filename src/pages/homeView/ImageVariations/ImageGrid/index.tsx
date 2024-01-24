@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ImageVariantsProduct } from '../../../../types';
+import { ImageVariantsProduct, UUID } from '../../../../types';
 import { useModal } from '../../../../hooks';
 import { deleteProductById } from '../../../../services';
 import {
@@ -14,7 +14,9 @@ import { NavFilters } from './NavFilters';
 import { useDataFetching } from './hook/useDataFetchingProps';
 
 export const ImageGrid: React.FC = () => {
-  const [selectedId, setSelectedId] = useState<string>('');
+  const [selectedId, setSelectedId] = useState<UUID>(
+    '111-111-111-111-111-111-111-111',
+  );
   const [category, setCategory] = useState<ImageVariantsProduct[]>([]);
   const [pagination, setPagination] = useState<ImageVariantsProduct[]>([]);
   const [productSelected, setProductSelected] =
@@ -29,7 +31,7 @@ export const ImageGrid: React.FC = () => {
     isOpenModal: isDeleteModalOpen,
     showModal: showDeleteModal,
   } = useModal();
-  const handleDeleteProduct = async (id: string) => {
+  const handleDeleteProduct = async (id: UUID) => {
     try {
       await deleteProductById(id);
       setVariationsImages((prevProducts) =>
