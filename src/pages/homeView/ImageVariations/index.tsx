@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-  CreateProducts,
   ProductsNavBar,
   TabsContent,
 } from '../../../components';
 import { ImageGrid } from './ImageGrid';
+import { CreateProducts } from './CreateProducs';
 const imageTabs = ['Ver imágenes', 'Crear Producto'];
 
 export const ImageVariations: React.FC = () => {

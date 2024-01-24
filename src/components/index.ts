@@ -1,5 +1,4 @@
 export { ProductsNavBar } from './NavBar';
-export { CreateProducts } from './forms';
 export {
   DropdownInput,
   LoadingIndicator,
@@ -12,6 +11,7 @@ export {
   Layout,
   ModalCategory,
   ModalSize,
+  ImageWithSkeleton
 } from './common';
 export {
   Button,

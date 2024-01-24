@@ -1,4 +1,4 @@
-import { createImageVariations } from '../../../services';
+import { createImageVariations } from '../../../../services';
 
 export interface ProductFormData {
   description: string;

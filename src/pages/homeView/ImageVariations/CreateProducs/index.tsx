@@ -1,23 +1,26 @@
 import { useState, ChangeEvent } from 'react';
-import { Field, FieldProps, Formik } from 'formik';
+import { Formik } from 'formik';
 import { useSubmit } from './useSubmit';
 import { useForm } from './useForm';
-import { Dropdown, DropdownInput, Input, Label } from '../../../components';
-import {
-  brands,
-  colors,
-  genders,
-  producsCategory,
-  styles,
-} from '../../../mocks';
-import defaultImage from '../../../assets/default.png';
-import { ImageWithSkeleton } from '@/components/common/ImageWithSkeleton';
+import { Dropdown, Input, Label,ImageWithSkeleton, ModalCategory, Button } from '../../../../components';
+import defaultImage from '../../../../assets/default.png';
+import { useModal } from '@/hooks';
+import { Filters } from '@/types';
 
 export const CreateProducts: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string>(defaultImage);
   const [secondaryImages, setSecondaryImages] = useState<
     FileList | null | File[]
   >(null);
+  const [filter, setFilter] = useState<Filters>({
+    category: '',
+    size: '',
+  });
+  const {
+    hideModal: hideCategoryModal,
+    isOpenModal: isCategoryModalOpen,
+    showModal: showCategoryModal,
+  } = useModal();
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -31,10 +34,15 @@ export const CreateProducts: React.FC = () => {
       setSecondaryImages(files);
     }
   };
-
+  const handleFilterClick = (selectedFilter: string, filterType: string) => {
+    setFilter({
+      ...filter,
+      [filterType]: selectedFilter,
+    });
+  };
   return (
     <div className="flex justify-center">
-      <Formik initialValues={useForm()} onSubmit={useSubmit}>
+      <Formik initialValues={useForm()} onSubmit={(e) => console.log(e)}>
         {({
           values,
           handleChange,
@@ -45,7 +53,7 @@ export const CreateProducts: React.FC = () => {
         }) => (
           <form
             onSubmit={handleSubmit}
-            className="mb-4 w-[1200px] bg-white p-10"
+            className="mb-4 bg-white p-10"
           >
             <div className="h-96 overflow-y-auto overflow-x-hidden">
               {selectedImage && (
@@ -120,6 +128,7 @@ export const CreateProducts: React.FC = () => {
                 name="description"
                 onChange={handleChange}
                 onBlur={handleBlur}
+                maxLength={30}
                 value={values.description}
                 placeholder="Zapatillas Nike Blancas ..."
               />
@@ -127,67 +136,37 @@ export const CreateProducts: React.FC = () => {
             <Label>Nombre de la coleccion de imagenes: :</Label>
             <Input
               name="collection"
+              required
+              maxLength={25}
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.collection}
               placeholder="Imagenes sin fondo ..."
             />
-            <Field name="category">
-              {({ field }: FieldProps<string>) => (
-                <DropdownInput
-                  title="Selecciona una opción:"
-                  options={producsCategory}
-                  name={field.name}
-                />
-              )}
-            </Field>
-            <Field name="color">
-              {({ field }: FieldProps<string>) => (
-                <DropdownInput
-                  title="Selecciona un color"
-                  options={colors}
-                  name={field.name}
-                />
-              )}
-            </Field>
-            <Field name="gender">
-              {({ field }: FieldProps<string>) => (
-                <DropdownInput
-                  title="Selecciona un genero"
-                  options={genders}
-                  name={field.name}
-                />
-              )}
-            </Field>
-            <Field name="brand">
-              {({ field }: FieldProps<string>) => (
-                <DropdownInput
-                  title="Selecciona una marca"
-                  options={brands}
-                  name={field.name}
-                />
-              )}
-            </Field>
-            {/* <Field name="style">
-              {({ field }: FieldProps<string>) => (
-                <DropdownInput
-                  title="Selecciona estilo"
-                  options={styles}
-                  name={field.name}
-                />
-              )}
-            </Field> */}
+            <Button onClick={() => showCategoryModal()} variant="outline">
+              Selecciona una categoría
+            </Button>  
+            <div className='w-full'>
+               <Dropdown variant="colors" />
+            <Dropdown variant="genders" />
+            <Dropdown variant="brands" />
             <Dropdown variant="styles" />
-            <button
+            </div>
+            <Button
               type="submit"
               disabled={isSubmitting}
-              className="bg-amber-500 text-white px-4 py-2 rounded mt-4 h-20 w-44 text-lg hover:bg-amber-400 hover:text-gray-200"
             >
               Crear producto
-            </button>
+            </Button>
           </form>
         )}
       </Formik>
+      <ModalCategory
+        isCategoryModalOpen={isCategoryModalOpen}
+        handleFilterClick={handleFilterClick}
+        handleCloseModal={hideCategoryModal}
+        filter={filter}
+      />
     </div>
   );
 };

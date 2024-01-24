@@ -62,3 +62,8 @@ export interface ProductsBySupabase {
   produc_dollar_today?: number;
   produc_variations?: string;
 }
+
+export type Filters = {
+  category: string;
+  size: string;
+}

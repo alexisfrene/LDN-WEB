@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ProductsBySupabase } from '../../../../types';
+import { Filters, ProductsBySupabase } from '../../../../types';
 import {
   getProductsBySupabase,
   handleFilterSubmit,
@@ -17,10 +17,7 @@ import {
 } from '../../../../components';
 import { useAsync, useFetchAndLoad, useModal } from '../../../../hooks';
 import { ModalDetails } from './ModalDetails';
-interface Filters {
-  category: string;
-  size: string;
-}
+
 export const ProductGrid: React.FC = () => {
   const [products, setProducts] = useState<ProductsBySupabase[] | null>([]);
   const [removeId, setRemoveId] = useState<string>('');
