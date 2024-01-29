@@ -24,7 +24,9 @@ export const ImageWithSkeleton: React.FC<ImageWithSkeletonProps> = ({
       <img
         src={url}
         alt="product images"
-        className={`col-span-1 ${loading ? 'hidden' : 'block'}`}
+        className={`col-span-1 ${
+          loading ? 'hidden' : 'block'
+        } object-left-bottom h-60 w-60`}
         onLoad={handleImageLoaded}
         {...props}
       />

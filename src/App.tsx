@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
-import { LoadingIndicator } from './components';
+import { LoadingIndicator, Toaster } from './components';
 import TestView from './pages/testView';
 const HomeView = lazy(() => import('./pages/homeView'));
 
@@ -20,6 +20,7 @@ const App = () => {
       <Suspense fallback={<LoadingIndicator isLoading />}>
         <RouterProvider router={router} />
       </Suspense>
+      <Toaster />
     </div>
   );
 };

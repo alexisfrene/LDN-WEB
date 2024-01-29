@@ -78,7 +78,7 @@ export const ModalDelete: React.FC<ModalDeleteProps> = ({
     <Modal isOpen={isDeleteModalOpen} onRequestClose={hideDeleteModal}>
       <div className="rounded-sm">
         <h3 className="text-xl font-semibold mb-4 text-center">{text}</h3>
-        <div className="flex justify-around">
+        <div className="flex justify-evenly">
           <Button variant="destructive" onClick={handleDeleteProduct}>
             Aceptar
           </Button>

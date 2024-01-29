@@ -11,10 +11,6 @@ export interface ProductFormData {
   style: string;
   collection: string;
 }
-const loadAbort = () => {
-  const controller = new AbortController();
-  return controller;
-};
 
 export const variantsApi = createApi({
   reducerPath: 'variantsApi',
@@ -42,13 +38,12 @@ export const imagesVariantsApi = createApi({
   }),
 });
 export const fetchProducts = () => {
-  const controller = loadAbort();
-  return {
-    call: axios.get('http://localhost:3001/api/products', {
-      signal: controller.signal,
-    }),
-    controller,
-  };
+  try {
+    const data = axios.get('http://localhost:3001/api/products');
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const insertImageId = async (

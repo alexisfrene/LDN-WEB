@@ -7,26 +7,33 @@ import {
   ModalDelete,
   ScrollArea,
   Separator,
-  TabsContent,
 } from '@/components';
 import { ImageWithSkeleton } from '@/components/common/ImageWithSkeleton';
+import { LoadingContext } from '@/context';
 import { useModal } from '@/hooks';
-import { removeCollection } from '@/services';
+import { removeCollection, fetchProductById } from '@/services';
 import { ImageVariantsProduct } from '@/types';
 import { Cog6ToothIcon, TrashIcon } from '@heroicons/react/20/solid';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { toast } from 'sonner';
 interface ViewImageProps {
   productSelected: ImageVariantsProduct;
+  refresh: () => void;
 }
 
-export const ViewImage: React.FC<ViewImageProps> = ({ productSelected }) => {
+export const ViewImage: React.FC<ViewImageProps> = ({
+  productSelected,
+  refresh,
+}) => {
+  const [selected, setSelected] = useState(productSelected);
   const [collectionId, setCollectionId] = useState('');
+  const { startLoading, stopLoading } = useContext(LoadingContext);
   const {
-    hideModal: hideDeleleCollection,
+    hideModal: hideDeleteCollection,
     isOpenModal: isOpenDeleteCollection,
     showModal: showDeleteCollection,
   } = useModal();
-  const handlehowDeleteModal = (idCollection: string) => {
+  const handleDeleteModal = (idCollection: string) => {
     setCollectionId(idCollection);
     showDeleteCollection();
   };
@@ -34,21 +41,45 @@ export const ViewImage: React.FC<ViewImageProps> = ({ productSelected }) => {
     idVariations: string,
     idCollection: string,
   ) => {
-    await removeCollection(idVariations, idCollection);
+    try {
+      startLoading();
+      await removeCollection(idVariations, idCollection);
+      toast('Colección eliminada', {
+        description:
+          'Se elimino la collection correctamente de su galería de imágenes',
+      });
+      await refresh();
+      const newVariants = selected.variations.filter(
+        (e) => e.id !== idCollection,
+      );
+      setSelected({ ...selected, variations: newVariants });
+      hideDeleteCollection();
+    } catch (error) {
+      toast('Error al eliminar una colección');
+    } finally {
+      stopLoading();
+    }
   };
 
-  // useGetImageVariantsQuery()
+  const refreshProduct = async () => {
+    const res = await fetchProductById(productSelected.id);
+    setSelected(res);
+  };
+  useEffect(() => {
+    refreshProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [productSelected]);
 
   return (
-    <TabsContent value="images">
+    <>
       <Card className="min-h-[750px] flex flex-col">
         <CardHeader>
-          <CardTitle>{productSelected.description?.toUpperCase()}</CardTitle>
+          <CardTitle>{selected.description?.toUpperCase()}</CardTitle>
           <CardDescription>
             Aca de muestras las diferentes images cargadas :
           </CardDescription>
         </CardHeader>
-        {productSelected.variations?.map((variation, index) => (
+        {selected.variations?.map((variation, index) => (
           <CardContent key={index}>
             <CardHeader className="w-full">
               <CardTitle>
@@ -58,14 +89,14 @@ export const ViewImage: React.FC<ViewImageProps> = ({ productSelected }) => {
                     <Cog6ToothIcon className="h-6 text-slate-200 hover:text-slate-900 cursor-pointer" />
                     <TrashIcon
                       className="h-6 text-slate-200 hover:text-red-500 cursor-pointer"
-                      onClick={() => handlehowDeleteModal(variation.id)}
+                      onClick={() => handleDeleteModal(variation.id)}
                     />
                   </div>
                 </div>
               </CardTitle>
             </CardHeader>
-            <ScrollArea className="h-80 mx-12 bg-slate-200">
-              <div className="flex flex-wrap gap-1 justify-center">
+            <ScrollArea className="mx-12 bg-slate-100 p-1 h-96">
+              <div className="grid grid-cols-4 gap-6">
                 {variation.images?.map((image: string, imageIndex: number) => (
                   <ImageWithSkeleton
                     url={`http://localhost:3001/${image}`}
@@ -80,11 +111,11 @@ export const ViewImage: React.FC<ViewImageProps> = ({ productSelected }) => {
       </Card>
       <ModalDelete
         handleDeleteProduct={() =>
-          handleRemoveCollection(productSelected.id, collectionId)
+          handleRemoveCollection(selected.id, collectionId)
         }
-        hideDeleteModal={hideDeleleCollection}
+        hideDeleteModal={hideDeleteCollection}
         isDeleteModalOpen={isOpenDeleteCollection}
       />
-    </TabsContent>
+    </>
   );
 };

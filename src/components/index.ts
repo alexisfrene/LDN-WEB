@@ -11,7 +11,7 @@ export {
   Layout,
   ModalCategory,
   ModalSize,
-  ImageWithSkeleton
+  ImageWithSkeleton,
 } from './common';
 export {
   Button,
@@ -73,4 +73,5 @@ export {
   RadioGroup,
   RadioGroupItem,
   buttonVariants,
+  Toaster,
 } from './ui';

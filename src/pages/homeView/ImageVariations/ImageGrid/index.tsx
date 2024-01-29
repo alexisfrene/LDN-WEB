@@ -1,20 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ImageVariantsProduct, UUID } from '../../../../types';
 import { useModal } from '../../../../hooks';
-import { deleteProductById } from '../../../../services';
-import {
-  LoadingIndicator,
-  ModalDelete,
-  PaginationBar,
-  ScrollArea,
-} from '../../../../components';
+import { deleteProductById, fetchProducts } from '../../../../services';
+import { ModalDelete, PaginationBar, ScrollArea } from '../../../../components';
 import { ModalGallery } from './ModalGallery';
 import { CardImageVariations } from './CardImageVariations';
 import { NavFilters } from './NavFilters';
-import { useDataFetching } from './hook/useDataFetchingProps';
 import { LoadingContext, SnackbarContext } from '@/context';
 
 export const ImageGrid: React.FC = () => {
+  const [variationsImages, setVariationsImages] = useState<
+    ImageVariantsProduct[] | []
+  >([]);
   const [selectedId, setSelectedId] = useState<UUID>(
     '111-111-111-111-111-111-111-111',
   );
@@ -58,8 +55,17 @@ export const ImageGrid: React.FC = () => {
     setProductSelected(product);
     showGalleryModal();
   };
-  const { isLoading, variationsImages, setVariationsImages } =
-    useDataFetching();
+  const refresh = async () => {
+    try {
+      const res = await fetchProducts();
+      if (res) {
+        const newData = await res.data.data;
+        setVariationsImages(newData);
+      }
+    } catch (error) {
+      showErrorSnackbar('Error al refrescar los datos');
+    }
+  };
   const productsToMap = category?.length ? category : variationsImages;
   const renderProductCard = (product: ImageVariantsProduct) => (
     <CardImageVariations
@@ -72,10 +78,25 @@ export const ImageGrid: React.FC = () => {
       onCLickImage={() => handlerGalleryImage(product)}
     />
   );
+  const fetchData = async () => {
+    try {
+      startLoading();
+      const res = await fetchProducts();
+      if (res) {
+        const newData = await res.data.data;
+        return setVariationsImages(newData);
+      }
+    } finally {
+      stopLoading();
+    }
+  };
+  useEffect(() => {
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="mx-3">
-      <LoadingIndicator isLoading={isLoading} />
       <NavFilters setState={setCategory} />
       <ScrollArea className="h-[70vh] col-span-full">
         <div className="grid gap-5 grid-cols-4 mx-3">
@@ -88,6 +109,7 @@ export const ImageGrid: React.FC = () => {
           isGalleryModalOpen={isGalleryModalOpen}
           hideGalleryModal={hideGalleryModal}
           productSelected={productSelected}
+          refresh={refresh}
         />
       )}
       <ModalDelete
