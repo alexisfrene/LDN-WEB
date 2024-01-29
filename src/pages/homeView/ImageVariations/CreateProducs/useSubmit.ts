@@ -1,4 +1,6 @@
 import { createImageVariations } from '../../../../services';
+import { useContext } from 'react';
+import { LoadingContext, SnackbarContext } from '@/context';
 
 export interface ProductFormData {
   description: string;
@@ -12,6 +14,19 @@ export interface ProductFormData {
   collection: string;
 }
 
-export const useSubmit = async (values: ProductFormData): Promise<void> => {
-  await createImageVariations(values); //TODO: agregar modal o un loading
+export const useSubmit = () => {
+  const { showErrorSnackbar, showSuccessSnackbar } =
+    useContext(SnackbarContext);
+  const { startLoading, stopLoading } = useContext(LoadingContext);
+  return async (values: ProductFormData): Promise<void> => {
+    try {
+      startLoading();
+      await createImageVariations(values);
+      showSuccessSnackbar('Imágenes cargadas con éxito!');
+    } catch (error) {
+      showErrorSnackbar(`Error al crear un variación -> ${error}`);
+    } finally {
+      stopLoading();
+    }
+  };
 };

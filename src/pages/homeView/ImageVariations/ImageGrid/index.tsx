@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { ImageVariantsProduct, UUID } from '../../../../types';
 import { useModal } from '../../../../hooks';
 import { deleteProductById } from '../../../../services';
@@ -12,6 +12,7 @@ import { ModalGallery } from './ModalGallery';
 import { CardImageVariations } from './CardImageVariations';
 import { NavFilters } from './NavFilters';
 import { useDataFetching } from './hook/useDataFetchingProps';
+import { LoadingContext, SnackbarContext } from '@/context';
 
 export const ImageGrid: React.FC = () => {
   const [selectedId, setSelectedId] = useState<UUID>(
@@ -21,6 +22,9 @@ export const ImageGrid: React.FC = () => {
   const [pagination, setPagination] = useState<ImageVariantsProduct[]>([]);
   const [productSelected, setProductSelected] =
     useState<ImageVariantsProduct | null>(null);
+  const { showErrorSnackbar, showSuccessSnackbar } =
+    useContext(SnackbarContext);
+  const { startLoading, stopLoading } = useContext(LoadingContext);
   const {
     hideModal: hideGalleryModal,
     isOpenModal: isGalleryModalOpen,
@@ -33,13 +37,21 @@ export const ImageGrid: React.FC = () => {
   } = useModal();
   const handleDeleteProduct = async (id: UUID) => {
     try {
+      startLoading();
       await deleteProductById(id);
-      setVariationsImages((prevProducts) =>
-        prevProducts?.filter((product) => product.id !== id),
-      );
-      hideDeleteModal();
+      category?.length
+        ? setCategory((prevProducts) =>
+            prevProducts?.filter((product) => product.id !== id),
+          )
+        : setVariationsImages((prevProducts) =>
+            prevProducts?.filter((product) => product.id !== id),
+          );
+      showSuccessSnackbar('Eliminado con éxito!');
     } catch (error) {
-      console.error('Error al eliminar un producto por id');
+      showErrorSnackbar(`Error al eliminar un producto por id -> ${error}`);
+    } finally {
+      hideDeleteModal();
+      stopLoading();
     }
   };
   const handlerGalleryImage = (product: ImageVariantsProduct) => {
