@@ -13,7 +13,7 @@ import { ImportantDates } from './ImportantDates';
 
 export const Summary: React.FC = () => {
   const [movement, setMovement] = useState<Movement[] | []>([]);
-  const [total, setTotal] = useState(1);
+  const [total, setTotal] = useState(0);
   const fetchMovements = async () => {
     const res = await getMovement();
     if (Array.isArray(res) && res.length > 0) {
@@ -35,7 +35,7 @@ export const Summary: React.FC = () => {
   return (
     <ResizablePanelGroup
       direction="horizontal"
-      className="max-w-full rounded-lg border col-span-11"
+      className="max-w-full col-span-11"
     >
       <ResizablePanel defaultSize={50}>
         <ResizablePanelGroup direction="vertical">
@@ -44,7 +44,7 @@ export const Summary: React.FC = () => {
           </ResizablePanel>
           <ResizableHandle />
           <ResizablePanel defaultSize={35} maxSize={35}>
-            <NewMoment handleSubmit={handleSubmit} />
+            <ImportantDates />
           </ResizablePanel>
         </ResizablePanelGroup>
       </ResizablePanel>
@@ -56,7 +56,7 @@ export const Summary: React.FC = () => {
           </ResizablePanel>
           <ResizableHandle />
           <ResizablePanel defaultSize={75}>
-            <ImportantDates />
+            <NewMoment handleSubmit={handleSubmit} />
           </ResizablePanel>
         </ResizablePanelGroup>
       </ResizablePanel>

@@ -74,4 +74,5 @@ export {
   RadioGroupItem,
   buttonVariants,
   Toaster,
+  Checkbox,
 } from './ui';

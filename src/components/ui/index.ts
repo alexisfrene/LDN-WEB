@@ -64,3 +64,4 @@ export {
 } from './table';
 export { RadioGroup, RadioGroupItem } from './radio-group';
 export { Toaster } from './sonner';
+export { Checkbox } from './checkbox';

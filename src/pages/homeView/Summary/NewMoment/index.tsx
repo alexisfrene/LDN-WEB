@@ -72,6 +72,39 @@ export const NewMoment: React.FC<NewMomentProps> = ({ handleSubmit }) => {
                   defaultValue={date}
                 />
               </Label>
+              <div className="col-span-1 my-5">
+                <Label>Método de pago :</Label>
+                <RadioGroup
+                  defaultValue="cash"
+                  onValueChange={(e) => setFieldValue('payment_method', e)}
+                  // onChange={(e) => console.log('payment_method', e)}
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="cash" id="r1" />
+                    <Label htmlFor="r1">Efectivo</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="electronic_payment" id="r2" />
+                    <Label htmlFor="r2">Pago electrónico</Label>
+                  </div>
+                </RadioGroup>
+              </div>
+              <div className="col-span-1  my-5">
+                <Label>Tipo de movimiento :</Label>
+                <RadioGroup
+                  defaultValue="inflow_of_money"
+                  onValueChange={(e) => setFieldValue('transaction_type', e)}
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="inflow_of_money" id="r1" />
+                    <Label htmlFor="r1">Entrada de dinero</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="money_outflow" id="r2" />
+                    <Label htmlFor="r2">Salida de dinero</Label>
+                  </div>
+                </RadioGroup>
+              </div>
               <div className="col-span-1 flex gap-1">
                 <Label>
                   <p>Monto :</p>
@@ -116,41 +149,8 @@ export const NewMoment: React.FC<NewMomentProps> = ({ handleSubmit }) => {
                   </SelectContent>
                 </Select>
               </Label>
-              <div className="col-span-1">
-                <Label>Método de pago :</Label>
-                <RadioGroup
-                  defaultValue="cash"
-                  onValueChange={(e) => setFieldValue('payment_method', e)}
-                  // onChange={(e) => console.log('payment_method', e)}
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="cash" id="r1" />
-                    <Label htmlFor="r1">Efectivo</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="electronic_payment" id="r2" />
-                    <Label htmlFor="r2">Pago electrónico</Label>
-                  </div>
-                </RadioGroup>
-              </div>
-              <div className="col-span-1">
-                <Label>Tipo de movimiento :</Label>
-                <RadioGroup
-                  defaultValue="inflow_of_money"
-                  onValueChange={(e) => setFieldValue('transaction_type', e)}
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="inflow_of_money" id="r1" />
-                    <Label htmlFor="r1">Entrada de dinero</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="money_outflow" id="r2" />
-                    <Label htmlFor="r2">Salida de dinero</Label>
-                  </div>
-                </RadioGroup>
-              </div>
               <Button
-                className="col-span-2 mt-1"
+                className="col-span-2 mt-5"
                 type="submit"
                 disabled={isSubmitting}
               >
