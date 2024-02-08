@@ -15,22 +15,20 @@ import {
   ScrollArea,
   Separator,
 } from '@/components';
-import { UUID } from '@/types';
+import { UUID, VariationsType } from '@/types';
 
 type CollectionContentProps = {
-  index: number;
-  variation: { name: string; id: UUID; images: [] };
+  variation: VariationsType;
   handleDeleteModal: (id: UUID) => void;
 };
 
 export const CollectionContent: React.FC<CollectionContentProps> = ({
-  index,
   variation,
   handleDeleteModal,
 }) => {
   const [edit, setEdit] = useState(false);
   return (
-    <CardContent key={index}>
+    <CardContent key={variation.id}>
       <CardHeader className="w-full">
         <CardTitle>
           {edit ? (

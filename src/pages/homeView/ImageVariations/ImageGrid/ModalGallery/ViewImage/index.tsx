@@ -1,21 +1,18 @@
+import { useContext, useEffect, useState } from 'react';
+import { toast } from 'sonner';
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
   ModalDelete,
-  ScrollArea,
-  Separator,
 } from '@/components';
-import { ImageWithSkeleton } from '@/components/common/ImageWithSkeleton';
 import { LoadingContext } from '@/context';
 import { useModal } from '@/hooks';
 import { removeCollection, fetchProductById } from '@/services';
+import { CollectionContent } from './CollectionContent';
 import { ImageVariantsProduct } from '@/types';
-import { Cog6ToothIcon, TrashIcon } from '@heroicons/react/20/solid';
-import { useContext, useEffect, useState } from 'react';
-import { toast } from 'sonner';
+
 interface ViewImageProps {
   productSelected: ImageVariantsProduct;
   refresh: () => void;
@@ -79,34 +76,11 @@ export const ViewImage: React.FC<ViewImageProps> = ({
             Aca de muestras las diferentes images cargadas :
           </CardDescription>
         </CardHeader>
-        {selected.variations?.map((variation, index) => (
-          <CardContent key={index}>
-            <CardHeader className="w-full">
-              <CardTitle>
-                <div className="flex justify-between">
-                  {variation.name}
-                  <div className="flex gap-1">
-                    <Cog6ToothIcon className="h-6 text-slate-200 hover:text-slate-900 cursor-pointer" />
-                    <TrashIcon
-                      className="h-6 text-slate-200 hover:text-red-500 cursor-pointer"
-                      onClick={() => handleDeleteModal(variation.id)}
-                    />
-                  </div>
-                </div>
-              </CardTitle>
-            </CardHeader>
-            <ScrollArea className="mx-12 bg-slate-100 p-1 h-96">
-              <div className="grid grid-cols-4 gap-6">
-                {variation.images?.map((image: string, imageIndex: number) => (
-                  <ImageWithSkeleton
-                    url={`http://localhost:3001/${image}`}
-                    key={imageIndex}
-                  />
-                ))}
-              </div>
-            </ScrollArea>
-            <Separator className="my-4" />
-          </CardContent>
+        {selected.variations?.map((variation) => (
+          <CollectionContent
+            variation={variation}
+            handleDeleteModal={handleDeleteModal}
+          />
         ))}
       </Card>
       <ModalDelete
