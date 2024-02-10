@@ -13,7 +13,7 @@ export const ImageGrid: React.FC = () => {
     ImageVariantsProduct[] | []
   >([]);
   const [selectedId, setSelectedId] = useState<UUID>(
-    '111-111-111-111-111-111-111-111',
+    '000-000-000-000-000-000-000-000',
   );
   const [category, setCategory] = useState<ImageVariantsProduct[]>([]);
   const [pagination, setPagination] = useState<ImageVariantsProduct[]>([]);
