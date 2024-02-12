@@ -7,6 +7,7 @@ interface ModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
   children: ReactNode;
+  className?: string;
 }
 
 interface ModalWhiteProps {
@@ -20,6 +21,7 @@ export const Modal: React.FC<ModalProps> = ({
   isOpen,
   onRequestClose,
   children,
+  className,
   ...props
 }) => {
   return (
@@ -27,9 +29,10 @@ export const Modal: React.FC<ModalProps> = ({
       open={isOpen}
       defaultOpen={false}
       onOpenChange={() => onRequestClose()}
-      {...props}
     >
-      <DialogContent>{children}</DialogContent>
+      <DialogContent {...props} className={className}>
+        {children}
+      </DialogContent>
     </Dialog>
   );
 };
@@ -75,7 +78,7 @@ export const ModalDelete: React.FC<ModalDeleteProps> = ({
     <Modal isOpen={isDeleteModalOpen} onRequestClose={hideDeleteModal}>
       <div className="rounded-sm">
         <h3 className="text-xl font-semibold mb-4 text-center">{text}</h3>
-        <div className="flex justify-around">
+        <div className="flex justify-evenly">
           <Button variant="destructive" onClick={handleDeleteProduct}>
             Aceptar
           </Button>

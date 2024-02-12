@@ -8,5 +8,6 @@ export type {
   StyleProduct,
   UUID,
   VariationsType,
+  Filters
 } from './Product';
 export type { Movement, AddMovementProps } from './finance';

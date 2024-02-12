@@ -13,11 +13,7 @@ import {
   ModalCategory,
   ModalSize,
 } from '@/components';
-
-interface Filters {
-  category: string;
-  size: string;
-}
+import { Filters } from '@/types';
 
 const ProductSchema = Yup.object().shape({
   name: Yup.string()

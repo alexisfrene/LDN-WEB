@@ -69,6 +69,8 @@ export const handleFilterSubmit = async (
 
     if (data) {
       return setProducts(data?.sort((a, b) => b.produc_price - a.produc_price));
+    } else {
+      return setProducts([]);
     }
   }
 

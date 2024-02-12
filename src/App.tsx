@@ -1,10 +1,11 @@
+import React, { lazy, Suspense } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
-import { LoadingIndicator } from './components';
+import { LoadingIndicator, Toaster } from './components';
 import TestView from './pages/testView';
+
 const HomeView = lazy(() => import('./pages/homeView'));
 
-const router = createBrowserRouter([
+const routes = [
   {
     path: '/',
     element: <HomeView />,
@@ -13,13 +14,17 @@ const router = createBrowserRouter([
     path: '/test',
     element: <TestView />,
   },
-]);
-const App = () => {
+];
+
+const router = createBrowserRouter(routes);
+
+const App: React.FC = () => {
   return (
     <div className="bg-gradient-to-t from-orange-100 to-orange-100 text-slate-800 font-semibold font-mono min-h-screen min-w-screen">
       <Suspense fallback={<LoadingIndicator isLoading />}>
         <RouterProvider router={router} />
       </Suspense>
+      <Toaster />
     </div>
   );
 };

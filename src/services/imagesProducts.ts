@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { UUID } from '@/types';
+import { urlImageVariation } from '@/lib';
 export interface ProductFormData {
   description: string;
   category: string;
@@ -11,10 +13,6 @@ export interface ProductFormData {
   style: string;
   collection: string;
 }
-const loadAbort = () => {
-  const controller = new AbortController();
-  return controller;
-};
 
 export const variantsApi = createApi({
   reducerPath: 'variantsApi',
@@ -42,13 +40,13 @@ export const imagesVariantsApi = createApi({
   }),
 });
 export const fetchProducts = () => {
-  const controller = loadAbort();
-  return {
-    call: axios.get('http://localhost:3001/api/products', {
-      signal: controller.signal,
-    }),
-    controller,
-  };
+  try {
+    const data = axios.get('http://localhost:3001/api/products');
+
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const insertImageId = async (
@@ -129,7 +127,7 @@ export const fetchProductById = async (id: string) => {
 export const createImageVariations = async (values: ProductFormData) => {
   try {
     const formData = new FormData();
-    formData.append('description', values.description || 'Sin descripcion');
+    formData.append('description', values.description || 'Sin descripción');
     formData.append('category', values.category);
     formData.append('collection', values.collection);
     if (values.mainImage) {
@@ -194,6 +192,44 @@ export const removeCollection = async (
     await axios.delete(
       `http://localhost:3001/api/products/${idVariations}?variation_remove=${idCollection}`,
     );
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+type modifyCollectionType = {
+  images: string[];
+  name: string;
+  idVariation: UUID;
+  idCollection: UUID;
+};
+
+export const modifyCollection = async (data: modifyCollectionType) => {
+  const { images, name, idCollection, idVariation } = data;
+  const formData = new FormData();
+  const newImages = images.filter((url) => !urlImageVariation.test(url));
+  if (newImages) {
+    for (let i = 0; i < newImages.length; i++) {
+      const blob = await fetch(newImages[i]).then((r) => r.blob());
+      const newFile = new File([blob], `filename-${Date.now()}.jpg`);
+      formData.append('files', newFile);
+    }
+  }
+  const lastImages = images.filter((url) => urlImageVariation.test(url));
+  lastImages.map((url) => formData.append('images', url));
+  formData.append('name', name);
+  try {
+    const res = await axios.put(
+      `http://localhost:3001/api/products/${idVariation}?id_collection=${idCollection}`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      },
+    );
+
+    return res;
   } catch (error) {
     console.error(error);
   }

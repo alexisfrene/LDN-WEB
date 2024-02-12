@@ -3,20 +3,27 @@ import { useContext } from 'react';
 import { FormikHelpers } from 'formik';
 import { createProductsBySupabase } from '../../../../services';
 import { SnackbarContext, LoadingContext } from '../../../../context';
-import { ProductsBySupabase } from '@/types';
+import {
+  AgeProduct,
+  BrandProduct,
+  CategoryProduct,
+  GenderProduct,
+  ProductsBySupabase,
+  StyleProduct,
+} from '@/types';
 
 interface SpecProps extends submitProps, Spec {}
 
-type submitProps = { image: string; category: string; size: string };
+type submitProps = { image: string; category: CategoryProduct; size: string };
 type Spec = {
   name: string;
   price: string;
-  brand: string;
+  brand: BrandProduct;
   color: string;
   description: string;
-  gender: string;
-  age: string;
-  style: string;
+  gender: GenderProduct;
+  age: AgeProduct;
+  style: StyleProduct;
 };
 
 export const useSubmit = ({ image, category, size }: submitProps) => {

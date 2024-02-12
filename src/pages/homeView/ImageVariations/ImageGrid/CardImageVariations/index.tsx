@@ -26,7 +26,7 @@ export const CardImageVariations: React.FC<CardImageVariationsProps> = ({
         <img
           src={`http://localhost:3001/${product.miniature_image}`}
           alt={product.description}
-          className="rounded-lg w-96 h-96 object-cover border-4 cursor-pointer"
+          className="rounded-lg w-96 object-contain border-4 cursor-pointer"
           onClick={onCLickImage}
           loading="lazy"
         />

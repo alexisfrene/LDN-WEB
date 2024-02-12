@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ProductsBySupabase } from '../../../../types';
+import { Filters, ProductsBySupabase } from '../../../../types';
 import {
   getProductsBySupabase,
   handleFilterSubmit,
@@ -8,7 +8,6 @@ import {
 import { NavFilters } from './NavFilters';
 import { ProductCard } from './ProductCard';
 import {
-  LoadingIndicator,
   ModalCategory,
   PaginationBar,
   ScrollArea,
@@ -17,10 +16,7 @@ import {
 } from '../../../../components';
 import { useAsync, useFetchAndLoad, useModal } from '../../../../hooks';
 import { ModalDetails } from './ModalDetails';
-interface Filters {
-  category: string;
-  size: string;
-}
+
 export const ProductGrid: React.FC = () => {
   const [products, setProducts] = useState<ProductsBySupabase[] | null>([]);
   const [removeId, setRemoveId] = useState<string>('');
@@ -79,9 +75,10 @@ export const ProductGrid: React.FC = () => {
   const getProducs = async () => await callEndpoint(getProductsBySupabase());
   useAsync(getProducs, (data) => setProducts(data.slice(0, 23)));
 
+  const refresh = async () => await handleFilterSubmit(filter, setProducts);
+
   return (
     <div className="mx-3">
-      <LoadingIndicator isLoading={products?.length === 0} />
       <NavFilters
         onCategoryClick={showCategoryModal}
         onSizeClick={showSizeModal}
@@ -92,20 +89,24 @@ export const ProductGrid: React.FC = () => {
       />
       <ScrollArea className="h-[71vh] col-span-full mt-3">
         <div className="grid gap-5 grid-cols-12 mx-3">
-          {pagination?.map((product) => (
-            <ProductCard
-              product={product}
-              key={product.id}
-              handleClick={() => {
-                showDetailsModal();
-                setProductSelected(product);
-              }}
-              handleClose={() => {
-                if (product.id) setRemoveId(product.id);
-                showDeleteModal();
-              }}
-            />
-          ))}
+          {products?.length ? (
+            pagination?.map((product) => (
+              <ProductCard
+                product={product}
+                key={product.id}
+                handleClick={() => {
+                  showDetailsModal();
+                  setProductSelected(product);
+                }}
+                handleClose={() => {
+                  if (product.id) setRemoveId(product.id);
+                  showDeleteModal();
+                }}
+              />
+            ))
+          ) : (
+            <p className="col-span-full">No hay productos que mostrar !</p>
+          )}
         </div>
       </ScrollArea>
       {products && <PaginationBar data={products} setState={setPagination} />}
@@ -130,7 +131,10 @@ export const ProductGrid: React.FC = () => {
         <ModalDetails
           productSelected={productSelected}
           isDetailsModalOpen={isDetailsModalOpen}
-          handleCloseModal={hideDetailsModal}
+          handleCloseModal={() => {
+            hideDetailsModal();
+            refresh();
+          }}
         />
       )}
     </div>
