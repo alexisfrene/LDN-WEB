@@ -17,4 +17,5 @@ export {
   removeProductsBySupabase,
   updateProductsBySupabase,
   createProductsBySupabase,
+  getAvailableProductCountByVariationId,
 } from './loadProducts';

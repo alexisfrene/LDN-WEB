@@ -1,5 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { getAvailableProductCountByVariationId } from '@/services';
 import { ImageVariantsProduct } from '../../../../../types';
 import { Button, Card, CardContent, CardHeader, CardTitle } from '@/components';
+import { useEffect, useState } from 'react';
 
 interface CardImageVariationsProps {
   product: ImageVariantsProduct;
@@ -12,11 +15,22 @@ export const CardImageVariations: React.FC<CardImageVariationsProps> = ({
   onClick,
   onCLickImage,
 }) => {
+  const [cant, setCant] = useState(0);
+  const getProductCount = async () => {
+    const res = await getAvailableProductCountByVariationId(product.id);
+    if (res) {
+      setCant(res);
+    }
+  };
+  useEffect(() => {
+    getProductCount();
+  }, []);
+
   return (
     <Card className="col-span-1">
       <CardHeader>
         <CardTitle className="flex justify-between lg:text-sm">
-          {product.description}
+          {`${product.description}(${cant}) `}
           <Button
             variant="destructive"
             onClick={onClick}
