@@ -13,11 +13,15 @@ export const CardImageVariations: React.FC<CardImageVariationsProps> = ({
   onCLickImage,
 }) => {
   return (
-    <Card>
+    <Card className="col-span-1">
       <CardHeader>
-        <CardTitle className="flex justify-between">
+        <CardTitle className="flex justify-between lg:text-sm">
           {product.description}
-          <Button variant="destructive" onClick={onClick}>
+          <Button
+            variant="destructive"
+            onClick={onClick}
+            className="lg:h-6 lg:w-6 lg:text-xs 2xl:h-8 2xl:text-base"
+          >
             X
           </Button>
         </CardTitle>
@@ -26,7 +30,7 @@ export const CardImageVariations: React.FC<CardImageVariationsProps> = ({
         <img
           src={`http://localhost:3001/${product.miniature_image}`}
           alt={product.description}
-          className="rounded-lg w-96 object-contain border-4 cursor-pointer"
+          className="w-96 h-96 object-fill cursor-pointer rounded-xl lg:h-52 2xl:h-56"
           onClick={onCLickImage}
           loading="lazy"
         />

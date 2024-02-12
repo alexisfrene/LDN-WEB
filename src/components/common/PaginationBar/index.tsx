@@ -69,13 +69,10 @@ export const PaginationBar: React.FC<PaginationBarProps> = ({
   useEffect(() => {
     setState(chunkArray({ data, chunkSize: itemsPerPage })[currentPage - 1]);
   }, [data, currentPage, setState, itemsPerPage]);
-  // useEffect(() => {
-  //   setCurrentPage(1);
-  // }, [data]); //Esperar aver para que era esto
 
   return (
     <>
-      <Separator className="my-3" />
+      <Separator className="sm:mb-0 xl:my-1" />
       <div className="items-center flex justify-center col-span-full bg-amber-400 h-12 rounded-xl mb-1">
         <Pagination>
           <PaginationContent>
