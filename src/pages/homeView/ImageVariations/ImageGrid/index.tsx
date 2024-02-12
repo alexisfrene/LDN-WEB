@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { ImageVariantsProduct, UUID } from '../../../../types';
-import { useModal } from '../../../../hooks';
-import { deleteProductById, fetchProducts } from '../../../../services';
-import { ModalDelete, PaginationBar, ScrollArea } from '../../../../components';
 import { ModalGallery } from './ModalGallery';
 import { CardImageVariations } from './CardImageVariations';
 import { NavFilters } from './NavFilters';
+import { useModal } from '../../../../hooks';
+import { deleteProductById, fetchProducts } from '../../../../services';
+import { ModalDelete, PaginationBar, ScrollArea } from '../../../../components';
+
 import { LoadingContext, SnackbarContext } from '@/context';
+import { ImageVariantsProduct, UUID } from '../../../../types';
 
 export const ImageGrid: React.FC = () => {
   const [variationsImages, setVariationsImages] = useState<
@@ -60,6 +61,7 @@ export const ImageGrid: React.FC = () => {
       const res = await fetchProducts();
       if (res) {
         const newData = await res.data.data;
+        if (category?.length) return setCategory(newData);
         setVariationsImages(newData);
       }
     } catch (error) {

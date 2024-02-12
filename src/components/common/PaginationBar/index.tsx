@@ -69,9 +69,9 @@ export const PaginationBar: React.FC<PaginationBarProps> = ({
   useEffect(() => {
     setState(chunkArray({ data, chunkSize: itemsPerPage })[currentPage - 1]);
   }, [data, currentPage, setState, itemsPerPage]);
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [data]);
+  // useEffect(() => {
+  //   setCurrentPage(1);
+  // }, [data]); //Esperar aver para que era esto
 
   return (
     <>

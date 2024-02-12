@@ -45,7 +45,8 @@ export const ViewImage: React.FC<ViewImageProps> = ({
         description:
           'Se elimino la collection correctamente de su galería de imágenes',
       });
-      await refresh();
+      refreshProduct();
+      refresh();
       const newVariants = selected.variations.filter(
         (e) => e.id !== idCollection,
       );
@@ -76,10 +77,14 @@ export const ViewImage: React.FC<ViewImageProps> = ({
             Aca de muestras las diferentes images cargadas :
           </CardDescription>
         </CardHeader>
-        {selected.variations?.map((variation) => (
+        {selected.variations?.map((variation, index) => (
           <CollectionContent
-            variation={variation}
+            key={index}
+            collection={variation}
+            variationId={selected.id}
             handleDeleteModal={handleDeleteModal}
+            refreshProduct={refreshProduct}
+            refresh={refresh}
           />
         ))}
       </Card>

@@ -23,3 +23,5 @@ export const filterAndMapTitles = (filterType: string): string | undefined => {
 
   return matchingCategory?.title;
 };
+
+export const urlImageVariation = /uploads.*original/;
