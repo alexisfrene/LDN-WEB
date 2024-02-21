@@ -13,7 +13,7 @@ import {
   ModalCategory,
   ModalSize,
 } from '@/components';
-import { Filters } from '@/types';
+import { CategoryProduct, Filters } from '@/types';
 
 const ProductSchema = Yup.object().shape({
   name: Yup.string()
@@ -36,7 +36,7 @@ export const CreateProducts = () => {
     isOpenModal: isSizeModalOpen,
     showModal: showSizeModal,
   } = useModal();
-  const { initialValues } = useForm();
+  const initialValues = useForm();
   const handleFilterClick = (selectedFilter: string, filterType: string) => {
     setFilter({
       ...filter,
@@ -65,7 +65,7 @@ export const CreateProducts = () => {
         validationSchema={ProductSchema}
         onSubmit={useSubmit({
           image,
-          category: filter.category,
+          category: filter.category as CategoryProduct,
           size: filter.size,
         })}
       >

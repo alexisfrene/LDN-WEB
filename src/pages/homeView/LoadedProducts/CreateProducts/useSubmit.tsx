@@ -17,7 +17,7 @@ interface SpecProps extends submitProps, Spec {}
 type submitProps = { image: string; category: CategoryProduct; size: string };
 type Spec = {
   name: string;
-  price: string;
+  price: number;
   brand: BrandProduct;
   color: string;
   description: string;

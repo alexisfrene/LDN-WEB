@@ -1,25 +1,35 @@
+import { AgeProduct, BrandProduct, GenderProduct, StyleProduct } from '@/types';
 import { useEffect, useState } from 'react';
-
-export function useForm() {
+export interface ProductFormData {
+  name: string;
+  price: number;
+  brand: BrandProduct;
+  color: string;
+  description: string;
+  gender: GenderProduct;
+  age: AgeProduct;
+  style: StyleProduct;
+}
+export function useForm(): ProductFormData {
   const [initialValues, setInitialValues] = useState(() => getInitialValues());
 
   useEffect(() => {
     setInitialValues(getInitialValues());
   }, []);
 
-  return { initialValues };
+  return initialValues;
 }
 
-function getInitialValues() {
+function getInitialValues(): ProductFormData {
   const specs = {
     name: '',
-    price: '',
-    brand: '',
+    price: 1,
+    brand: '' as BrandProduct,
     color: '',
     description: '',
-    gender: '',
-    age: '',
-    style: '',
+    gender: '' as GenderProduct,
+    age: '' as AgeProduct,
+    style: '' as StyleProduct,
   };
 
   return specs;
