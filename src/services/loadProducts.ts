@@ -22,14 +22,14 @@ const removeEmptyStringProperties = (
   const cleanedObject: Partial<ProductsBySupabase> = {};
 
   for (const [key, value] of Object.entries(obj)) {
-    if (typeof value === 'string' && value.trim() !== '') {
-      cleanedObject[key as keyof ProductsBySupabase] = value as string;
-    } else if (typeof value !== 'string') {
+    if (
+      (typeof value === 'string' && value.trim() !== '') ||
+      typeof value !== 'string'
+    ) {
       cleanedObject[key as keyof ProductsBySupabase] = value;
     }
   }
 
-  // Si es necesario, puedes realizar una conversión de tipo seguro
   return cleanedObject as ProductsBySupabase;
 };
 export const createProductsBySupabase = async (values: ProductsBySupabase) => {

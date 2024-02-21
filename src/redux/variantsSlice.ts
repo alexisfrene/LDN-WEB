@@ -15,7 +15,7 @@ export const variantsSlice = createSlice({
   initialState,
   reducers: {
     setVariants: (state, action: PayloadAction<VariantsState>) => {
-      state = action.payload;
+      state.data = action.payload.data;
     },
   },
 });

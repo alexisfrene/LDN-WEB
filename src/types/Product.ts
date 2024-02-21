@@ -66,4 +66,4 @@ export interface ProductsBySupabase {
 export type Filters = {
   category: string;
   size: string;
-}
+};
