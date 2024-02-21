@@ -1,7 +1,9 @@
 import axios from 'axios';
+import { toast } from 'sonner';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { UUID } from '@/types';
 import { urlImageVariation } from '@/lib';
+
 export interface ProductFormData {
   description: string;
   category: string;
@@ -61,8 +63,8 @@ export const insertImageId = async (
       },
     );
     if (response.ok) {
-      const { data } = await response.json();
-      return data;
+      toast('Imágenes cargadas con éxito !');
+      return true;
     } else {
       throw new Error('Error al obtener los productos');
     }

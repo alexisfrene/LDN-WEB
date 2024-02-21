@@ -87,8 +87,8 @@ export const ProductGrid: React.FC = () => {
         setFilter={setFilter}
         orderByPrice={sortProductsByPrice}
       />
-      <ScrollArea className="lg:h-[69vh] xl:h-[70vh] 2xl:h-[73vh] col-span-full my-2">
-        <div className="grid gap-3 sm:grid-cols-1  md:grid-cols-2  lg:grid-cols-4 2xl:grid-cols-6">
+      <ScrollArea className="lg:h-[69vh] xl:h-[70vh] 2xl:h-[72vh] col-span-full my-2">
+        <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6">
           {products?.length ? (
             pagination?.map((product) => (
               <ProductCard

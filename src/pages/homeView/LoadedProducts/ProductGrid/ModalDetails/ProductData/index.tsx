@@ -1,15 +1,10 @@
-import {
-  ArrowSmallLeftIcon,
-  PencilSquareIcon,
-} from '@heroicons/react/20/solid';
 import { useState } from 'react';
 import { useFormik } from 'formik';
 import { getDynamicValue, useForm } from './useForm';
 import { handleSubmit } from './handleSubmit';
-
-import { Button } from '@/components';
-import { ProductsBySupabase } from '@/types';
+import { Button, Icons } from '@/components';
 import { filterAndMapTitles } from '@/lib';
+import { ProductsBySupabase } from '@/types';
 interface DataOfProductsProps {
   productSelected: ProductsBySupabase;
   reloadProducts: () => void;
@@ -65,13 +60,15 @@ export const ProductData: React.FC<DataOfProductsProps> = ({
     <div>
       <div className="flex items-center mb-5 text-2xl font-bold">
         {modalEdit ? (
-          <ArrowSmallLeftIcon
+          <Icons
+            type="arrow_small_left"
             height={30}
             className="cursor-pointer hover:text-slate-800 hover:scale-105"
             onClick={() => setModalEdit(false)}
           />
         ) : (
-          <PencilSquareIcon
+          <Icons
+            type="copy_manual"
             height={30}
             className="cursor-pointer hover:text-slate-800 hover:scale-105"
             onClick={() => setModalEdit(true)}

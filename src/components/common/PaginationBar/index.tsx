@@ -39,6 +39,7 @@ export const PaginationBar: React.FC<PaginationBarProps> = ({
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(data.length / itemsPerPage);
+  if (currentPage !== 1 && totalPages < currentPage) setCurrentPage(1);
   const handlePagination = (i: number) => {
     setCurrentPage(i);
   };
