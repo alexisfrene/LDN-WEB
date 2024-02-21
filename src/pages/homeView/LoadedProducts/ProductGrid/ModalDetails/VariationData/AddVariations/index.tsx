@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { PlusCircleIcon } from '@heroicons/react/20/solid';
 import { ImageGallery } from './ImageGallery';
+import { Icons } from '@/components';
 interface AddVariationsProps {
   productSelectedId: string | null;
 }
@@ -15,9 +15,10 @@ export const AddVariations: React.FC<AddVariationsProps> = ({
       <h3 className="text-xl mt-3 ">
         ¿Deseas agregar más imágenes del producto?
       </h3>
-      <PlusCircleIcon
+      <Icons
+        type="plus_circle"
         height={100}
-        className="text-green-600 hover:text-green-900 cursor-pointer"
+        className="text-green-600 hover:text-green-700 cursor-pointer"
         onClick={() => {
           setIsOpenModal(true);
         }}

@@ -1,3 +1,4 @@
+import { toast } from 'sonner';
 import { addVariations } from '@/services';
 
 interface useSubmitProps {
@@ -15,8 +16,9 @@ export const useSubmit = (refresh: () => void) => {
   ): Promise<void> => {
     try {
       await addVariations(values);
-      await refresh();
+      refresh();
       resetForm();
+      toast('Colección creada !');
     } catch (error) {
       console.error('Error en la operación asíncrona:', error);
     } finally {

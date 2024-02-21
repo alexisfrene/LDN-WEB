@@ -8,6 +8,7 @@ export type {
   StyleProduct,
   UUID,
   VariationsType,
-  Filters
+  Filters,
 } from './Product';
 export type { Movement, AddMovementProps } from './finance';
+export type { CategoryConfigItem, CategoryConfigResponse } from './config';

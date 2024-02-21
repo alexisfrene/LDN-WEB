@@ -29,12 +29,16 @@ export const ModalGallery: React.FC<ModalGalleryProps> = ({
       onRequestClose={hideGalleryModal}
       className="max-w-fit"
     >
-      <Tabs defaultValue="images" className="min-w-[70vw]">
-        <TabsList className="grid grid-cols-2">
+      <Tabs defaultValue="info" className="min-w-[70vw]">
+        <TabsList className="grid grid-cols-3">
+          <TabsTrigger value="info">Información</TabsTrigger>
           <TabsTrigger value="images">Ver imágenes</TabsTrigger>
           <TabsTrigger value="addImages">Agregar imágenes</TabsTrigger>
         </TabsList>
         <ScrollArea className="h-[85vh]">
+          <TabsContent value="info">
+            <div>kjhjkh</div>
+          </TabsContent>
           <TabsContent value="images">
             <ViewImage productSelected={productSelected} refresh={refresh} />
           </TabsContent>

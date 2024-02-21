@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Transition } from '@headlessui/react';
-import { MegaphoneIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Icons } from '@/components';
 import { cn } from '@/lib';
 
 interface SnackbarProps {
@@ -77,10 +77,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
           <div className="flex flex-wrap items-center justify-between">
             <div className="flex w-0 flex-1 items-center">
               <span className={iconCss}>
-                <MegaphoneIcon
-                  className="h-6 w-6 text-white"
-                  aria-hidden="true"
-                />
+                <Icons type="megaphone" className="h-6 w-6 text-white" />
               </span>
               <p className="ml-3 truncate font-medium text-white">
                 <span className="md:inline">{message}</span>
@@ -94,7 +91,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
                   type !== '' && hover[type]
                 } focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2`}
               >
-                <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                <Icons type="close" className="h-6 w-6 text-white" />
               </button>
             </div>
           </div>

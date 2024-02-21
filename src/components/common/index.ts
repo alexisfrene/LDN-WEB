@@ -10,4 +10,5 @@ export {
 } from './Modal';
 export { PaginationBar } from './PaginationBar';
 export { Layout } from './Layout';
-export {ImageWithSkeleton} from "./ImageWithSkeleton"
+export { ImageWithSkeleton } from './ImageWithSkeleton';
+export { Icons } from './Icons';

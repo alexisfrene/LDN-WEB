@@ -33,7 +33,7 @@ export const NavFilters: React.FC<NavFiltersProps> = ({ setState }) => {
     <div className="flex justify-start gap-10 items-center bg-amber-400 h-12 p-3 rounded-xl mb-3">
       <span>Filtrar por : </span>
       <Button onClick={() => setIsOpen(true)} variant="secondary">
-        Categoria
+        Categoría
       </Button>
       <ModalCategory
         isCategoryModalOpen={isOpen}
@@ -46,7 +46,7 @@ export const NavFilters: React.FC<NavFiltersProps> = ({ setState }) => {
       </Button>
       {filter.category && (
         <>
-          <p>{'Categoria :' + filterAndMapTitles(filter.category)}</p>
+          <p>{'Categoría :' + filterAndMapTitles(filter.category)}</p>
           <Button onClick={clearFilters} variant="destructive">
             Borrar filtros
           </Button>

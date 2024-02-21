@@ -17,4 +17,10 @@ export {
   removeProductsBySupabase,
   updateProductsBySupabase,
   createProductsBySupabase,
+  getAvailableProductCountByVariationId,
 } from './loadProducts';
+export {
+  getCategoryConfig,
+  addCategoryConfig,
+  deleteCategoryConfig,
+} from './config';

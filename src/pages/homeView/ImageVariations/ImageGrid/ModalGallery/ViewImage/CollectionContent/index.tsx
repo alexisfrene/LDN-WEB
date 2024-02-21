@@ -1,16 +1,10 @@
 import React, { ChangeEvent, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import {
-  Cog6ToothIcon,
-  TrashIcon,
-  CheckIcon,
-  XMarkIcon,
-  PlusCircleIcon,
-} from '@heroicons/react/20/solid';
-import {
   CardContent,
   CardHeader,
   CardTitle,
+  Icons,
   ImageWithSkeleton,
   Input,
   LoadingIndicator,
@@ -92,11 +86,13 @@ export const CollectionContent: React.FC<CollectionContentProps> = ({
                 onChange={(e) => setName(e.target.value)}
               />
               <div className="flex gap-2">
-                <CheckIcon
+                <Icons
+                  type="check"
                   className="h-8 text-slate-200 hover:text-slate-900 cursor-pointer bg-green-300 hover:bg-green-400 p-1"
                   onClick={handleSaveChange}
                 />
-                <XMarkIcon
+                <Icons
+                  type="close"
                   className="h-8 text-slate-200 hover:text-slate-900 cursor-pointer bg-red-400 hover:bg-red-500 p-1"
                   onClick={handleXMark}
                 />
@@ -106,13 +102,15 @@ export const CollectionContent: React.FC<CollectionContentProps> = ({
             <div className="flex justify-between">
               {collection.name}
               <div className="flex gap-1">
-                <Cog6ToothIcon
+                <Icons
+                  type="cog_6_tooth"
                   className="h-8 text-slate-200 hover:text-slate-900 cursor-pointer  p-1"
                   onClick={() => {
                     setEdit(true);
                   }}
                 />
-                <TrashIcon
+                <Icons
+                  type="trash"
                   className="h-8 text-slate-200 hover:text-red-500 cursor-pointer  p-1"
                   onClick={() => handleDeleteModal(collection.id)}
                 />
@@ -130,7 +128,8 @@ export const CollectionContent: React.FC<CollectionContentProps> = ({
                 key={imageIndex}
               >
                 {edit && (
-                  <TrashIcon
+                  <Icons
+                    type="trash"
                     className="h-8 text-red-500 hover:text-red-600 hover:scale-105 cursor-pointer p-1 absolute"
                     onClick={() => handleDeleteImage(image)}
                   />
@@ -155,7 +154,8 @@ export const CollectionContent: React.FC<CollectionContentProps> = ({
                 style={{ display: 'none' }}
                 onChange={handleFileInputChange}
               />
-              <PlusCircleIcon
+              <Icons
+                type="plus_circle"
                 className="text-green-300 cursor-pointer hover:text-green-400"
                 onClick={handleIconClick}
               />

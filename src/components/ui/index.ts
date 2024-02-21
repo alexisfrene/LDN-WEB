@@ -65,3 +65,17 @@ export {
 export { RadioGroup, RadioGroupItem } from './radio-group';
 export { Toaster } from './sonner';
 export { Checkbox } from './checkbox';
+export { Toggle, toggleVariants } from './toggle';
+export { ToggleGroup, ToggleGroupItem } from './toggle-group';
+export {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetOverlay,
+  SheetPortal,
+  SheetTitle,
+  SheetTrigger,
+} from './sheet';

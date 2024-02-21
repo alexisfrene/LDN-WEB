@@ -1,27 +1,35 @@
 import React from 'react';
 import {
-  BuildingStorefrontIcon,
-  DocumentTextIcon,
-  PhotoIcon,
-} from '@heroicons/react/20/solid';
-import { Layout, Tabs, TabsContent, TabsList, TabsTrigger } from '@/components';
+  Icons,
+  Layout,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components';
 import { Summary } from './Summary';
 import { LoadedProducts } from './LoadedProducts';
 import { ImageVariations } from './ImageVariations';
+import { Config } from './Config';
 
 const tabResumen = 'Resumen';
 const tabImágenes = 'Imágenes';
 const tabProductos = 'Productos';
+const tabConfig = 'Ajustes';
 const tabsStyles = 'sm:h-6 md:h-8 lg:h-10 xl:16';
 const tabButtons = [
   {
     title: tabResumen,
-    icon: <DocumentTextIcon className={tabsStyles} />,
+    icon: <Icons type="document" className={tabsStyles} />,
   },
-  { title: tabImágenes, icon: <PhotoIcon className={tabsStyles} /> },
+  { title: tabImágenes, icon: <Icons type="photo" className={tabsStyles} /> },
   {
     title: tabProductos,
-    icon: <BuildingStorefrontIcon className={tabsStyles} />,
+    icon: <Icons type="store" className={tabsStyles} />,
+  },
+  {
+    title: tabConfig,
+    icon: <Icons type="cog_6_tooth" className={tabsStyles} />,
   },
 ];
 
@@ -52,6 +60,9 @@ const HomeView: React.FC = () => {
         </TabsContent>
         <TabsContent value={tabProductos} className="col-span-11">
           <LoadedProducts />
+        </TabsContent>
+        <TabsContent value={tabConfig} className="col-span-11">
+          <Config />
         </TabsContent>
       </Tabs>
     </Layout>
