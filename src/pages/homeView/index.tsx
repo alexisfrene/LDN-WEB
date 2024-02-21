@@ -1,40 +1,71 @@
-import { BuildingStorefrontIcon, PhotoIcon } from '@heroicons/react/20/solid';
+import React from 'react';
+import {
+  Icons,
+  Layout,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components';
+import { Summary } from './Summary';
 import { LoadedProducts } from './LoadedProducts';
 import { ImageVariations } from './ImageVariations';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components';
-import logo from '../../../public/favicon.png';
+import { Config } from './Config';
 
+const tabResumen = 'Resumen';
+const tabImágenes = 'Imágenes';
+const tabProductos = 'Productos';
+const tabConfig = 'Ajustes';
+const tabsStyles = 'sm:h-6 md:h-8 lg:h-10 xl:16';
 const tabButtons = [
-  { title: 'Imagenes', icon: <PhotoIcon className="h-16" /> },
-  { title: 'Productos', icon: <BuildingStorefrontIcon className="h-16" /> },
+  {
+    title: tabResumen,
+    icon: <Icons type="document" className={tabsStyles} />,
+  },
+  { title: tabImágenes, icon: <Icons type="photo" className={tabsStyles} /> },
+  {
+    title: tabProductos,
+    icon: <Icons type="store" className={tabsStyles} />,
+  },
+  {
+    title: tabConfig,
+    icon: <Icons type="cog_6_tooth" className={tabsStyles} />,
+  },
 ];
 
-const HomeView = () => {
+const HomeView: React.FC = () => {
   return (
-    <Tabs defaultValue="Imagenes" className="grid grid-cols-12">
-      <div className="bg-gradient-to-t from-amber-200 to-amber-400 h-20 p-1 mt-[-5px] col-span-12">
-        <img src={logo} className="w-20 ml-6" loading="lazy" alt="logo-ldn" />
-      </div>
-      <TabsList className="col-span-1 flex flex-col min-h-screen h-full justify-start bg-gradient-to-t from-amber-200 to-amber-400">
-        {tabButtons.map(({ title, icon }) => (
-          <TabsTrigger
-            value={title}
-            key={title}
-            className="flex flex-col bg-amber-500 w-full m-1"
-          >
-            {title}
-            {icon}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-
-      <TabsContent value="Imagenes" className="col-span-11">
-        <ImageVariations />
-      </TabsContent>
-      <TabsContent value="Productos" className="col-span-11">
-        <LoadedProducts />
-      </TabsContent>
-    </Tabs>
+    <Layout>
+      <Tabs
+        defaultValue={tabResumen}
+        className="grid grid-cols-12 min-h-[91vh]"
+      >
+        <TabsList className="col-span-1 flex flex-col h-full justify-start bg-gradient-to-t from-amber-200 to-amber-400 gap-2">
+          {tabButtons.map(({ title, icon }) => (
+            <TabsTrigger
+              value={title}
+              key={title}
+              className="flex flex-col bg-amber-500 w-full"
+            >
+              {title}
+              {icon}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        <TabsContent value={tabResumen} className="col-span-11">
+          <Summary />
+        </TabsContent>
+        <TabsContent value={tabImágenes} className="col-span-11">
+          <ImageVariations />
+        </TabsContent>
+        <TabsContent value={tabProductos} className="col-span-11">
+          <LoadedProducts />
+        </TabsContent>
+        <TabsContent value={tabConfig} className="col-span-11">
+          <Config />
+        </TabsContent>
+      </Tabs>
+    </Layout>
   );
 };
 

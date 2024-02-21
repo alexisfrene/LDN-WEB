@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ProductsBySupabase } from '../../../../types';
+import { Filters, ProductsBySupabase } from '../../../../types';
 import {
   getProductsBySupabase,
   handleFilterSubmit,
@@ -7,19 +7,20 @@ import {
 } from '../../../../services';
 import { NavFilters } from './NavFilters';
 import { ProductCard } from './ProductCard';
-import { LoadingIndicator } from '../../../../components';
-import { ModalCategory } from './ModalCategory';
+import {
+  ModalCategory,
+  PaginationBar,
+  ScrollArea,
+  ModalSize,
+  ModalDelete,
+} from '../../../../components';
 import { useAsync, useFetchAndLoad, useModal } from '../../../../hooks';
-import { ModalSize } from './ModalSize';
-import { ModalDelete } from './ModalDelete';
 import { ModalDetails } from './ModalDetails';
-interface Filters {
-  category: string;
-  size: string;
-}
+
 export const ProductGrid: React.FC = () => {
   const [products, setProducts] = useState<ProductsBySupabase[] | null>([]);
   const [removeId, setRemoveId] = useState<string>('');
+  const [pagination, setPagination] = useState<ProductsBySupabase[] | null>([]);
   const [productSelected, setProductSelected] =
     useState<ProductsBySupabase | null>(null);
   const [filter, setFilter] = useState<Filters>({
@@ -48,8 +49,11 @@ export const ProductGrid: React.FC = () => {
   } = useModal();
 
   const handleRemoveProduct = async () => {
-    await removeProductsBySupabase(removeId);
-    await handleFilterSubmit(filter, setProducts);
+    const res = await removeProductsBySupabase(removeId);
+    if (res) {
+      await handleFilterSubmit(filter, setProducts);
+      return hideDeleteModal();
+    }
   };
   const sortProductsByPrice = (direction: '+' | '-') => {
     if (products) {
@@ -69,10 +73,12 @@ export const ProductGrid: React.FC = () => {
   };
   const { callEndpoint } = useFetchAndLoad();
   const getProducs = async () => await callEndpoint(getProductsBySupabase());
-  useAsync(getProducs, (data) => setProducts(data));
+  useAsync(getProducs, (data) => setProducts(data.slice(0, 23)));
+
+  const refresh = async () => await handleFilterSubmit(filter, setProducts);
 
   return (
-    <div className="grid grid-cols-12 gap-3 mx-5">
+    <div className="mx-3">
       <NavFilters
         onCategoryClick={showCategoryModal}
         onSizeClick={showSizeModal}
@@ -81,20 +87,29 @@ export const ProductGrid: React.FC = () => {
         setFilter={setFilter}
         orderByPrice={sortProductsByPrice}
       />
-      {products?.map((product) => (
-        <ProductCard
-          product={product}
-          key={product.id}
-          handleClick={() => {
-            showDetailsModal();
-            setProductSelected(product);
-          }}
-          handleClose={() => {
-            setRemoveId(product.id);
-            showDeleteModal();
-          }}
-        />
-      ))}
+      <ScrollArea className="lg:h-[69vh] xl:h-[70vh] 2xl:h-[72vh] col-span-full my-2">
+        <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6">
+          {products?.length ? (
+            pagination?.map((product) => (
+              <ProductCard
+                product={product}
+                key={product.id}
+                handleClick={() => {
+                  showDetailsModal();
+                  setProductSelected(product);
+                }}
+                handleClose={() => {
+                  if (product.id) setRemoveId(product.id);
+                  showDeleteModal();
+                }}
+              />
+            ))
+          ) : (
+            <p className="col-span-full">No hay productos que mostrar !</p>
+          )}
+        </div>
+      </ScrollArea>
+      {products && <PaginationBar data={products} setState={setPagination} />}
       <ModalCategory
         isCategoryModalOpen={isCategoryModalOpen}
         handleFilterClick={handleFilterClick}
@@ -109,17 +124,19 @@ export const ProductGrid: React.FC = () => {
       />
       <ModalDelete
         isDeleteModalOpen={isDeleteModalOpen}
-        handleRemoveProduct={handleRemoveProduct}
-        handleCloseModal={hideDeleteModal}
+        handleDeleteProduct={handleRemoveProduct}
+        hideDeleteModal={hideDeleteModal}
       />
       {productSelected && (
         <ModalDetails
           productSelected={productSelected}
           isDetailsModalOpen={isDetailsModalOpen}
-          handleCloseModal={hideDetailsModal}
+          handleCloseModal={() => {
+            hideDetailsModal();
+            refresh();
+          }}
         />
       )}
-      <LoadingIndicator isLoading={products?.length === 0} />
     </div>
   );
 };

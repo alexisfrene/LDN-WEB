@@ -1,6 +1,9 @@
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { getAvailableProductCountByVariationId } from '@/services';
 import { ImageVariantsProduct } from '../../../../../types';
 import { Button, Card, CardContent, CardHeader, CardTitle } from '@/components';
+import { useEffect, useState } from 'react';
+
 interface CardImageVariationsProps {
   product: ImageVariantsProduct;
   onClick: () => void;
@@ -12,21 +15,36 @@ export const CardImageVariations: React.FC<CardImageVariationsProps> = ({
   onClick,
   onCLickImage,
 }) => {
+  const [cant, setCant] = useState(0);
+  const getProductCount = async () => {
+    const res = await getAvailableProductCountByVariationId(product.id);
+    if (res) {
+      setCant(res);
+    }
+  };
+  useEffect(() => {
+    getProductCount();
+  }, []);
+
   return (
-    <Card>
+    <Card className="col-span-1">
       <CardHeader>
-        <CardTitle className="flex justify-between">
-          {product.description}
-          <Button variant="destructive" onClick={onClick}>
+        <CardTitle className="flex justify-between lg:text-sm">
+          {`${product.description}(${cant}) `}
+          <Button
+            variant="destructive"
+            onClick={onClick}
+            className="lg:h-6 lg:w-6 lg:text-xs 2xl:h-8 2xl:text-base"
+          >
             X
           </Button>
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex justify-center">
         <img
           src={`http://localhost:3001/${product.miniature_image}`}
           alt={product.description}
-          className="self-center rounded-t-lg w-96 object-cover border-x-4 border-t-4 transition-all duration-300 group-hover:border-amber-600 h-96 cursor-pointer"
+          className="w-96 h-96 object-fill cursor-pointer rounded-xl lg:h-52 2xl:h-56"
           onClick={onCLickImage}
           loading="lazy"
         />

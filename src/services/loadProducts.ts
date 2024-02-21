@@ -1,10 +1,12 @@
 import { supabase } from '../lib/connectionToSupabase';
-import { ProductsBySupabase } from '../types';
+import { ProductsBySupabase, UUID } from '../types';
 const loadAbort = () => {
   const controller = new AbortController();
   return controller;
 };
+
 type SetStateFunction<T> = React.Dispatch<React.SetStateAction<T>>;
+
 export const getProductsBySupabase = () => {
   const controller = loadAbort();
 
@@ -13,10 +15,47 @@ export const getProductsBySupabase = () => {
     controller,
   };
 };
+
+const removeEmptyStringProperties = (
+  obj: ProductsBySupabase,
+): ProductsBySupabase => {
+  const cleanedObject: Partial<ProductsBySupabase> = {};
+
+  for (const [key, value] of Object.entries(obj)) {
+    if (typeof value === 'string' && value.trim() !== '') {
+      cleanedObject[key as keyof ProductsBySupabase] = value as string;
+    } else if (typeof value !== 'string') {
+      cleanedObject[key as keyof ProductsBySupabase] = value;
+    }
+  }
+
+  // Si es necesario, puedes realizar una conversión de tipo seguro
+  return cleanedObject as ProductsBySupabase;
+};
+export const createProductsBySupabase = async (values: ProductsBySupabase) => {
+  values.produc_price = Number(values.produc_price);
+  values.user = '13fc1ae1-ba0d-42c6-b83c-91c96831d623'; //TODO:ver esto
+  const newProducts = removeEmptyStringProperties(values);
+  try {
+    const { data, error } = await supabase
+      .from('ldn_producs')
+      .insert(newProducts)
+      .select();
+    if (error) {
+      return 'Error al crear un producto en la base de datos';
+    } else {
+      return data;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 interface filterProps {
   category: string | boolean;
   size: string | boolean;
 }
+
 export const handleFilterSubmit = async (
   filter: filterProps,
   setProducts: SetStateFunction<ProductsBySupabase[] | null>,
@@ -30,8 +69,11 @@ export const handleFilterSubmit = async (
 
     if (data) {
       return setProducts(data?.sort((a, b) => b.produc_price - a.produc_price));
+    } else {
+      return setProducts([]);
     }
   }
+
   if (filter.category) {
     const { data } = await supabase
       .from('ldn_producs')
@@ -42,6 +84,7 @@ export const handleFilterSubmit = async (
       return setProducts(data?.sort((a, b) => b.produc_price - a.produc_price));
     }
   }
+
   if (filter.size) {
     const { data } = await supabase
       .from('ldn_producs')
@@ -55,11 +98,12 @@ export const handleFilterSubmit = async (
 
 export const removeProductsBySupabase = async (id: string) => {
   try {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('ldn_producs')
       .update({ produc_state: false })
       .eq('id', id);
-    if (!error) return data;
+    if (!error) return true;
+    return false;
   } catch (error) {
     console.error(error);
   }
@@ -88,5 +132,33 @@ export const updateProductsBySupabase = async (
     if (!error) return data;
   } catch (error) {
     console.error(error);
+  }
+};
+
+/**
+ * Gets the count of available products with a specific variation ID.
+ * @param {string} variationId - The ID of the variation to search for.
+ * @returns {Promise<number|null>} - The count of available products found or null in case of an error.
+ */
+export const getAvailableProductCountByVariationId = async (
+  variationId: UUID,
+) => {
+  try {
+    const { data, error } = await supabase
+      .from('ldn_producs')
+      .select('*', { count: 'exact' })
+      .eq('produc_variations', variationId)
+      .eq('produc_state', true);
+
+    if (error) {
+      console.error('Error executing the query:', error);
+
+      return null;
+    }
+
+    return data.length;
+  } catch (error) {
+    console.error('General error:', error);
+    return null;
   }
 };

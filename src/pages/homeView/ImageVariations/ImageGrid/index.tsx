@@ -1,18 +1,28 @@
-import React, { useState } from 'react';
-import { ImageVariantsProduct } from '../../../../types';
-import { useAsync, useFetchAndLoad, useModal } from '../../../../hooks';
-import { deleteProductById, fetchProducts } from '../../../../services';
-import { LoadingIndicator, ModalDelete } from '../../../../components';
+import React, { useContext, useEffect, useState } from 'react';
 import { ModalGallery } from './ModalGallery';
 import { CardImageVariations } from './CardImageVariations';
+import { NavFilters } from './NavFilters';
+import { useModal } from '../../../../hooks';
+import { deleteProductById, fetchProducts } from '../../../../services';
+import { ModalDelete, PaginationBar, ScrollArea } from '../../../../components';
+
+import { LoadingContext, SnackbarContext } from '@/context';
+import { ImageVariantsProduct, UUID } from '../../../../types';
 
 export const ImageGrid: React.FC = () => {
   const [variationsImages, setVariationsImages] = useState<
     ImageVariantsProduct[] | []
   >([]);
-  const [selectedId, setSelectedId] = useState<string>('');
+  const [selectedId, setSelectedId] = useState<UUID>(
+    '000-000-000-000-000-000-000-000',
+  );
+  const [category, setCategory] = useState<ImageVariantsProduct[]>([]);
+  const [pagination, setPagination] = useState<ImageVariantsProduct[]>([]);
   const [productSelected, setProductSelected] =
     useState<ImageVariantsProduct | null>(null);
+  const { showErrorSnackbar, showSuccessSnackbar } =
+    useContext(SnackbarContext);
+  const { startLoading, stopLoading } = useContext(LoadingContext);
   const {
     hideModal: hideGalleryModal,
     isOpenModal: isGalleryModalOpen,
@@ -23,45 +33,85 @@ export const ImageGrid: React.FC = () => {
     isOpenModal: isDeleteModalOpen,
     showModal: showDeleteModal,
   } = useModal();
-  const handleDeleteProduct = async (id: string) => {
+  const handleDeleteProduct = async (id: UUID) => {
     try {
+      startLoading();
       await deleteProductById(id);
-      setVariationsImages((prevProducts) =>
-        prevProducts?.filter((product) => product.id !== id),
-      );
-      hideDeleteModal();
+      category?.length
+        ? setCategory((prevProducts) =>
+            prevProducts?.filter((product) => product.id !== id),
+          )
+        : setVariationsImages((prevProducts) =>
+            prevProducts?.filter((product) => product.id !== id),
+          );
+      showSuccessSnackbar('Eliminado con éxito!');
     } catch (error) {
-      console.error('Error al eliminar un producto por id');
+      showErrorSnackbar(`Error al eliminar un producto por id -> ${error}`);
+    } finally {
+      hideDeleteModal();
+      stopLoading();
     }
   };
   const handlerGalleryImage = (product: ImageVariantsProduct) => {
     setProductSelected(product);
     showGalleryModal();
   };
-  const { loading, callEndpoint } = useFetchAndLoad();
-  const getImageVariations = async () => await callEndpoint(fetchProducts());
-  useAsync(getImageVariations, (data) => setVariationsImages(data.data));
+  const refresh = async () => {
+    try {
+      const res = await fetchProducts();
+      if (res) {
+        const newData = await res.data.data;
+        if (category?.length) return setCategory(newData);
+        setVariationsImages(newData);
+      }
+    } catch (error) {
+      showErrorSnackbar('Error al refrescar los datos');
+    }
+  };
+  const productsToMap = category?.length ? category : variationsImages;
+  const renderProductCard = (product: ImageVariantsProduct) => (
+    <CardImageVariations
+      key={product.id}
+      product={product}
+      onClick={() => {
+        setSelectedId(product.id);
+        showDeleteModal();
+      }}
+      onCLickImage={() => handlerGalleryImage(product)}
+    />
+  );
+  const fetchData = async () => {
+    try {
+      startLoading();
+      const res = await fetchProducts();
+      if (res) {
+        const newData = await res.data.data;
+        return setVariationsImages(newData);
+      }
+    } finally {
+      stopLoading();
+    }
+  };
+  useEffect(() => {
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-    <div className="grid gap-5 grid-cols-4 mx-3">
-      <LoadingIndicator isLoading={!variationsImages.length} />
-      {!loading &&
-        variationsImages?.map((product) => (
-          <CardImageVariations
-            key={product.id}
-            product={product}
-            onClick={() => {
-              setSelectedId(product.id);
-              showDeleteModal();
-            }}
-            onCLickImage={() => handlerGalleryImage(product)}
-          />
-        ))}
+    <div className="mx-3">
+      <NavFilters setState={setCategory} />
+      <ScrollArea className="lg:h-[69vh] xl:h-[68vh] 2xl:h-[72vh] col-span-full">
+        <div className="grid gap-3 sm:grid-cols-1  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
+          {pagination && pagination.map(renderProductCard)}
+        </div>
+      </ScrollArea>
+      <PaginationBar data={productsToMap} setState={setPagination} />
       {productSelected && (
         <ModalGallery
           isGalleryModalOpen={isGalleryModalOpen}
           hideGalleryModal={hideGalleryModal}
           productSelected={productSelected}
+          refresh={refresh}
         />
       )}
       <ModalDelete

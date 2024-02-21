@@ -1,14 +1,21 @@
-import { filterAndMapTitles } from '../../../../../utils';
 import { ProductsBySupabase } from '../../../../../types';
 import { Cloudinary } from '@cloudinary/url-gen';
 import { fetchProductById } from '../../../../../services';
 import { useEffect, useState } from 'react';
+import {
+  Button,
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  AspectRatio,
+} from '@/components';
 interface ProductCardProps {
   product: ProductsBySupabase;
   handleClick: () => void;
   handleClose: () => void;
 }
-
 export const ProductCard: React.FC<ProductCardProps> = ({
   product,
   handleClick,
@@ -20,7 +27,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       cloudName: 'ldn-img',
     },
   });
-
   const handleImageDestination = async () => {
     if (product.produc_variations) {
       const { miniature_image } = await fetchProductById(
@@ -30,48 +36,47 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     }
     return setImageUrl(cld.image(product.produc_image_url).toURL());
   };
-
   useEffect(() => {
     handleImageDestination();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div
-      className={`col-span-3 cursor-pointer transition transform duration-150  rounded-lg border-2 p-4 flex flex-col items-center justify-center ${
-        product.produc_state
-          ? 'bg-orange-300 hover:bg-amber-300'
-          : 'bg-slate-300 hover:bg-slate-200'
-      } shadow-md`}
-    >
-      <button
-        onClick={handleClose}
-        className="absolute top-0 right-0 mt-1 mr-1 h-8 w-8 bg-red-500 text-white rounded-full cursor-pointer transition-transform transform hover:scale-110"
-      >
-        X
-      </button>
-      <div onClick={handleClick}>
-        <h3 className="text-lg font-bold mb-2">{product.produc_name}</h3>
-        <img
-          src={imageUrl}
-          className={`object-cover h-96 w-96 rounded-md mb-2 ${
-            product.produc_variations &&
-            'border-2 border-amber-900 border-dashed'
-          }`}
-          alt={product.produc_name}
-        />
-        <span className="text-lg flex justify-between w-full">
-          {filterAndMapTitles(product.produc_category)}
-          <span
+    <Card className="col-span-1 lg:text-xs xl:text-base">
+      <CardHeader className="flex flex-row justify-between items-center">
+        <CardTitle className="lg:h-6 truncate">
+          <p
             className={`${
               product.produc_state ? 'text-green-500' : 'text-red-600'
             }`}
           >
-            {product.produc_state ? 'DISPONIBLE' : 'AGOTADO'}
-          </span>
-          <span className="font-bold">${product.produc_price}</span>
-        </span>
-      </div>
-    </div>
+            {`${product.produc_name}(${product.produc_state ? 'D' : 'A'})`}
+          </p>
+        </CardTitle>
+        <Button
+          variant="destructive"
+          onClick={handleClose}
+          className="lg:h-6 lg:w-6 lg:ml-3 lg:text-xs 2xl:h-8 2xl:text-base"
+        >
+          X
+        </Button>
+      </CardHeader>
+      <CardContent onClick={handleClick} className="cursor-pointer">
+        <AspectRatio ratio={1 / 1} className="bg-muted">
+          <img
+            src={imageUrl}
+            className={`w-96 h-96 object-fill cursor-pointer rounded-xl lg:h-48 xl:h-64 2xl:h-56 ${
+              product.produc_variations &&
+              'border-2 border-amber-900 border-dashed'
+            }`}
+            alt={product.produc_name}
+          />
+        </AspectRatio>
+      </CardContent>
+      <CardFooter className="flex justify-between lg:mt-1 2xl:mt-3">
+        <p>{product.produc_size}</p>
+        <p>$ {product.produc_price}</p>
+      </CardFooter>
+    </Card>
   );
 };

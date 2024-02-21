@@ -1,6 +1,5 @@
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
-import { filterAndMapTitles } from '../../../../../utils';
-import { Button } from '../../../../../components';
+import { filterAndMapTitles } from '@/lib';
+import { Button, Icons } from '@/components';
 
 interface NavFiltersProps {
   onCategoryClick: () => void;
@@ -23,7 +22,7 @@ export const NavFilters: React.FC<NavFiltersProps> = ({
 }) => {
   const renderCategoryInfo = () => {
     if (category) {
-      return <p>{'Categoria :' + filterAndMapTitles(category)}</p>;
+      return <p>{'Categoría :' + filterAndMapTitles(category)}</p>;
     }
     return null;
   };
@@ -38,10 +37,10 @@ export const NavFilters: React.FC<NavFiltersProps> = ({
   };
 
   return (
-    <div className="col-span-12 flex justify-start gap-10 items-center bg-amber-400 h-12 p-3 rounded-xl">
+    <div className="col-span-full flex justify-start gap-10 items-center bg-amber-400 h-12 p-3 rounded-xl">
       <span>Filtrar por : </span>
       <Button onClick={onCategoryClick} variant="secondary">
-        Categoria
+        Categoría
       </Button>
       <Button onClick={onSizeClick} variant="secondary">
         Talle
@@ -56,13 +55,15 @@ export const NavFilters: React.FC<NavFiltersProps> = ({
           Borrar filtros
         </Button>
       )}
-      <div className="flex">
-        <ChevronUpIcon
-          className="h-10 cursor-pointer hover:text-slate-600"
+      <div className="flex gap-5">
+        <Icons
+          type="arrow_top"
+          className="h-8 cursor-pointer hover:text-slate-600"
           onClick={() => orderByPrice('+')}
         />
-        <ChevronDownIcon
-          className="h-10 cursor-pointer hover:text-slate-600"
+        <Icons
+          type="arrow_down"
+          className="h-8 cursor-pointer hover:text-slate-600"
           onClick={() => orderByPrice('-')}
         />
       </div>

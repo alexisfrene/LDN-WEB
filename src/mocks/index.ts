@@ -3,4 +3,9 @@ export {
   inputProducs,
   productsSize,
   selectedOption,
+  colors,
+  genders,
+  brands,
+  styles,
+  DropdownTypes,
 } from './producs';
