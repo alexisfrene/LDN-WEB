@@ -19,7 +19,7 @@ export interface ProductFormData {
 export const variantsApi = createApi({
   reducerPath: 'variantsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:3001/api/products',
+    baseUrl: `${import.meta.env.VITE_HOST_NAME}api/products`,
   }),
   endpoints: (builder) => ({
     getVariantsByCategory: builder.query({
@@ -33,7 +33,7 @@ export const variantsApi = createApi({
 export const imagesVariantsApi = createApi({
   reducerPath: 'imagesVariantsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:3001/',
+    baseUrl: import.meta.env.VITE_HOST_NAME,
   }),
   endpoints: (builder) => ({
     getImageVariants: builder.query({
@@ -43,7 +43,7 @@ export const imagesVariantsApi = createApi({
 });
 export const fetchProducts = () => {
   try {
-    const data = axios.get('http://localhost:3001/api/products');
+    const data = axios.get(`${import.meta.env.VITE_HOST_NAME}api/products`);
 
     return data;
   } catch (error) {
@@ -57,7 +57,9 @@ export const insertImageId = async (
 ) => {
   try {
     const response = await fetch(
-      `http://localhost:3001/api/products?product_id=${product_id}&product_image_id=${product_image_id}`,
+      `${
+        import.meta.env.VITE_HOST_NAME
+      }api/products?product_id=${product_id}&product_image_id=${product_image_id}`,
       {
         method: 'POST',
       },
@@ -77,7 +79,7 @@ export const insertImageId = async (
 export const fetchProductsForCategory = async (category: string) => {
   try {
     const response = await fetch(
-      `http://localhost:3001/api/products?category=${category}`,
+      `${import.meta.env.VITE_HOST_NAME}api/products?category=${category}`,
     );
     if (response.ok) {
       const { data } = await response.json();
@@ -99,9 +101,12 @@ export const fetchProductsForCategory = async (category: string) => {
 
 export const deleteProductById = async (id: string) => {
   try {
-    const response = await fetch(`http://localhost:3001/api/products/${id}`, {
-      method: 'DELETE',
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_HOST_NAME}api/products/${id}`,
+      {
+        method: 'DELETE',
+      },
+    );
     if (response.ok) {
       console.log(`Producto con ID ${id} eliminado correctamente`);
     } else {
@@ -114,7 +119,9 @@ export const deleteProductById = async (id: string) => {
 
 export const fetchProductById = async (id: string) => {
   try {
-    const response = await fetch(`http://localhost:3001/api/products/${id}`);
+    const response = await fetch(
+      `${import.meta.env.VITE_HOST_NAME}api/products/${id}`,
+    );
     if (response.ok) {
       const { data } = await response.json();
       return data;
@@ -145,11 +152,15 @@ export const createImageVariations = async (values: ProductFormData) => {
     formData.append('details[gender]', values.gender);
     formData.append('details[brand]', values.brand);
     formData.append('details[style]', values.style);
-    await axios.post('http://localhost:3001/api/products', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
+    await axios.post(
+      `${import.meta.env.VITE_HOST_NAME}api/products`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       },
-    });
+    );
   } catch (error) {
     console.error(error);
   }
@@ -173,7 +184,9 @@ export const addVariations = async (values: addVariationsProps) => {
       }
     }
     await axios.put(
-      `http://localhost:3001/api/products/${values.id}?variation_add=true`,
+      `${import.meta.env.VITE_HOST_NAME}api/products/${
+        values.id
+      }?variation_add=true`,
       formData,
       {
         headers: {
@@ -192,7 +205,9 @@ export const removeCollection = async (
 ) => {
   try {
     await axios.delete(
-      `http://localhost:3001/api/products/${idVariations}?variation_remove=${idCollection}`,
+      `${
+        import.meta.env.VITE_HOST_NAME
+      }api/products/${idVariations}?variation_remove=${idCollection}`,
     );
   } catch (error) {
     console.error(error);
@@ -222,7 +237,9 @@ export const modifyCollection = async (data: modifyCollectionType) => {
   formData.append('name', name);
   try {
     const res = await axios.put(
-      `http://localhost:3001/api/products/${idVariation}?id_collection=${idCollection}`,
+      `${
+        import.meta.env.VITE_HOST_NAME
+      }api/products/${idVariation}?id_collection=${idCollection}`,
       formData,
       {
         headers: {
@@ -234,6 +251,33 @@ export const modifyCollection = async (data: modifyCollectionType) => {
     return res;
   } catch (error) {
     console.error(error);
+  }
+};
+
+type editDetailsImageVariationsProps = {
+  type: string;
+  value: string;
+  id: UUID;
+};
+export const editDetailsImageVariations = async (
+  data: editDetailsImageVariationsProps,
+) => {
+  const formData = new FormData();
+  formData.append(data.type, data.value);
+  try {
+    const res = await axios.patch(
+      `${import.meta.env.VITE_HOST_NAME}api/products/${data.id}?edit=details`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      },
+    );
+    return res;
+  } catch (error) {
+    console.log(error);
+    return false;
   }
 };
 export const { useGetImageVariantsQuery } = imagesVariantsApi;

@@ -23,6 +23,13 @@ export type CategoryProduct =
   | 'sandals'
   | 'other';
 
+export type detailsImageVariation = {
+  color: string;
+  gender: GenderProduct;
+  brand: BrandProduct;
+  style: StyleProduct;
+};
+
 export type ImageVariantsProduct = {
   description: string;
   primary_image: string;
@@ -32,6 +39,7 @@ export type ImageVariantsProduct = {
   miniature_image: string;
   createdAt: Date;
   updatedAt: Date;
+  details: detailsImageVariation;
 };
 
 export type VariationsType = {
@@ -66,4 +74,4 @@ export interface ProductsBySupabase {
 export type Filters = {
   category: string;
   size: string;
-}
+};

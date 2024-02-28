@@ -99,7 +99,9 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                   {product.description}
                 </h3>
                 <img
-                  src={`http://localhost:3001/${product.miniature_image}`}
+                  src={`${import.meta.env.VITE_HOST_NAME}${
+                    product.miniature_image
+                  }`}
                   alt={product.description}
                   className="object-fill mb-2 rounded"
                 />
@@ -125,7 +127,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                   {variation.images.map((image, imageIndex) => (
                     <img
                       key={imageIndex}
-                      src={`http://localhost:3001/${image}`}
+                      src={`${import.meta.env.VITE_HOST_NAME}${image}`}
                       alt={image}
                       className="w-full h-32 object-cover mb-2 rounded shadow-md transition-all duration-300 transform hover:scale-105 col-span-1"
                     />
