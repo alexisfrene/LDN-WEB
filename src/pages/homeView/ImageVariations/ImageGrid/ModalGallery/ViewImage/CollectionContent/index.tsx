@@ -19,7 +19,6 @@ type CollectionContentProps = {
   collection: VariationsType;
   variationId: UUID;
   handleDeleteModal: (id: UUID) => void;
-  refreshProduct: () => void;
   refresh: () => void;
 };
 
@@ -27,7 +26,6 @@ export const CollectionContent: React.FC<CollectionContentProps> = ({
   collection,
   handleDeleteModal,
   variationId,
-  refreshProduct,
   refresh,
 }) => {
   const [edit, setEdit] = useState(false);
@@ -58,7 +56,6 @@ export const CollectionContent: React.FC<CollectionContentProps> = ({
     setLoading(true);
     const res = await modifyCollection(data);
     if (res?.statusText === 'OK') {
-      refreshProduct();
       refresh();
       toast('Colección de imágenes actualizada !');
       setEdit(false);
@@ -136,7 +133,7 @@ export const CollectionContent: React.FC<CollectionContentProps> = ({
                 )}
                 {urlImageVariation.test(image) ? (
                   <ImageWithSkeleton
-                    url={`http://localhost:3001/${image}`}
+                    url={`${import.meta.env.VITE_HOST_NAME}${image}`}
                     key={imageIndex}
                   />
                 ) : (

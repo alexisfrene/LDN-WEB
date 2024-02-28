@@ -32,7 +32,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       const { miniature_image } = await fetchProductById(
         product.produc_variations,
       );
-      return setImageUrl(`http://localhost:3001/${miniature_image}`);
+      return setImageUrl(`${import.meta.env.VITE_HOST_NAME}${miniature_image}`);
     }
     return setImageUrl(cld.image(product.produc_image_url).toURL());
   };

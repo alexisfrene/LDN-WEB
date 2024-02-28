@@ -10,6 +10,7 @@ export {
   useGetImageVariantsQuery,
   useGetAllVariantsQuery,
   modifyCollection,
+  editDetailsImageVariations,
 } from './imagesProducts';
 export {
   getProductsBySupabase,

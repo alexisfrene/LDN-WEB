@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { toast } from 'sonner';
 import {
   Card,
@@ -9,7 +9,7 @@ import {
 } from '@/components';
 import { LoadingContext } from '@/context';
 import { useModal } from '@/hooks';
-import { removeCollection, fetchProductById } from '@/services';
+import { removeCollection } from '@/services';
 import { CollectionContent } from './CollectionContent';
 import { ImageVariantsProduct } from '@/types';
 
@@ -45,7 +45,6 @@ export const ViewImage: React.FC<ViewImageProps> = ({
         description:
           'Se elimino la collection correctamente de su galería de imágenes',
       });
-      refreshProduct();
       refresh();
       const newVariants = selected.variations.filter(
         (e) => e.id !== idCollection,
@@ -59,18 +58,9 @@ export const ViewImage: React.FC<ViewImageProps> = ({
     }
   };
 
-  const refreshProduct = async () => {
-    const res = await fetchProductById(productSelected.id);
-    setSelected(res);
-  };
-  useEffect(() => {
-    refreshProduct();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productSelected]);
-
   return (
     <>
-      <Card className="min-h-[750px] flex flex-col">
+      <Card className="min-h-[84vh] flex flex-col">
         <CardHeader>
           <CardTitle>{selected.description?.toUpperCase()}</CardTitle>
           <CardDescription>
@@ -83,7 +73,6 @@ export const ViewImage: React.FC<ViewImageProps> = ({
             collection={variation}
             variationId={selected.id}
             handleDeleteModal={handleDeleteModal}
-            refreshProduct={refreshProduct}
             refresh={refresh}
           />
         ))}

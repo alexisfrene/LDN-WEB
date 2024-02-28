@@ -28,9 +28,9 @@ export const FormAddImages: React.FC<{
   };
 
   return (
-    <Card className="min-h-[750px] flex flex-col">
+    <Card className="min-h-[84vh] flex flex-col">
       <CardHeader>
-        <CardTitle>Crear nueva colección</CardTitle>
+        <CardTitle>CREAR NUEVA COLECCIÓN</CardTitle>
         <CardDescription>Agregar mas variantes del producto</CardDescription>
       </CardHeader>
       <CardContent>

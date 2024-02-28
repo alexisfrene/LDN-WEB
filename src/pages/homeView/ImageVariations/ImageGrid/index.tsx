@@ -2,14 +2,19 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ModalGallery } from './ModalGallery';
 import { CardImageVariations } from './CardImageVariations';
 import { NavFilters } from './NavFilters';
-import { useModal } from '../../../../hooks';
-import { deleteProductById, fetchProducts } from '../../../../services';
-import { ModalDelete, PaginationBar, ScrollArea } from '../../../../components';
-
-import { LoadingContext, SnackbarContext } from '@/context';
-import { ImageVariantsProduct, UUID } from '../../../../types';
+import { useModal } from '@/hooks';
+import { deleteProductById, fetchProducts } from '@/services';
+import {
+  LoadingIndicator,
+  ModalDelete,
+  PaginationBar,
+  ScrollArea,
+} from '@/components';
+import { SnackbarContext } from '@/context';
+import { ImageVariantsProduct, UUID } from '@/types';
 
 export const ImageGrid: React.FC = () => {
+  const [loading, setLoading] = useState(false);
   const [variationsImages, setVariationsImages] = useState<
     ImageVariantsProduct[] | []
   >([]);
@@ -22,7 +27,6 @@ export const ImageGrid: React.FC = () => {
     useState<ImageVariantsProduct | null>(null);
   const { showErrorSnackbar, showSuccessSnackbar } =
     useContext(SnackbarContext);
-  const { startLoading, stopLoading } = useContext(LoadingContext);
   const {
     hideModal: hideGalleryModal,
     isOpenModal: isGalleryModalOpen,
@@ -35,7 +39,7 @@ export const ImageGrid: React.FC = () => {
   } = useModal();
   const handleDeleteProduct = async (id: UUID) => {
     try {
-      startLoading();
+      setLoading(true);
       await deleteProductById(id);
       category?.length
         ? setCategory((prevProducts) =>
@@ -49,7 +53,7 @@ export const ImageGrid: React.FC = () => {
       showErrorSnackbar(`Error al eliminar un producto por id -> ${error}`);
     } finally {
       hideDeleteModal();
-      stopLoading();
+      setLoading(false);
     }
   };
   const handlerGalleryImage = (product: ImageVariantsProduct) => {
@@ -57,15 +61,11 @@ export const ImageGrid: React.FC = () => {
     showGalleryModal();
   };
   const refresh = async () => {
-    try {
-      const res = await fetchProducts();
-      if (res) {
-        const newData = await res.data.data;
-        if (category?.length) return setCategory(newData);
-        setVariationsImages(newData);
-      }
-    } catch (error) {
-      showErrorSnackbar('Error al refrescar los datos');
+    const res = await fetchProducts();
+    if (res) {
+      const newData = await res.data.data;
+      if (category?.length) return setCategory(newData);
+      setVariationsImages(newData);
     }
   };
   const productsToMap = category?.length ? category : variationsImages;
@@ -81,16 +81,13 @@ export const ImageGrid: React.FC = () => {
     />
   );
   const fetchData = async () => {
-    try {
-      startLoading();
-      const res = await fetchProducts();
-      if (res) {
-        const newData = await res.data.data;
-        return setVariationsImages(newData);
-      }
-    } finally {
-      stopLoading();
+    setLoading(true);
+    const res = await fetchProducts();
+    if (res) {
+      const newData = await res.data.data;
+      setVariationsImages(newData);
     }
+    setLoading(false);
   };
   useEffect(() => {
     fetchData();
@@ -119,6 +116,7 @@ export const ImageGrid: React.FC = () => {
         hideDeleteModal={hideDeleteModal}
         handleDeleteProduct={() => handleDeleteProduct(selectedId)}
       />
+      <LoadingIndicator isLoading={loading} />
     </div>
   );
 };
