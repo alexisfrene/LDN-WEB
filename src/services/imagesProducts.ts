@@ -159,6 +159,7 @@ export const createImageVariations = async (values: ProductFormData) => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        withCredentials: true,
       },
     );
   } catch (error) {
@@ -192,6 +193,7 @@ export const addVariations = async (values: addVariationsProps) => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        withCredentials: true,
       },
     );
   } catch (error) {
