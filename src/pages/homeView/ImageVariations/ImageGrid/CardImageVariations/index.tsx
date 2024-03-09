@@ -42,7 +42,7 @@ export const CardImageVariations: React.FC<CardImageVariationsProps> = ({
       </CardHeader>
       <CardContent className="flex justify-center">
         <img
-          src={`${import.meta.env.VITE_HOST_NAME}${product.miniature_image}`}
+          src={`${import.meta.env.VITE_HOST_NAME}/${product.miniature_image}`}
           alt={product.description}
           className="w-96 h-96 object-fill cursor-pointer rounded-xl lg:h-52 2xl:h-56"
           onClick={onCLickImage}

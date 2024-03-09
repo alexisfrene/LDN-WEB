@@ -133,7 +133,7 @@ export const CollectionContent: React.FC<CollectionContentProps> = ({
                 )}
                 {urlImageVariation.test(image) ? (
                   <ImageWithSkeleton
-                    url={`${import.meta.env.VITE_HOST_NAME}${image}`}
+                    url={`${import.meta.env.VITE_HOST_NAME}/${image}`}
                     key={imageIndex}
                   />
                 ) : (

@@ -34,7 +34,7 @@ export const InfoImages: React.FC<InfoImagesProps> = ({
             className="text-slate-300 hover:text-slate-400 w-8 cursor-pointer absolute right-1 m-1"
           />
           <img
-            src={`${import.meta.env.VITE_HOST_NAME}${
+            src={`${import.meta.env.VITE_HOST_NAME}/${
               productSelected.primary_image
             }`}
             className="rounded-md object-contain w-full h-80  bg-slate-200"
