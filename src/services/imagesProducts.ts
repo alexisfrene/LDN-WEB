@@ -59,7 +59,7 @@ export const insertImageId = async (
     const response = await fetch(
       `${
         import.meta.env.VITE_HOST_NAME
-      }api/products?product_id=${product_id}&product_image_id=${product_image_id}`,
+      }/api/products?product_id=${product_id}&product_image_id=${product_image_id}`,
       {
         method: 'POST',
       },
@@ -207,7 +207,7 @@ export const removeCollection = async (
     await axios.delete(
       `${
         import.meta.env.VITE_HOST_NAME
-      }api/products/${idVariations}?variation_remove=${idCollection}`,
+      }/api/products/${idVariations}?variation_remove=${idCollection}`,
     );
   } catch (error) {
     console.error(error);
@@ -227,7 +227,8 @@ export const modifyCollection = async (data: modifyCollectionType) => {
   const newImages = images.filter((url) => !urlImageVariation.test(url));
   if (newImages) {
     for (let i = 0; i < newImages.length; i++) {
-      const blob = await fetch(newImages[i]).then((r) => r.blob());
+      const blobUrl = newImages[i];
+      const blob = await fetch(blobUrl).then((r) => r.blob());
       const newFile = new File([blob], `filename-${Date.now()}.jpg`);
       formData.append('files', newFile);
     }
@@ -239,7 +240,7 @@ export const modifyCollection = async (data: modifyCollectionType) => {
     const res = await axios.put(
       `${
         import.meta.env.VITE_HOST_NAME
-      }api/products/${idVariation}?id_collection=${idCollection}`,
+      }/api/products/${idVariation}?id_collection=${idCollection}`,
       formData,
       {
         headers: {
