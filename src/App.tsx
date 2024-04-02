@@ -3,13 +3,21 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { LoadingIndicator, Toaster } from './components';
 import TestView from './pages/testView';
 import { login } from './lib/connectionToSupabase';
-
-const HomeView = lazy(() => import('./pages/homeView'));
-
+const SingUpPage = lazy(() => import('./pages/sign'));
+const HomePage = lazy(() => import('./pages/home'));
+const LoginPage = lazy(() => import('./pages/login'));
 const routes = [
   {
     path: '/',
-    element: <HomeView />,
+    element: <HomePage />,
+  },
+  {
+    path: '/login',
+    element: <LoginPage />,
+  },
+  {
+    path: '/signup',
+    element: <SingUpPage />,
   },
   {
     path: '/test',

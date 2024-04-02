@@ -33,7 +33,7 @@ const tabButtons = [
   },
 ];
 
-const HomeView: React.FC = () => {
+const HomePage: React.FC = () => {
   return (
     <Layout>
       <Tabs
@@ -69,4 +69,4 @@ const HomeView: React.FC = () => {
   );
 };
 
-export default HomeView;
+export default HomePage;
