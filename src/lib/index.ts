@@ -4,4 +4,6 @@ export {
   getCurrentFormattedDate,
   filterAndMapTitles,
   urlImageVariation,
+  axiosInstance,
+  axiosInstanceFormData,
 } from './utils';
