@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { toast } from 'sonner';
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { UUID } from '@/types';
-import { urlImageVariation } from '@/lib';
+import { axiosInstance, axiosInstanceFormData, urlImageVariation } from '@/lib';
 
 export interface ProductFormData {
   description: string;
@@ -16,34 +15,9 @@ export interface ProductFormData {
   collection: string;
 }
 
-export const variantsApi = createApi({
-  reducerPath: 'variantsApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_HOST_NAME}/api/variations`,
-  }),
-  endpoints: (builder) => ({
-    getVariantsByCategory: builder.query({
-      query: (category) => `?category=${category}`,
-    }),
-    getAllVariants: builder.query({
-      query: () => '/',
-    }),
-  }),
-});
-export const imagesVariantsApi = createApi({
-  reducerPath: 'imagesVariantsApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_HOST_NAME,
-  }),
-  endpoints: (builder) => ({
-    getImageVariants: builder.query({
-      query: (image) => image,
-    }),
-  }),
-});
 export const fetchProducts = () => {
   try {
-    const data = axios.get(`${import.meta.env.VITE_HOST_NAME}/api/variations`);
+    const data = axiosInstance.get(`/variations`);
 
     return data;
   } catch (error) {
@@ -101,13 +75,8 @@ export const fetchProductsForCategory = async (category: string) => {
 
 export const deleteProductById = async (id: string) => {
   try {
-    const response = await fetch(
-      `${import.meta.env.VITE_HOST_NAME}/api/variations/${id}`,
-      {
-        method: 'DELETE',
-      },
-    );
-    if (response.ok) {
+    const response = await axiosInstance.delete(`/variations/${id}`);
+    if (response) {
       console.log(`Producto con ID ${id} eliminado correctamente`);
     } else {
       throw new Error('No se pudo eliminar el producto');
@@ -152,15 +121,7 @@ export const createImageVariations = async (values: ProductFormData) => {
     formData.append('details[gender]', values.gender);
     formData.append('details[brand]', values.brand);
     formData.append('details[style]', values.style);
-    await axios.post(
-      `${import.meta.env.VITE_HOST_NAME}/api/variations`,
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      },
-    );
+    await axiosInstanceFormData.post('/variations', formData);
   } catch (error) {
     console.error(error);
   }
@@ -283,6 +244,3 @@ export const editDetailsImageVariations = async (
     return false;
   }
 };
-export const { useGetImageVariantsQuery } = imagesVariantsApi;
-export const { useGetVariantsByCategoryQuery, useGetAllVariantsQuery } =
-  variantsApi;

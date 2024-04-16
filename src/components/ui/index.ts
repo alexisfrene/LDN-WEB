@@ -79,3 +79,4 @@ export {
   SheetTitle,
   SheetTrigger,
 } from './sheet';
+export { Avatar, AvatarFallback, AvatarImage } from './avatar';

@@ -135,11 +135,6 @@ export const updateProductsBySupabase = async (
   }
 };
 
-/**
- * Gets the count of available products with a specific variation ID.
- * @param {string} variationId - The ID of the variation to search for.
- * @returns {Promise<number|null>} - The count of available products found or null in case of an error.
- */
 export const getAvailableProductCountByVariationId = async (
   variationId: UUID,
 ) => {

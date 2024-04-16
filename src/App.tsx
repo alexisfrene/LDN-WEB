@@ -1,15 +1,29 @@
 import React, { lazy, Suspense, useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { LoadingIndicator, Toaster } from './components';
+import { LoadingIndicator, Toaster, WithAuth } from './components';
 import TestView from './pages/testView';
 import { login } from './lib/connectionToSupabase';
+const FilingPage = lazy(() => import('./pages/filing'));
 const SingUpPage = lazy(() => import('./pages/sign'));
 const HomePage = lazy(() => import('./pages/home'));
 const LoginPage = lazy(() => import('./pages/login'));
-const routes = [
+const ErrorPage = lazy(() => import('./pages/error'));
+
+const router = createBrowserRouter([
   {
     path: '/',
-    element: <HomePage />,
+    element: <FilingPage />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/home',
+    element: (
+      <WithAuth>
+        <HomePage />
+      </WithAuth>
+    ),
+    errorElement: <ErrorPage />,
+    hasErrorBoundary: true,
   },
   {
     path: '/login',
@@ -23,9 +37,7 @@ const routes = [
     path: '/test',
     element: <TestView />,
   },
-];
-
-const router = createBrowserRouter(routes);
+]);
 
 const App: React.FC = () => {
   useEffect(() => {

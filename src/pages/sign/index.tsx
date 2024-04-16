@@ -1,3 +1,8 @@
+import React from 'react';
+import { useFormik } from 'formik';
+import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
+import { registerUser } from '@/services';
 import {
   Button,
   Card,
@@ -15,25 +20,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components';
-import { useFormik } from 'formik';
-import React from 'react';
-//import { z } from 'zod';
 
 const SingUpPage: React.FC = () => {
+  const navigate = useNavigate();
   const initialValues = {
-    name: '',
-    surname: '',
+    first_name: '',
+    last_name: '',
     email: '',
     password: '',
     passwordConfirm: '',
     gender: '',
+    birthday_date: '',
+    username: '',
   };
 
   const formik = useFormik({
     initialValues,
-    onSubmit: (values) => {
-      if (values.password === values.passwordConfirm) {
-        alert(JSON.stringify(values, null, 2));
+    onSubmit: async ({ passwordConfirm, ...values }, formikHelpers) => {
+      console.log(values);
+      const res = await registerUser(values);
+      if (res?.status === 201) {
+        toast('Usuario creado exitosamente!');
+        return formikHelpers.resetForm();
+      } else {
+        alert('Error');
       }
     },
   });
@@ -43,48 +53,68 @@ const SingUpPage: React.FC = () => {
         <CardHeader className="text-center">Crea una cuenta Gratis</CardHeader>
         <CardDescription className="text-center">
           ¿Ya tienes cuenta?
-          <b className="text-blue-600">Ingresa desde aquí.</b>
+          <b
+            className="text-blue-600 mx-3 cursor-pointer hover:text-blue-500"
+            onClick={() => navigate('/login')}
+          >
+            Ingresa desde aquí.
+          </b>
         </CardDescription>
-        <CardContent className="grid grid-cols-2 gap-1 m-10">
-          <form onSubmit={formik.handleSubmit}>
-            <Label htmlFor="name">
+        <CardContent>
+          <form
+            onSubmit={formik.handleSubmit}
+            className="grid grid-cols-2 gap-x-3 gap-y-5 m-10"
+          >
+            <Label htmlFor="username" className="col-span-1">
+              Nombre de la cuenta
+              <Input
+                name="username"
+                id="username"
+                onChange={formik.handleChange}
+                value={formik.values.username}
+                placeholder="Ej : juanperez30"
+                minLength={3}
+                maxLength={15}
+              />
+            </Label>
+            <Label htmlFor="first_name" className="col-span-1">
               Nombre
               <Input
-                name="name"
-                id="name"
+                name="first_name"
+                id="first_name"
                 onChange={formik.handleChange}
-                value={formik.values.name}
-                placeholder="Ingrese su nombre"
+                value={formik.values.first_name}
+                placeholder="Ej : Juan"
                 minLength={3}
                 maxLength={15}
               />
             </Label>
-            <Label htmlFor="surname">
+            <Label htmlFor="last_name" className="col-span-1">
               Apellido
               <Input
-                name="surname"
-                id="surname"
+                name="last_name"
+                id="last_name"
                 onChange={formik.handleChange}
-                value={formik.values.surname}
-                placeholder="Ingrese su apellido"
+                value={formik.values.last_name}
+                placeholder="Ej : Perez"
                 minLength={3}
                 maxLength={15}
               />
             </Label>
-            <Label htmlFor="email" className="col-span-2">
+            <Label htmlFor="email" className="col-span-1">
               Email
               <Input
                 name="email" //TODO: ver como validar que este no se repita
                 id="email"
                 onChange={formik.handleChange}
                 value={formik.values.email}
-                placeholder="juanperez@gmail.com"
+                placeholder="Ej : juanperez@gmail.com"
                 type="email"
                 minLength={3}
                 maxLength={50}
               />
             </Label>
-            <Label htmlFor="gender" className="col-span-2">
+            <Label htmlFor="gender" className="col-span-1">
               Genero
               <Select
                 name="gender"
@@ -104,7 +134,17 @@ const SingUpPage: React.FC = () => {
                 </SelectContent>
               </Select>
             </Label>
-            <Label className="col-span-2" htmlFor="password">
+            <Label htmlFor="date" className="col-span-1">
+              Fecha de nacimiento
+              <Input
+                name="birthday_date"
+                id="birthday_date"
+                onChange={formik.handleChange}
+                value={formik.values.birthday_date}
+                type="date"
+              />
+            </Label>
+            <Label className="col-span-1" htmlFor="password">
               Contraseña
               <Input
                 name="password"
@@ -116,7 +156,7 @@ const SingUpPage: React.FC = () => {
                 maxLength={50}
               />
             </Label>
-            <Label className="col-span-2">
+            <Label className="col-span-1">
               Confirmar contraseña
               <Input
                 name="passwordConfirm"
