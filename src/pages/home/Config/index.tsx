@@ -11,10 +11,12 @@ import {
 import { useModal } from '@/hooks';
 import React from 'react';
 import { CategoryEdit } from './CategoryEdit';
+import { useUserStore } from '@/global';
 
 export const Config: React.FC = () => {
   const { hideModal, isOpenModal, modalContent, showModal, modalTitle } =
     useModal();
+  const avatarImg = useUserStore((state) => state.avatar_url);
   const config = [
     {
       description: 'Editar las categorías de los productos',
@@ -34,7 +36,13 @@ export const Config: React.FC = () => {
           className="text-slate-500 w-6 col-span-1 hover:text-slate-700 cursor-pointer"
         />
       ),
-      onClick: () => showModal('Logo actual', <div>Hola</div>),
+      onClick: () =>
+        showModal(
+          'Logo actual',
+          <div>
+            <img src={avatarImg} />
+          </div>,
+        ),
     },
   ];
   const renderRows = () => {

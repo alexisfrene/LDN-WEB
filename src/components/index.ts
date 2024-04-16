@@ -14,6 +14,7 @@ export {
   ImageWithSkeleton,
   Icons,
 } from './common';
+export { WithAuth } from './WithAuth';
 export {
   Button,
   Card,
@@ -90,4 +91,7 @@ export {
   SheetPortal,
   SheetTitle,
   SheetTrigger,
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
 } from './ui';

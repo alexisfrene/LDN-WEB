@@ -7,8 +7,6 @@ export {
   createImageVariations,
   addVariations,
   removeCollection,
-  useGetImageVariantsQuery,
-  useGetAllVariantsQuery,
   modifyCollection,
   editDetailsImageVariations,
 } from './imagesProducts';
@@ -25,3 +23,4 @@ export {
   addCategoryConfig,
   deleteCategoryConfig,
 } from './config';
+export { registerUser, loginUser } from './user';
