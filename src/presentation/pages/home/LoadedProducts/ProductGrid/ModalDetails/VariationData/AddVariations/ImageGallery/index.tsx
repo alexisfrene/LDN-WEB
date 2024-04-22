@@ -18,7 +18,7 @@ import {
   SelectValue,
 } from '@components';
 import { producsCategory } from '@presentation/mocks';
-import { fetchProductsForCategory, insertImageId } from '@src/services';
+import { fetchProductsForCategory, insertImageId } from '@services';
 import { ImageVariantsProduct } from '@src/types';
 import { useState } from 'react';
 

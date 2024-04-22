@@ -1,6 +1,6 @@
 import { ProductsBySupabase } from '@src/types';
 import { Cloudinary } from '@cloudinary/url-gen';
-import { fetchProductById } from '@src/services';
+import { fetchProductById } from '@services';
 import { useEffect, useState } from 'react';
 import {
   Button,

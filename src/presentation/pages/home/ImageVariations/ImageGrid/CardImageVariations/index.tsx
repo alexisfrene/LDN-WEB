@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { getAvailableProductCountByVariationId } from '@src/services';
+import { getAvailableProductCountByVariationId } from '@services';
 import { ImageVariantsProduct } from '@src/types';
 import { Button, Card, CardContent, CardHeader, CardTitle } from '@components';
 import { useEffect, useState } from 'react';

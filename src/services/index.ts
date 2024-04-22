@@ -22,6 +22,7 @@ export {
   getCategoryConfig,
   addCategoryConfig,
   deleteCategoryConfig,
+  updateCategoryConfig,
 } from './config';
 export { registerUser, loginUser } from './user';
 export { addMovement, getMovement } from './finance';

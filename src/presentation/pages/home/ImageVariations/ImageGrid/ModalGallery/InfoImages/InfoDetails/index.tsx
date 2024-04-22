@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { toast } from 'sonner';
 import { InfoSection } from './InfoSection';
 import { CardDescription, LoadingIndicator } from '@components';
-import { editDetailsImageVariations } from '@src/services';
+import { editDetailsImageVariations } from '@services';
 import { ImageVariantsProduct } from '@src/types';
 
 type InfoDetailsProps = {

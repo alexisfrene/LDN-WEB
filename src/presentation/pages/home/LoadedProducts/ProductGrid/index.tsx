@@ -4,7 +4,7 @@ import {
   getProductsBySupabase,
   handleFilterSubmit,
   removeProductsBySupabase,
-} from '@src/services';
+} from '@services';
 import { NavFilters } from './NavFilters';
 import { ProductCard } from './ProductCard';
 import {

@@ -1,4 +1,4 @@
-import { updateProductsBySupabase } from '@src/services';
+import { updateProductsBySupabase } from '@services';
 import { useFormProps } from './useForm';
 
 interface SubmitParams {

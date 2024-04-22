@@ -10,7 +10,7 @@ import {
   SheetTitle,
 } from '@components';
 import { useModal } from '@presentation/hooks';
-import { getCategoryConfig } from '@src/services';
+import { getCategoryConfig } from '@services';
 import { EditForm } from './EditForm';
 import { producsCategory } from '@presentation/mocks';
 import {

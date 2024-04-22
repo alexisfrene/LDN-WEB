@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Button, ModalCategory } from '@components';
 import { SnackbarContext } from '@presentation/context';
-import { fetchProductsForCategory } from '@src/services';
+import { fetchProductsForCategory } from '@services';
 import { filterAndMapTitles } from '@lib';
 import { ImageVariantsProduct } from '@src/types';
 

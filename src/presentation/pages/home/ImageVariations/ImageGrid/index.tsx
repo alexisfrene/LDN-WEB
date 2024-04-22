@@ -3,7 +3,7 @@ import { ModalGallery } from './ModalGallery';
 import { CardImageVariations } from './CardImageVariations';
 import { NavFilters } from './NavFilters';
 import { useModal } from '@presentation/hooks';
-import { deleteProductById, fetchProducts } from '@src/services';
+import { deleteProductById, fetchProducts } from '@services';
 import {
   LoadingIndicator,
   ModalDelete,

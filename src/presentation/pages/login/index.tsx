@@ -1,8 +1,8 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '@src/services';
-import { useUserStore } from '@global';
+import { loginUser } from '@services';
+import { useSessionStore } from '@global';
 import {
   Button,
   Card,
@@ -17,7 +17,9 @@ import {
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
-  const updateUserInfo = useUserStore((state) => state.updateAllUserInfo);
+  const insertSessionToken = useSessionStore(
+    (state) => state.insertSessionToken,
+  );
   const formik = useFormik({
     initialValues: {
       email_or_user: '',
@@ -28,7 +30,7 @@ const LoginPage: React.FC = () => {
       if (res?.status === 200) {
         console.log('RESPONSE -->', res.data.session);
         const loginUser = res.data.session;
-        updateUserInfo(loginUser);
+        insertSessionToken({ session_token: loginUser.session_token });
         navigate('/home');
       }
     },

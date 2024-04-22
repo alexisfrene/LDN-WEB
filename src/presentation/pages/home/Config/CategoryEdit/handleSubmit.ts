@@ -2,7 +2,7 @@ import {
   addCategoryConfig,
   deleteCategoryConfig,
   updateCategoryConfig,
-} from '@src/services/config';
+} from '@services';
 import { CategoryConfigItem, UUID } from '@src/types';
 import { toast } from 'sonner';
 

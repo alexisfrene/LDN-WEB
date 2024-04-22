@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-escape */
 import { useContext } from 'react';
 import { FormikHelpers } from 'formik';
-import { createProductsBySupabase } from '@src/services';
+import { createProductsBySupabase } from '@services';
 import { SnackbarContext, LoadingContext } from '@presentation/context';
 import {
   AgeProduct,

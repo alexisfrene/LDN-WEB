@@ -1,4 +1,4 @@
-import { createImageVariations } from '@src/services';
+import { createImageVariations } from '@services';
 import { useContext } from 'react';
 import { LoadingContext, SnackbarContext } from '@presentation/context';
 

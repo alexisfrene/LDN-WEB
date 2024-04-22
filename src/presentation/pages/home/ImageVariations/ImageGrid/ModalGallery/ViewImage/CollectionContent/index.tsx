@@ -12,7 +12,7 @@ import {
   Separator,
 } from '@components';
 import { urlImageVariation } from '@lib';
-import { modifyCollection } from '@src/services';
+import { modifyCollection } from '@services';
 import { UUID, VariationsType } from '@src/types';
 
 type CollectionContentProps = {

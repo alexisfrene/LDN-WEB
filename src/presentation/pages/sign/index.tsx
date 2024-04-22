@@ -2,7 +2,7 @@ import React from 'react';
 import { useFormik } from 'formik';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
-import { registerUser } from '@src/services';
+import { registerUser } from '@services';
 import {
   Button,
   Card,

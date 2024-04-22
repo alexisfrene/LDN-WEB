@@ -12,7 +12,7 @@ import {
 } from '@components';
 import { InfoImages } from './InfoImages';
 import { useEffect, useState } from 'react';
-import { fetchProductById } from '@src/services';
+import { fetchProductById } from '@services';
 
 const infoTab = 'info';
 const imagesTab = 'images';

@@ -11,12 +11,11 @@ import {
 import { useModal } from '@presentation/hooks';
 import React from 'react';
 import { CategoryEdit } from './CategoryEdit';
-import { useUserStore } from '@global';
 
 export const Config: React.FC = () => {
   const { hideModal, isOpenModal, modalContent, showModal, modalTitle } =
     useModal();
-  const avatarImg = useUserStore((state) => state.avatar_url);
+
   const config = [
     {
       description: 'Editar las categorías de los productos',
@@ -40,7 +39,8 @@ export const Config: React.FC = () => {
         showModal(
           'Logo actual',
           <div>
-            <img src={avatarImg} />
+            {/* <img src={avatarImg} /> */}
+            Hola logueado
           </div>,
         ),
     },

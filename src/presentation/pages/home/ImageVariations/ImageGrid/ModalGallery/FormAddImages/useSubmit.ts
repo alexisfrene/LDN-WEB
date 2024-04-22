@@ -1,5 +1,5 @@
 import { toast } from 'sonner';
-import { addVariations } from '@src/services';
+import { addVariations } from '@services';
 
 interface useSubmitProps {
   collection: string;

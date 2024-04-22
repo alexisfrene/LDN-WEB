@@ -9,7 +9,7 @@ import {
 } from '@components';
 import { LoadingContext } from '@presentation/context';
 import { useModal } from '@presentation/hooks';
-import { removeCollection } from '@src/services';
+import { removeCollection } from '@services';
 import { CollectionContent } from './CollectionContent';
 import { ImageVariantsProduct } from '@src/types';
 

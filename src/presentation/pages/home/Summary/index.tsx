@@ -4,7 +4,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from '@components';
-import { addMovement, getMovement } from '@src/services';
+import { addMovement, getMovement } from '@services';
 import { NewMoment } from './NewMoment';
 import { TableMoment } from './TableMoment';
 import { AddMovementProps, Movement } from '@src/types';
