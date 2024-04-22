@@ -1,5 +1,5 @@
-import { supabase } from '../lib';
-import { Movement, AddMovementProps } from '@/types';
+import { supabase } from '@lib';
+import { Movement, AddMovementProps } from '@src/types';
 
 export const addMovement = async (newMovement: AddMovementProps) => {
   try {

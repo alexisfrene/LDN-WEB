@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
-import './index.css';
-import { SnackbarProvider, LoadingProvider } from './context';
+import App from '@src/App';
+import '@src/index.css';
+import { SnackbarProvider, LoadingProvider } from '@presentation/context';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

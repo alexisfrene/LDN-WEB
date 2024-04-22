@@ -1,5 +1,5 @@
-import { CategoryConfigItem, CategoryConfigResponse } from '@/types';
-import { supabase } from '../lib';
+import { CategoryConfigItem, CategoryConfigResponse } from '@src/types';
+import { supabase } from '@lib';
 //import { v4 as uuidv4 } from 'uuid';
 
 export const getCategoryConfig = async (): Promise<

@@ -7,7 +7,14 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@src/*": ["./src/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@config/*": ["./src/config/*"],
+      "@core/*": ["./src/core/*"],
+      "@global": ["./src/global"],
+      "@lib": ["./src/lib"],
+      "@presentation/*": ["./src/presentation/*"],
+      "@components": ["./src/presentation/components"]
     },
     /* Bundler mode */
     "moduleResolution": "bundler",

@@ -1,4 +1,4 @@
-export { supabase } from './connectionToSupabase';
+export { supabase, login } from './connectionToSupabase';
 export {
   cn,
   getCurrentFormattedDate,

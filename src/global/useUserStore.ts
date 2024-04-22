@@ -13,7 +13,6 @@ type State = {
   phone_number: string | null;
   gender: string;
   session_token: string;
-  password_hash: string;
   role: string | null;
   products_table: string;
   avatar_url: string;
@@ -37,7 +36,6 @@ export const useUserStore = create(
       phone_number: '',
       gender: '',
       session_token: '',
-      password_hash: '',
       role: '',
       products_table: '',
       avatar_url: '',

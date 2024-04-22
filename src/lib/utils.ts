@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import axios from 'axios';
-import { producsCategory } from '../mocks';
+import { producsCategory } from '@presentation/mocks';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
