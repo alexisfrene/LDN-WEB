@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
-import { LoadingIndicator } from '../components';
-import { useLoading } from '../hooks';
+import { LoadingIndicator } from '@components';
+import { useLoading } from '@presentation/hooks';
 
 export const LoadingContext = React.createContext({
   stopLoading: () => {},

@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode } from 'react';
-import { Snackbar } from '../components';
-import { useSnackbar } from '../hooks';
+import { Snackbar } from '@components';
+import { useSnackbar } from '@presentation/hooks';
 
 interface SnackbarContextProps {
   showSuccessSnackbar: (message: string) => void;
