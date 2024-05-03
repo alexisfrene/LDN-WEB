@@ -1,6 +1,4 @@
-import { ProductsBySupabase } from '@src/types';
-import { Cloudinary } from '@cloudinary/url-gen';
-import { fetchProductById } from '@services';
+import { Products } from '@src/types';
 import { useEffect, useState } from 'react';
 import {
   Button,
@@ -11,8 +9,9 @@ import {
   CardTitle,
   AspectRatio,
 } from '@components';
+import { getImageUrl } from '@src/services';
 interface ProductCardProps {
-  product: ProductsBySupabase;
+  product: Products;
   handleClick: () => void;
   handleClose: () => void;
 }
@@ -22,21 +21,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   handleClose,
 }) => {
   const [imageUrl, setImageUrl] = useState('');
-  const cld = new Cloudinary({
-    cloud: {
-      cloudName: 'ldn-img',
-    },
-  });
+
   const handleImageDestination = async () => {
-    if (product.produc_variations) {
-      const { miniature_image } = await fetchProductById(
-        product.produc_variations,
-      );
-      return setImageUrl(
-        `${import.meta.env.VITE_HOST_NAME}/${miniature_image}`,
-      );
+    if (product.primary_image) {
+      console.log(product.primary_image);
+      const src = await getImageUrl(product.primary_image);
+      if (src) {
+        console.log('SRC -->', src);
+        setImageUrl(src);
+      }
     }
-    return setImageUrl(cld.image(product.produc_image_url).toURL());
   };
   useEffect(() => {
     handleImageDestination();
@@ -47,12 +41,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     <Card className="col-span-1 lg:text-xs xl:text-base">
       <CardHeader className="flex flex-row justify-between items-center">
         <CardTitle className="lg:h-6 truncate">
-          <p
-            className={`${
-              product.produc_state ? 'text-green-500' : 'text-red-600'
-            }`}
-          >
-            {`${product.produc_name}(${product.produc_state ? 'D' : 'A'})`}
+          <p className={`${product.state ? 'text-green-500' : 'text-red-600'}`}>
+            {`${product.name}(${product.state ? 'D' : 'A'})`}
           </p>
         </CardTitle>
         <Button
@@ -68,16 +58,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <img
             src={imageUrl}
             className={`w-96 h-96 object-fill cursor-pointer rounded-xl lg:h-48 xl:h-64 2xl:h-56 ${
-              product.produc_variations &&
-              'border-2 border-amber-900 border-dashed'
+              false && 'border-2 border-amber-900 border-dashed'
             }`}
-            alt={product.produc_name}
+            alt={product.name}
           />
         </AspectRatio>
       </CardContent>
       <CardFooter className="flex justify-between lg:mt-1 2xl:mt-3">
-        <p>{product.produc_size}</p>
-        <p>$ {product.produc_price}</p>
+        <p>{product.size}</p>
+        <p>$ {product.price}</p>
       </CardFooter>
     </Card>
   );

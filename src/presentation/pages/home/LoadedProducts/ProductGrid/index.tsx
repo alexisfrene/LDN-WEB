@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Filters, ProductsBySupabase } from '@src/types';
+import React, { useEffect, useState } from 'react';
+import { Filters, Products } from '@src/types';
 import {
-  getProductsBySupabase,
+  getAllProducts,
   handleFilterSubmit,
   removeProductsBySupabase,
 } from '@services';
@@ -13,16 +13,16 @@ import {
   ScrollArea,
   ModalSize,
   ModalDelete,
+  Button,
 } from '@components';
-import { useAsync, useFetchAndLoad, useModal } from '@presentation/hooks';
+import { useModal } from '@presentation/hooks';
 import { ModalDetails } from './ModalDetails';
 
 export const ProductGrid: React.FC = () => {
-  const [products, setProducts] = useState<ProductsBySupabase[] | null>([]);
+  const [products, setProducts] = useState<Products[] | null>([]);
   const [removeId, setRemoveId] = useState<string>('');
-  const [pagination, setPagination] = useState<ProductsBySupabase[] | null>([]);
-  const [productSelected, setProductSelected] =
-    useState<ProductsBySupabase | null>(null);
+  const [pagination, setPagination] = useState<Products[] | null>([]);
+  const [productSelected, setProductSelected] = useState<Products | null>(null);
   const [filter, setFilter] = useState<Filters>({
     category: '',
     size: '',
@@ -60,8 +60,8 @@ export const ProductGrid: React.FC = () => {
       const sortedProducts = [...products];
       setProducts(
         direction === '+'
-          ? sortedProducts.sort((a, b) => b.produc_price - a.produc_price)
-          : sortedProducts.sort((a, b) => a.produc_price - b.produc_price),
+          ? sortedProducts.sort((a, b) => b.price - a.price)
+          : sortedProducts.sort((a, b) => a.price - b.price),
       );
     }
   };
@@ -71,11 +71,16 @@ export const ProductGrid: React.FC = () => {
       [filterType]: selectedFilter,
     });
   };
-  const { callEndpoint } = useFetchAndLoad();
-  const getProducs = async () => await callEndpoint(getProductsBySupabase());
-  useAsync(getProducs, (data) => setProducts(data.slice(0, 23)));
 
   const refresh = async () => await handleFilterSubmit(filter, setProducts);
+
+  useEffect(() => {
+    const axiosProducts = async () => {
+      const response = await getAllProducts();
+      setProducts(response);
+    };
+    axiosProducts();
+  }, []);
 
   return (
     <div className="mx-3">
@@ -87,19 +92,20 @@ export const ProductGrid: React.FC = () => {
         setFilter={setFilter}
         orderByPrice={sortProductsByPrice}
       />
+      <Button title="Refresh" onClick={refresh} />
       <ScrollArea className="lg:h-[69vh] xl:h-[70vh] 2xl:h-[72vh] col-span-full my-2">
         <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6">
           {products?.length ? (
             pagination?.map((product) => (
               <ProductCard
                 product={product}
-                key={product.id}
+                key={product.id_product}
                 handleClick={() => {
                   showDetailsModal();
                   setProductSelected(product);
                 }}
                 handleClose={() => {
-                  if (product.id) setRemoveId(product.id);
+                  if (product.user_id) setRemoveId(product.user_id);
                   showDeleteModal();
                 }}
               />
@@ -127,7 +133,7 @@ export const ProductGrid: React.FC = () => {
         handleDeleteProduct={handleRemoveProduct}
         hideDeleteModal={hideDeleteModal}
       />
-      {productSelected && (
+      {/* {productSelected && (
         <ModalDetails
           productSelected={productSelected}
           isDetailsModalOpen={isDetailsModalOpen}
@@ -136,7 +142,7 @@ export const ProductGrid: React.FC = () => {
             refresh();
           }}
         />
-      )}
+      )} */}
     </div>
   );
 };

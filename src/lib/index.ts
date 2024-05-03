@@ -6,4 +6,5 @@ export {
   urlImageVariation,
   axiosInstance,
   axiosInstanceFormData,
+  removeEmptyStringProperties,
 } from './utils';

@@ -1,50 +1,38 @@
-import { supabase } from '@lib';
-import { ProductsBySupabase, UUID } from '@src/types';
-const loadAbort = () => {
-  const controller = new AbortController();
-  return controller;
-};
+import { axiosInstance, removeEmptyStringProperties, supabase } from '@lib';
+import { Products, UUID } from '@src/types';
 
-type SetStateFunction<T> = React.Dispatch<React.SetStateAction<T>>;
-
-export const getProductsBySupabase = () => {
-  const controller = loadAbort();
-
-  return {
-    call: supabase.from('ldn_producs').select().abortSignal(controller.signal),
-    controller,
-  };
-};
-
-const removeEmptyStringProperties = (
-  obj: ProductsBySupabase,
-): ProductsBySupabase => {
-  const cleanedObject: Partial<ProductsBySupabase> = {};
-
-  for (const [key, value] of Object.entries(obj)) {
-    if (
-      (typeof value === 'string' && value.trim() !== '') ||
-      typeof value !== 'string'
-    ) {
-      cleanedObject[key as keyof ProductsBySupabase] = value;
-    }
-  }
-
-  return cleanedObject as ProductsBySupabase;
-};
-export const createProductsBySupabase = async (values: ProductsBySupabase) => {
-  values.produc_price = Number(values.produc_price);
-  values.user = '13fc1ae1-ba0d-42c6-b83c-91c96831d623'; //TODO:ver esto
-  const newProducts = removeEmptyStringProperties(values);
+export const getAllProducts = async () => {
   try {
-    const { data, error } = await supabase
-      .from('ldn_producs')
-      .insert(newProducts)
-      .select();
-    if (error) {
+    const response = await axiosInstance.get('/products');
+
+    if (response.status !== 200) return new Error();
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const getImageUrl = async (publicId: string) => {
+  try {
+    const url = await axiosInstance.get(`products/image?public_id=${publicId}`);
+
+    return url.data;
+  } catch (error) {
+    console.log('ERROR  GET IMAGE ->', error);
+  }
+};
+
+export const createProducts = async (values: Products) => {
+  values.price = Number(values.price);
+
+  // const newProducts = removeEmptyStringProperties(values);
+  try {
+    const response = axiosInstance.post('/products', values);
+    console.log(response);
+    if (!response) {
       return 'Error al crear un producto en la base de datos';
     } else {
-      return data;
+      return response;
     }
   } catch (error) {
     console.error(error);
@@ -58,7 +46,7 @@ interface filterProps {
 
 export const handleFilterSubmit = async (
   filter: filterProps,
-  setProducts: SetStateFunction<ProductsBySupabase[] | null>,
+  setProducts: SetStateFunction<Products[] | null>,
 ) => {
   if (filter.category && filter.size) {
     const { data } = await supabase

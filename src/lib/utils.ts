@@ -2,6 +2,7 @@ import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import axios from 'axios';
 import { producsCategory } from '@presentation/mocks';
+import { Products } from '@src/types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -51,3 +52,18 @@ export const axiosInstanceFormData = axios.create({
     'Content-Type': 'multipart/form-data',
   },
 });
+
+export const removeEmptyStringProperties = (obj: Products): Products => {
+  const cleanedObject: Partial<Products> = {};
+
+  for (const [key, value] of Object.entries(obj)) {
+    if (
+      (typeof value === 'string' && value.trim() !== '') ||
+      typeof value !== 'string'
+    ) {
+      cleanedObject[key as keyof Products] = value;
+    }
+  }
+
+  return cleanedObject as Products;
+};

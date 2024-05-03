@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { toast } from 'sonner';
 import { UUID } from '@src/types';
 import { axiosInstance, axiosInstanceFormData, urlImageVariation } from '@lib';
@@ -14,6 +13,23 @@ export interface ProductFormData {
   style: string;
   collection: string;
 }
+interface addVariationsProps {
+  collection: string;
+  category: string;
+  images: FileList | null;
+  id: string;
+}
+type modifyCollectionType = {
+  images: string[];
+  name: string;
+  idVariation: UUID;
+  idCollection: UUID;
+};
+type editDetailsImageVariationsProps = {
+  type: string;
+  value: string;
+  id: UUID;
+};
 
 export const fetchProducts = () => {
   try {
@@ -30,15 +46,18 @@ export const insertImageId = async (
   product_image_id: string,
 ) => {
   try {
-    const response = await fetch(
-      `${
-        import.meta.env.VITE_HOST_NAME
-      }/api/variations?product_id=${product_id}&product_image_id=${product_image_id}`,
-      {
-        method: 'POST',
-      },
+    // const response = await fetch(
+    //   `${
+    //     import.meta.env.VITE_HOST_NAME
+    //   }/api/variations?product_id=${product_id}&product_image_id=${product_image_id}`,
+    //   {
+    //     method: 'POST',
+    //   },
+    // );
+    const response = await axiosInstance.post(
+      `/variations?product_id=${product_id}&product_image_id=${product_image_id}`,
     );
-    if (response.ok) {
+    if (response) {
       toast('Imágenes cargadas con éxito !');
       return true;
     } else {
@@ -52,13 +71,12 @@ export const insertImageId = async (
 
 export const fetchProductsForCategory = async (category: string) => {
   try {
-    const response = await fetch(
-      `${import.meta.env.VITE_HOST_NAME}/api/variations?category=${category}`,
+    const response = await axiosInstance.get(
+      `/variations?category=${category}`,
     );
-    if (response.ok) {
-      const { data } = await response.json();
-      if (Array.isArray(data)) {
-        return data;
+    if (response.data) {
+      if (Array.isArray(response.data.data)) {
+        return response.data.data;
       } else {
         throw new Error(
           'No se encontró un array de productos en los datos recibidos',
@@ -88,12 +106,9 @@ export const deleteProductById = async (id: string) => {
 
 export const fetchProductById = async (id: string) => {
   try {
-    const response = await fetch(
-      `${import.meta.env.VITE_HOST_NAME}/api/variations/${id}`,
-    );
-    if (response.ok) {
-      const { data } = await response.json();
-      return data;
+    const response = await axiosInstance.get(`/variations/${id}`);
+    if (response.data.data) {
+      return response.data.data;
     } else {
       throw new Error('No se pudo encontrado el producto');
     }
@@ -127,13 +142,6 @@ export const createImageVariations = async (values: ProductFormData) => {
   }
 };
 
-interface addVariationsProps {
-  collection: string;
-  category: string;
-  images: FileList | null;
-  id: string;
-}
-
 export const addVariations = async (values: addVariationsProps) => {
   try {
     const formData = new FormData();
@@ -144,16 +152,9 @@ export const addVariations = async (values: addVariationsProps) => {
         formData.append('files', values.images[i]);
       }
     }
-    await axios.put(
-      `${import.meta.env.VITE_HOST_NAME}/api/variations/${
-        values.id
-      }?variation_add=true`,
+    await axiosInstanceFormData.put(
+      `/variations/${values.id}?variation_add=true`,
       formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      },
     );
   } catch (error) {
     console.error(error);
@@ -165,21 +166,12 @@ export const removeCollection = async (
   idCollection: string,
 ) => {
   try {
-    await axios.delete(
-      `${
-        import.meta.env.VITE_HOST_NAME
-      }/api/variations/${idVariations}?variation_remove=${idCollection}`,
+    await axiosInstance.delete(
+      `/variations/${idVariations}?variation_remove=${idCollection}`,
     );
   } catch (error) {
     console.error(error);
   }
-};
-
-type modifyCollectionType = {
-  images: string[];
-  name: string;
-  idVariation: UUID;
-  idCollection: UUID;
 };
 
 export const modifyCollection = async (data: modifyCollectionType) => {
@@ -198,16 +190,9 @@ export const modifyCollection = async (data: modifyCollectionType) => {
   lastImages.map((url) => formData.append('images', url));
   formData.append('name', name);
   try {
-    const res = await axios.put(
-      `${
-        import.meta.env.VITE_HOST_NAME
-      }/api/variations/${idVariation}?id_collection=${idCollection}`,
+    const res = await axiosInstanceFormData.put(
+      `/variations/${idVariation}?id_collection=${idCollection}`,
       formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      },
     );
 
     return res;
@@ -216,27 +201,15 @@ export const modifyCollection = async (data: modifyCollectionType) => {
   }
 };
 
-type editDetailsImageVariationsProps = {
-  type: string;
-  value: string;
-  id: UUID;
-};
 export const editDetailsImageVariations = async (
   data: editDetailsImageVariationsProps,
 ) => {
   const formData = new FormData();
   formData.append(data.type, data.value);
   try {
-    const res = await axios.patch(
-      `${import.meta.env.VITE_HOST_NAME}/api/variations/${
-        data.id
-      }?edit=details`,
+    const res = await axiosInstanceFormData.patch(
+      `/variations/${data.id}?edit=details`,
       formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      },
     );
     return res;
   } catch (error) {

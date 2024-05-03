@@ -70,6 +70,22 @@ export interface ProductsBySupabase {
   produc_dollar_today?: number;
   produc_variations?: string;
 }
+export interface Products {
+  user_id?: UUID;
+  createdAt?: Date;
+  updatedAt?: Date;
+  product_id?: UUID;
+  name: string;
+  description: string;
+  price: number;
+  state: boolean;
+  stock?: number;
+  code: number;
+  category_value?: string;
+  discount?: string;
+  dollar_today?: number;
+  primary_image?: string;
+}
 
 export type Filters = {
   category: string;

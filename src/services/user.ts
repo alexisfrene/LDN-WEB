@@ -36,7 +36,8 @@ export const loginUser = async (values: loginUserValues) => {
       `${import.meta.env.VITE_API_NAME}/user/login`,
       { password, email_or_user },
     );
-    return res;
+
+    return res.data;
   } catch (error) {
     console.log(error);
   }

@@ -27,12 +27,12 @@ const LoginPage: React.FC = () => {
     },
     onSubmit: async (values) => {
       const res = await loginUser(values);
-      if (res?.status === 200) {
-        console.log('RESPONSE -->', res.data.session);
-        const loginUser = res.data.session;
-        insertSessionToken({ session_token: loginUser.session_token });
-        navigate('/home');
+
+      if (res?.data.session_token) {
+        insertSessionToken({ session_token: res?.data.session_token });
+        return navigate('/home');
       }
+      alert('Error');
     },
   });
   return (

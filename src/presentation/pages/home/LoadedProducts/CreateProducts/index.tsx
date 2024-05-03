@@ -1,73 +1,15 @@
-import { ChangeEvent, useState } from 'react';
 import { Formik } from 'formik';
-import * as Yup from 'yup';
-import { useModal } from '@presentation/hooks';
 import { useForm } from './useForm';
-import { useSubmit } from './useSubmit';
-import imageDefault from '@assets/not_image.png';
-import {
-  Button,
-  Dropdown,
-  Input,
-  Label,
-  ModalCategory,
-  ModalSize,
-} from '@components';
-import { CategoryProduct, Filters } from '@src/types';
+import { Button, Input, Label } from '@components';
+import { createProducts } from '@src/services';
 
-const ProductSchema = Yup.object().shape({
-  name: Yup.string()
-    .required('El nombre es obligatoria')
-    .max(20, 'El nombre debe tener como máximo 20 caracteres'),
-});
 export const CreateProducts = () => {
-  const [image, setImage] = useState<string>(imageDefault);
-  const [filter, setFilter] = useState<Filters>({
-    category: '',
-    size: '',
-  });
-  const {
-    hideModal: hideCategoryModal,
-    isOpenModal: isCategoryModalOpen,
-    showModal: showCategoryModal,
-  } = useModal();
-  const {
-    hideModal: hideSizeModal,
-    isOpenModal: isSizeModalOpen,
-    showModal: showSizeModal,
-  } = useModal();
   const initialValues = useForm();
-  const handleFilterClick = (selectedFilter: string, filterType: string) => {
-    setFilter({
-      ...filter,
-      [filterType]: selectedFilter,
-    });
-  };
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const result = reader.result;
-
-        if (typeof result === 'string') {
-          setImage(result);
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   return (
     <div className="flex justify-center">
       <Formik
         initialValues={initialValues}
-        validationSchema={ProductSchema}
-        onSubmit={useSubmit({
-          image,
-          category: filter.category as CategoryProduct,
-          size: filter.size,
-        })}
+        onSubmit={async (values) => await createProducts(values)}
       >
         {({ handleSubmit, setFieldValue, errors, touched }) => (
           <div className="flex flex-col gap-3 w-[1200px] bg-white p-10">
@@ -86,12 +28,12 @@ export const CreateProducts = () => {
               name="description"
               onChange={(e) => setFieldValue('description', e.target.value)}
             />
-            <Dropdown variant="brands" />
+            {/* <Dropdown variant="brands" />
             <Dropdown variant="colors" />
             <Dropdown variant="genders" />
             <Dropdown variant="ages" />
-            <Dropdown variant="styles" />
-            <div className="flex gap-3">
+            <Dropdown variant="styles" /> */}
+            {/* <div className="flex gap-3">
               <img src={image} className="w-32 rounded-sm" />
               <Input
                 name="image"
@@ -105,21 +47,16 @@ export const CreateProducts = () => {
             </Button>
             <Button onClick={() => showCategoryModal()}>
               Selecciona una categoría
-            </Button>
+            </Button> */}
 
-            <Button
-              onClick={() => handleSubmit()}
-              disabled={!(filter.category.length && filter.size.length)}
-            >
-              Crear producto
-            </Button>
+            <Button onClick={() => handleSubmit()}>Crear producto</Button>
             {errors.name && touched.name ? (
               <div className="text-red-600">{errors.name}</div>
             ) : null}
           </div>
         )}
       </Formik>
-      <ModalCategory
+      {/* <ModalCategory
         isCategoryModalOpen={isCategoryModalOpen}
         handleFilterClick={handleFilterClick}
         handleCloseModal={hideCategoryModal}
@@ -130,7 +67,7 @@ export const CreateProducts = () => {
         handleFilterClick={handleFilterClick}
         handleCloseModal={hideSizeModal}
         filter={filter}
-      />
+      /> */}
     </div>
   );
 };

@@ -11,12 +11,13 @@ export {
   editDetailsImageVariations,
 } from './variations';
 export {
-  getProductsBySupabase,
+  getAllProducts,
   handleFilterSubmit,
   removeProductsBySupabase,
   updateProductsBySupabase,
-  createProductsBySupabase,
+  createProducts,
   getAvailableProductCountByVariationId,
+  getImageUrl,
 } from './products';
 export {
   getCategoryConfig,
