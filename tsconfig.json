@@ -13,6 +13,8 @@
       "@core/*": ["./src/core/*"],
       "@global": ["./src/global"],
       "@services": ["./src/services"],
+      "@hooks": ["./src/presentation/hooks"],
+      "@types": ["./src/types"],
       "@lib": ["./src/lib"],
       "@presentation/*": ["./src/presentation/*"],
       "@components": ["./src/presentation/components"]

@@ -1,5 +1,4 @@
 import { Products } from '@src/types';
-import { useEffect, useState } from 'react';
 import {
   Button,
   Card,
@@ -9,34 +8,18 @@ import {
   CardTitle,
   AspectRatio,
 } from '@components';
-import { getImageUrl } from '@src/services';
+
 interface ProductCardProps {
   product: Products;
   handleClick: () => void;
   handleClose: () => void;
 }
+
 export const ProductCard: React.FC<ProductCardProps> = ({
   product,
   handleClick,
   handleClose,
 }) => {
-  const [imageUrl, setImageUrl] = useState('');
-
-  const handleImageDestination = async () => {
-    if (product.primary_image) {
-      console.log(product.primary_image);
-      const src = await getImageUrl(product.primary_image);
-      if (src) {
-        console.log('SRC -->', src);
-        setImageUrl(src);
-      }
-    }
-  };
-  useEffect(() => {
-    handleImageDestination();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <Card className="col-span-1 lg:text-xs xl:text-base">
       <CardHeader className="flex flex-row justify-between items-center">
@@ -56,7 +39,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       <CardContent onClick={handleClick} className="cursor-pointer">
         <AspectRatio ratio={1 / 1} className="bg-muted">
           <img
-            src={imageUrl}
+            src={product.primary_image}
             className={`w-96 h-96 object-fill cursor-pointer rounded-xl lg:h-48 xl:h-64 2xl:h-56 ${
               false && 'border-2 border-amber-900 border-dashed'
             }`}

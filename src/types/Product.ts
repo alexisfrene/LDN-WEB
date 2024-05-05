@@ -70,24 +70,52 @@ export interface ProductsBySupabase {
   produc_dollar_today?: number;
   produc_variations?: string;
 }
-export interface Products {
-  user_id?: UUID;
-  createdAt?: Date;
-  updatedAt?: Date;
-  product_id?: UUID;
-  name: string;
-  description: string;
-  price: number;
-  state: boolean;
-  stock?: number;
-  code: number;
-  category_value?: string;
-  discount?: string;
-  dollar_today?: number;
-  primary_image?: string;
-}
 
 export type Filters = {
   category: string;
   size: string;
 };
+
+export interface Products {
+  category: Category;
+  details: Details;
+  size: Size;
+  name: Name;
+  product_id: string;
+  description: Description;
+  primary_image: string;
+  price: number;
+  state: boolean;
+  code: number;
+  stock: number;
+  discount: number;
+}
+
+export enum Category {
+  Borcego = 'Borcego',
+}
+
+export enum Description {
+  Descriop = 'descriop',
+}
+
+export interface Details {
+  detail_id: string;
+  gender: Age;
+  color: Age;
+  brand: Age;
+  style: Age;
+  age: Age;
+}
+
+export enum Age {
+  Unspecified = 'unspecified',
+}
+
+export enum Name {
+  Nombre = 'nombre',
+}
+
+export enum Size {
+  M = 'M',
+}

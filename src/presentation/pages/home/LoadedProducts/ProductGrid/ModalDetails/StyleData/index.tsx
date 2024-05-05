@@ -1,6 +1,6 @@
-import { ProductsBySupabase } from '@src/types';
+import { Products } from '@src/types';
 interface StyleDataProps {
-  product: ProductsBySupabase;
+  product: Products;
 }
 
 export const StyleData: React.FC<StyleDataProps> = ({ product }) => {
@@ -10,25 +10,25 @@ export const StyleData: React.FC<StyleDataProps> = ({ product }) => {
       <div className="flex items-center justify-between text-xl border-b font-semibold">
         <label className="font-bold px-1 w-56 pb-2">Estilo :</label>
         <p className="pb-1 w-52 truncate px-1">
-          {product.produc_style ?? 'Sin definir'}
+          {product.details.style ?? 'Sin definir'}
         </p>
       </div>
       <div className="flex items-center justify-between text-xl border-b font-semibold">
         <label className="font-bold px-1 w-56 pb-2">Color :</label>
         <p className="pb-1 w-52 truncate px-1">
-          {product.produc_color ?? 'Sin color'}
+          {product.details.color ?? 'Sin color'}
         </p>
       </div>
       <div className="flex items-center justify-between text-xl border-b font-semibold">
         <label className="font-bold px-1 w-56 pb-2">Edad :</label>
         <p className="pb-1 w-52 truncate px-1">
-          {product.produc_age ?? 'Sin definir'}
+          {product.details.age ?? 'Sin definir'}
         </p>
       </div>
       <div className="flex items-center justify-between text-xl border-b font-semibold">
         <label className="font-bold px-1 w-56 pb-2">Generó :</label>
         <p className="pb-1 w-52 truncate px-1">
-          {product.produc_gender ?? 'Sin definir'}
+          {product.details.gender ?? 'Sin definir'}
         </p>
       </div>
     </div>

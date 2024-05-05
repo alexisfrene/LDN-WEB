@@ -3,49 +3,36 @@ import { useFormik } from 'formik';
 import { getDynamicValue, useForm } from './useForm';
 import { handleSubmit } from './handleSubmit';
 import { Button, Icons } from '@components';
-import { filterAndMapTitles } from '@lib';
-import { ProductsBySupabase } from '@src/types';
+import { Products } from '@src/types';
 interface DataOfProductsProps {
-  productSelected: ProductsBySupabase;
-  reloadProducts: () => void;
+  product: Products;
 }
 
-export const ProductData: React.FC<DataOfProductsProps> = ({
-  productSelected,
-  reloadProducts,
-}) => {
+export const ProductData: React.FC<DataOfProductsProps> = ({ product }) => {
   const [modalEdit, setModalEdit] = useState(false);
-  const {
-    produc_price,
-    produc_brand,
-    produc_category,
-    produc_size,
-    produc_description,
-    id,
-  } = productSelected;
 
   const dataVist = [
     {
       label: 'Descripción:',
-      value: produc_description,
+      value: product.description,
       name: 'produc_description',
     },
     {
       label: 'Precio:',
-      value: `$ ${produc_price}`,
+      value: `$ ${product.price}`,
       name: 'produc_price',
     },
     {
       label: 'Marca:',
-      value: produc_brand,
+      value: product.name,
       name: 'produc_brand',
     },
     {
       label: 'Categoría:',
-      value: filterAndMapTitles(produc_category),
+      value: product.category,
       name: 'produc_category',
     },
-    { label: 'Numero/Talle:', value: produc_size, name: 'produc_size' },
+    { label: 'Numero/Talle:', value: product.size, name: 'produc_size' },
   ];
 
   const initialValues = useForm();
@@ -53,7 +40,8 @@ export const ProductData: React.FC<DataOfProductsProps> = ({
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values, { resetForm }) =>
-      handleSubmit(values, { resetForm }, id, reloadProducts),
+      //handleSubmit(values, { resetForm }, product.code.toString()),
+      console.log('Hola'),
   });
 
   return (

@@ -1,22 +1,20 @@
 import React from 'react';
-import { ProductsBySupabase } from '@src/types';
+import { Products } from '@src/types';
 import { Gallery } from './Gallery';
 import { AddVariations } from './AddVariations';
 
 interface ImagesVariantsProps {
-  productSelected: ProductsBySupabase;
+  product: Products;
 }
 
-export const VariationData: React.FC<ImagesVariantsProps> = ({
-  productSelected,
-}) => {
+export const VariationData: React.FC<ImagesVariantsProps> = ({ product }) => {
   return (
     <div>
-      {productSelected.produc_variations ? (
+      {/* {false? (
         <Gallery ImageVariantsId={productSelected.produc_variations} />
       ) : (
-        <AddVariations productSelectedId={productSelected.id || null} />
-      )}
+        <AddVariations productSelectedId={product.code || null} />
+      )} */}
     </div>
   );
 };
