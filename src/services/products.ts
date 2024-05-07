@@ -1,5 +1,5 @@
-import { axiosInstance, removeEmptyStringProperties, supabase } from '@lib';
-import { Products, UUID } from '@src/types';
+import { axiosInstance, axiosInstanceFormData, supabase } from '@lib';
+import { Category, Product, Size, UUID } from '@src/types';
 
 export const getAllProducts = async () => {
   try {
@@ -21,13 +21,43 @@ export const getImageUrl = async (publicId: string) => {
     console.log('ERROR  GET IMAGE ->', error);
   }
 };
+export const getAllCategories = async (): Promise<Category[] | undefined> => {
+  try {
+    const res = await axiosInstance.get('/categories');
 
-export const createProducts = async (values: Products) => {
-  values.price = Number(values.price);
+    if (res.data) return res.data;
+  } catch (error) {
+    console.log('ERROR IN CATEGORIES -->', error);
+  }
+};
+export const getAllSizes = async (): Promise<Size[] | undefined> => {
+  try {
+    const res = await axiosInstance('/size');
+    return res.data;
+  } catch (error) {
+    console.log('ERROR IN SIZES ALL -->', error);
+  }
+};
+
+export const createProducts = async (values: Product) => {
+  // values.price = Number(values.price);
 
   // const newProducts = removeEmptyStringProperties(values);
   try {
-    const response = axiosInstance.post('/products', values);
+    const formData = new FormData();
+    formData.append('size_id', values.size_id);
+    formData.append('size_value', values.size_value);
+    formData.append('category_id', values.category_id || '');
+    formData.append('category_value', values.category_value || '');
+    formData.append('description', values.description || '');
+    formData.append('details', JSON.stringify(values.details)); // Asegúrate de que details sea un objeto con propiedades de tipo string
+    formData.append('stock', String(values.stock));
+    formData.append('name', values.name);
+    formData.append('price', String(values.price));
+    if (values.primary_image) {
+      formData.append('file', values.primary_image);
+    }
+    const response = await axiosInstanceFormData.post('/products', values);
     console.log(response);
     if (!response) {
       return 'Error al crear un producto en la base de datos';
@@ -46,7 +76,7 @@ interface filterProps {
 
 export const handleFilterSubmit = async (
   filter: filterProps,
-  setProducts: SetStateFunction<Products[] | null>,
+  setProducts: SetStateFunction<Product[] | null>,
 ) => {
   if (filter.category && filter.size) {
     const { data } = await supabase

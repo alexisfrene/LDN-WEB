@@ -1,21 +1,20 @@
-import React, { ReactNode } from 'react';
-import { producsCategory, productsSize } from '@presentation/mocks';
-import { filterAndMapTitles } from '@lib';
-import { Button, Dialog, DialogContent } from '@components';
-
-interface ModalProps {
-  isOpen: boolean;
-  onRequestClose: () => void;
-  children: ReactNode;
-  className?: string;
-}
-
-interface ModalWhiteProps {
-  children: ReactNode;
-  setModal: () => void;
-  label: string;
-  isOpen: boolean;
-}
+import React, { useEffect, useState } from 'react';
+import {
+  Button,
+  Card,
+  CardContent,
+  CardTitle,
+  Dialog,
+  DialogContent,
+} from '@components';
+import { Category, Size } from '@src/types';
+import { getAllCategories, getAllSizes } from '@src/services';
+import {
+  ModalCategoryProps,
+  ModalDeleteProps,
+  ModalProps,
+  ModalWhiteProps,
+} from './modal';
 
 export const Modal: React.FC<ModalProps> = ({
   isOpen,
@@ -61,117 +60,142 @@ export const ModalWhite: React.FC<ModalWhiteProps> = ({
   );
 };
 
-interface ModalDeleteProps {
-  isDeleteModalOpen: boolean;
-  hideDeleteModal: () => void;
-  handleDeleteProduct: () => void;
-  text?: string;
-}
-
 export const ModalDelete: React.FC<ModalDeleteProps> = ({
-  isDeleteModalOpen,
   hideDeleteModal,
   handleDeleteProduct,
   text = '¿Estás seguro de eliminar este producto?',
 }) => {
   return (
-    <Modal isOpen={isDeleteModalOpen} onRequestClose={hideDeleteModal}>
-      <div className="rounded-sm">
-        <h3 className="text-xl font-semibold mb-4 text-center">{text}</h3>
-        <div className="flex justify-evenly">
-          <Button variant="destructive" onClick={handleDeleteProduct}>
-            Aceptar
-          </Button>
-          <Button
-            className="bg-gray-300 hover:bg-gray-350"
-            onClick={hideDeleteModal}
-          >
-            Cancelar
-          </Button>
-        </div>
+    <div className="rounded-sm">
+      <h3 className="text-xl font-semibold mb-4 text-center">{text}</h3>
+      <div className="flex justify-evenly">
+        <Button variant="destructive" onClick={handleDeleteProduct}>
+          Aceptar
+        </Button>
+        <Button
+          className="bg-gray-300 hover:bg-gray-350"
+          onClick={hideDeleteModal}
+        >
+          Cancelar
+        </Button>
       </div>
-    </Modal>
+    </div>
   );
 };
-
-interface ModalCategoryProps {
-  isCategoryModalOpen: boolean;
-  handleFilterClick: (type: string, value: string) => void;
-  handleCloseModal: () => void;
-  filter: { category: string };
-}
 
 export const ModalCategory: React.FC<ModalCategoryProps> = ({
-  isCategoryModalOpen,
-  handleFilterClick,
-  handleCloseModal,
-  filter,
+  onRequestClose,
+  handleChange,
+  values,
 }) => {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selected, setSelected] = useState(values);
+  const getCategories = async () => {
+    const res = await getAllCategories();
+    if (res) setCategories(res);
+  };
+  useEffect(() => {
+    getCategories();
+  }, []);
+
   return (
-    <ModalWhite
-      setModal={handleCloseModal}
-      label="Selecciona una categoría para filtrar:"
-      isOpen={isCategoryModalOpen}
-    >
-      {producsCategory.map((category) => (
-        <div
-          key={category.type}
-          className={`${
-            filter.category === category.type ? 'bg-amber-400' : 'bg-slate-300'
-          } border-2 text-center p-2 cursor-pointer hover:bg-slate-400 col-span-4`}
-          onClick={() => handleFilterClick(category.type, 'category')}
-        >
-          {filterAndMapTitles(category.type)}
-        </div>
-      ))}
-    </ModalWhite>
+    <>
+      {categories.map((category) => {
+        return (
+          <>
+            <CardTitle className="my-3">{category.title}</CardTitle>
+            <CardContent className="grid grid-cols-3 gap-3">
+              {category.values.map(({ value, id }) => {
+                return (
+                  <Button
+                    variant="link"
+                    className={`col-span-1 ${
+                      selected.category_id === category.category_id &&
+                      selected.category_value_id === id
+                        ? 'bg-amber-300'
+                        : 'bg-slate-200'
+                    }`}
+                    onClick={() =>
+                      setSelected({
+                        category_id: category.category_id,
+                        category_value_id: id,
+                      })
+                    }
+                  >
+                    <p className="text-xs">{value}</p>
+                  </Button>
+                );
+              })}
+            </CardContent>
+          </>
+        );
+      })}
+      <div className="flex justify-center gap-5">
+        <Button onClick={() => handleChange(selected)}>Aceptar</Button>
+        <Button variant="destructive" onClick={onRequestClose}>
+          Cancelar
+        </Button>
+      </div>
+    </>
   );
 };
 
-interface ModalSizeProps {
-  isSizeModalOpen: boolean;
-  handleFilterClick: (type: string, value: string) => void;
-  handleCloseModal: () => void;
-  filter: { size: string };
+interface SizeIds {
+  size_id: string;
+  size_value_id: string;
 }
+interface ModalSizeProps {
+  onRequestClose: () => void;
+  values: SizeIds;
+  handleChange: (value: SizeIds) => void;
+}
+
 export const ModalSize: React.FC<ModalSizeProps> = ({
-  isSizeModalOpen,
-  handleFilterClick,
-  handleCloseModal,
-  filter,
+  onRequestClose,
+  handleChange,
+  values,
 }) => {
-  const sizes = productsSize();
+  const [size, setSize] = useState<Size[]>([]);
+  const [selected, setSelected] = useState(values);
+  const getAllSize = async () => {
+    const res = await getAllSizes();
+    if (res) return setSize(res);
+  };
+  useEffect(() => {
+    getAllSize();
+  }, []);
+
   return (
-    <ModalWhite
-      setModal={handleCloseModal}
-      label="Selecciona un número/talle para filtrar:"
-      isOpen={isSizeModalOpen}
-    >
-      {sizes.number.map((size) => (
-        <div
-          key={size}
-          className={`${
-            filter.size === size.toString() ? 'bg-amber-400' : 'bg-slate-300'
-          } border-2 text-center p-2 col-span-2 cursor-pointer hover:bg-slate-400`}
-          onClick={() => handleFilterClick(size.toString(), 'size')}
-        >
-          {size.toString()}
-        </div>
+    <div>
+      {size.map((item) => (
+        <Card>
+          <CardTitle>{item.title}</CardTitle>
+          <CardContent>
+            {item.values.map(({ value, id }) => (
+              <Button
+                variant="link"
+                onClick={() =>
+                  setSelected({ size_id: item.size_id, size_value_id: id })
+                }
+                className={`col-span-1 ${
+                  selected.size_id === item.size_id &&
+                  selected.size_value_id === id
+                    ? 'bg-amber-300'
+                    : 'bg-slate-200'
+                }`}
+              >
+                {value}
+              </Button>
+            ))}
+          </CardContent>
+        </Card>
       ))}
-      <h3 className="col-span-12 mb-3 text-xl font-semibold">
-        Selecciona un talle para filtrar:
-      </h3>
-      {sizes.letter.map((size) => (
-        <div
-          key={size}
-          className={`${
-            filter.size === size.toString() ? 'bg-amber-400' : 'bg-slate-300'
-          } border-2 text-center p-2 col-span-2 cursor-pointer hover:bg-slate-400`}
-          onClick={() => handleFilterClick(size.toString(), 'size')}
-        >
-          {size.toString()}
-        </div>
-      ))}
-    </ModalWhite>
+      <div className="flex justify-center gap-5">
+        <Button onClick={() => handleChange(selected)}>Aceptar</Button>
+        <Button variant="destructive" onClick={onRequestClose}>
+          Cancelar
+        </Button>
+      </div>
+    </div>
   );
 };

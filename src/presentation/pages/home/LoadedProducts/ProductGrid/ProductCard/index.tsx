@@ -12,13 +12,13 @@ import {
 interface ProductCardProps {
   product: Products;
   handleClick: () => void;
-  handleClose: () => void;
+  removeProduct: () => void;
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   product,
   handleClick,
-  handleClose,
+  removeProduct,
 }) => {
   return (
     <Card className="col-span-1 lg:text-xs xl:text-base">
@@ -30,7 +30,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         </CardTitle>
         <Button
           variant="destructive"
-          onClick={handleClose}
+          onClick={removeProduct}
           className="lg:h-6 lg:w-6 lg:ml-3 lg:text-xs 2xl:h-8 2xl:text-base"
         >
           X

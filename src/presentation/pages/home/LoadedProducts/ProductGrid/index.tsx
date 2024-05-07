@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Products } from '@src/types';
 import { getAllProducts } from '@src/services';
 import { ProductCard } from './ProductCard';
-import { Modal, ScrollArea } from '@components';
+import { Modal, ModalDelete, ScrollArea } from '@components';
 import { useModal } from '@hooks';
 import { ModalDetails } from './ModalDetails';
 
@@ -29,9 +29,17 @@ export const ProductGrid: React.FC = () => {
             return (
               <ProductCard
                 handleClick={() => {
-                  showModal('detalles', <ModalDetails product={product} />);
+                  showModal('', <ModalDetails product={product} />);
                 }}
-                handleClose={() => {}}
+                removeProduct={() => {
+                  showModal(
+                    '',
+                    <ModalDelete
+                      handleDeleteProduct={() => {}}
+                      hideDeleteModal={hideModal}
+                    />,
+                  );
+                }}
                 product={product}
               />
             );
@@ -39,6 +47,7 @@ export const ProductGrid: React.FC = () => {
         </div>
       </ScrollArea>
       <Modal isOpen={isOpenModal} onRequestClose={hideModal}>
+        <div>{modalTitle}</div>
         {modalContent}
       </Modal>
     </div>

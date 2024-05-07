@@ -16,7 +16,7 @@ import jeans from '@assets/icons/jeans.png';
 import sandalias from '@assets/icons/sandalias.png';
 import remera from '@assets/icons/remera.png';
 import zapatilla from '@assets/icons/zapatilla.png';
-import { CategoryProduct } from '@src/types/Product';
+import { CategoryProduct } from '@src/types/product';
 
 interface ProductCategory {
   type: CategoryProduct;

@@ -18,6 +18,8 @@ export {
   createProducts,
   getAvailableProductCountByVariationId,
   getImageUrl,
+  getAllCategories,
+  getAllSizes,
 } from './products';
 export {
   getCategoryConfig,
