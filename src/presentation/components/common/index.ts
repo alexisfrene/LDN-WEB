@@ -8,3 +8,4 @@ export * from './ImageWithSkeleton';
 export * from './Icons';
 export * from './LabelInput';
 export * from './ImageUploadInput';
+export * from './DataTable';

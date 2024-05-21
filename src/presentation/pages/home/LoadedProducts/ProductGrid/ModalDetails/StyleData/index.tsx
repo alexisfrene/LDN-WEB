@@ -1,36 +1,52 @@
-import { Products } from '@src/types';
+import { ProductDataTable } from '@components';
+import { Product } from '@src/types';
+import { handleSubmit } from './handleSubmit';
 interface StyleDataProps {
-  product: Products;
+  product: Product;
 }
 
 export const StyleData: React.FC<StyleDataProps> = ({ product }) => {
+  const dataVist = [
+    {
+      label: 'Estilo :',
+      value: product.details?.style,
+      name: 'style',
+    },
+    {
+      label: 'Marca :',
+      value: product.details?.brand,
+      name: 'brand',
+    },
+    {
+      label: 'Edad :',
+      value: product.details?.age,
+      name: 'age',
+    },
+    {
+      label: 'Color :',
+      value: product.details?.color,
+      name: 'color',
+    },
+    {
+      label: 'Genero :',
+      value: product.details?.gender,
+      name: 'gender',
+    },
+  ];
+  const initialValues = {
+    brand: '',
+    age: '',
+    color: '',
+    gender: '',
+    styles: '',
+    product_id: product.product_id,
+  };
   return (
-    <div>
-      <h2 className="ml-2 mb-5 text-2xl font-bold">Detalles de estilos</h2>
-      <div className="flex items-center justify-between text-xl border-b font-semibold">
-        <label className="font-bold px-1 w-56 pb-2">Estilo :</label>
-        <p className="pb-1 w-52 truncate px-1">
-          {product.details.style ?? 'Sin definir'}
-        </p>
-      </div>
-      <div className="flex items-center justify-between text-xl border-b font-semibold">
-        <label className="font-bold px-1 w-56 pb-2">Color :</label>
-        <p className="pb-1 w-52 truncate px-1">
-          {product.details.color ?? 'Sin color'}
-        </p>
-      </div>
-      <div className="flex items-center justify-between text-xl border-b font-semibold">
-        <label className="font-bold px-1 w-56 pb-2">Edad :</label>
-        <p className="pb-1 w-52 truncate px-1">
-          {product.details.age ?? 'Sin definir'}
-        </p>
-      </div>
-      <div className="flex items-center justify-between text-xl border-b font-semibold">
-        <label className="font-bold px-1 w-56 pb-2">Generó :</label>
-        <p className="pb-1 w-52 truncate px-1">
-          {product.details.gender ?? 'Sin definir'}
-        </p>
-      </div>
-    </div>
+    <ProductDataTable
+      dataVist={dataVist}
+      handleSubmit={handleSubmit}
+      initialValues={initialValues}
+      title="Detalles del producto"
+    />
   );
 };

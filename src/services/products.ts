@@ -1,5 +1,5 @@
 import { axiosInstance, axiosInstanceFormData, supabase } from '@lib';
-import { Category, Product, Size, UUID } from '@src/types';
+import { Category, Details, Product, Size, UUID } from '@src/types';
 
 export const getAllProducts = async () => {
   try {
@@ -123,27 +123,17 @@ export const removeProduct = async (id: string) => {
   }
 };
 
-export interface useFormProps {
-  produc_description: string;
-  produc_price: string | number;
-  produc_brand: string;
-  produc_category: string;
-  produc_size: string;
-}
-
-export const updateProductsBySupabase = async (
-  dataNew: useFormProps,
-  id: string,
+export const updateProductDetails = async (
+  newDetails: Details,
+  product_id: string,
 ) => {
   try {
-    if (dataNew?.produc_price) {
-      dataNew.produc_price = Number(dataNew.produc_price);
-    }
-    const { data, error } = await supabase
-      .from('ldn_producs')
-      .update(dataNew)
-      .eq('id', id);
-    if (!error) return data;
+    const res = await axiosInstance.patch(
+      `/products/${product_id}`,
+      newDetails,
+    );
+
+    return res.data;
   } catch (error) {
     console.error(error);
   }

@@ -1,6 +1,7 @@
 import { createProducts } from '@src/services';
 import { Product } from '@src/types';
 import { FormikHelpers } from 'formik';
+import { toast } from 'sonner';
 
 interface InitialValues {
   name: string;
@@ -40,10 +41,15 @@ const handleSubmit = async (
       stock: values.stock,
       name: values.name,
       price: values.price,
+      primary_image: values.primary_image,
     };
-    await createProducts(product);
+    const res = await createProducts(product);
+    if (res) {
+      formikHelpers.resetForm();
+      toast('Producto creado con éxito !');
+    }
   } catch (error) {
-    console.log('Error al crear prodcuto --> ', error);
+    console.log('Error al crear producto --> ', error);
   }
 };
 export default handleSubmit;
