@@ -1,6 +1,5 @@
 import { CategoryConfigItem, CategoryConfigResponse } from '@src/types';
-import { supabase } from '@lib';
-//import { v4 as uuidv4 } from 'uuid';
+import { axiosInstance, supabase } from '@lib';
 
 export const getCategoryConfig = async (): Promise<
   CategoryConfigItem[] | Error
@@ -114,5 +113,14 @@ export const deleteCategoryConfig = async (categoryId: string) => {
     }
   } catch (error) {
     throw new Error(`Error en el servicio deleteCategoryConfig: ${error}`);
+  }
+};
+
+export const getUrlAvatar = async () => {
+  try {
+    const res = await axiosInstance.get('/user/avatar');
+    return res.data;
+  } catch (error) {
+    console.log(error);
   }
 };

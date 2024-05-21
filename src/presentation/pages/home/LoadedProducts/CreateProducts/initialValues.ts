@@ -1,7 +1,7 @@
 const initialValues = {
   name: '',
   primary_image: '',
-  price: 0,
+  price: 1,
   description: '',
   details: { age: '', brand: '', color: '', gender: '', style: '' },
   stock: 1,

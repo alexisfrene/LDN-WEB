@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import {
   Card,
   CardContent,
@@ -9,12 +10,21 @@ import {
   Icons,
 } from '@components';
 import { useModal } from '@presentation/hooks';
-import React from 'react';
 import { CategoryEdit } from './CategoryEdit';
+import { getUrlAvatar } from '@src/services';
 
 export const Config: React.FC = () => {
+  const [avatar, setAvatar] = useState('');
   const { hideModal, isOpenModal, modalContent, showModal, modalTitle } =
     useModal();
+  const getAvatarImage = async () => {
+    const res = await getUrlAvatar();
+    setAvatar(res);
+  };
+
+  useEffect(() => {
+    getAvatarImage();
+  }, []);
 
   const config = [
     {
@@ -39,8 +49,7 @@ export const Config: React.FC = () => {
         showModal(
           'Logo actual',
           <div>
-            {/* <img src={avatarImg} /> */}
-            Hola logueado
+            <img src={avatar} />
           </div>,
         ),
     },

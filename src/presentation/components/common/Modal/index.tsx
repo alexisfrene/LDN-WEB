@@ -94,6 +94,7 @@ export const ModalCategory: React.FC<ModalCategoryProps> = ({
     const res = await getAllCategories();
     if (res) setCategories(res);
   };
+
   useEffect(() => {
     getCategories();
   }, []);

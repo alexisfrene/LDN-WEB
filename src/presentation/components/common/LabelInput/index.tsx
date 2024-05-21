@@ -15,7 +15,7 @@ export const LabelInput: React.FC<LabelInputProps> = ({
   name,
   inputType = 'text',
 }) => {
-  const { setFieldValue, values } = useFormikContext<FormikValues>();
+  const { setFieldValue, values, errors } = useFormikContext<FormikValues>();
   const handleChange = onChange
     ? onChange
     : (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -23,9 +23,16 @@ export const LabelInput: React.FC<LabelInputProps> = ({
 
   return (
     <Label htmlFor={label}>
-      <span> {label} :</span>
-      <Input onChange={handleChange} type={inputType} value={values[name]} />
-      <ErrorMessage name={name} />
+      <span className={errors[name] && 'text-red-600'}> {label} :</span>
+      <Input
+        onChange={handleChange}
+        type={inputType}
+        value={values[name]}
+        className={errors[name] && 'border-red-600'}
+      />
+      <p className="text-red-600 text-xs my-1 h-1">
+        <ErrorMessage name={name} />
+      </p>
     </Label>
   );
 };

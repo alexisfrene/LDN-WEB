@@ -40,9 +40,6 @@ export const getAllSizes = async (): Promise<Size[] | undefined> => {
 };
 
 export const createProducts = async (values: Product) => {
-  // values.price = Number(values.price);
-
-  // const newProducts = removeEmptyStringProperties(values);
   try {
     const formData = new FormData();
     formData.append('size_id', values.size_id);
@@ -50,19 +47,22 @@ export const createProducts = async (values: Product) => {
     formData.append('category_id', values.category_id || '');
     formData.append('category_value', values.category_value || '');
     formData.append('description', values.description || '');
-    formData.append('details', JSON.stringify(values.details)); // Asegúrate de que details sea un objeto con propiedades de tipo string
     formData.append('stock', String(values.stock));
     formData.append('name', values.name);
     formData.append('price', String(values.price));
     if (values.primary_image) {
       formData.append('file', values.primary_image);
     }
-    const response = await axiosInstanceFormData.post('/products', values);
-    console.log(response);
+    const details = values?.details;
+    formData.append('details[color]', details?.color || '');
+    formData.append('details[gender]', details?.gender || '');
+    formData.append('details[brand]', details?.brand || '');
+    formData.append('details[style]', details?.style || '');
+    const response = await axiosInstanceFormData.post('/products', formData);
     if (!response) {
       return 'Error al crear un producto en la base de datos';
     } else {
-      return response;
+      return response.data;
     }
   } catch (error) {
     console.error(error);
@@ -114,14 +114,10 @@ export const handleFilterSubmit = async (
   }
 };
 
-export const removeProductsBySupabase = async (id: string) => {
+export const removeProduct = async (id: string) => {
   try {
-    const { error } = await supabase
-      .from('ldn_producs')
-      .update({ produc_state: false })
-      .eq('id', id);
-    if (!error) return true;
-    return false;
+    const res = await axiosInstance.delete(`/products/${id}`);
+    return res.data;
   } catch (error) {
     console.error(error);
   }

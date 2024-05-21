@@ -1,10 +1,11 @@
-import { Formik } from 'formik';
-import initialValues from './initialValues';
+import React, { useState } from 'react';
+import { ErrorMessage, Formik } from 'formik';
 import {
   Button,
   CardTitle,
+  Icons,
+  ImageUploadInput,
   ImageWithSkeleton,
-  Input,
   Label,
   LabelInput,
   Modal,
@@ -13,17 +14,22 @@ import {
 } from '@components';
 import handleSubmit from './handleSubmit';
 import { useModal } from '@hooks';
-import { useState } from 'react';
+import initialValues from './initialValues';
+import validationSchema from './validationSchema';
 
-export const CreateProducts = () => {
+export const CreateProducts: React.FC = () => {
   const [image, setImage] = useState<string | null>(null);
   const { hideModal, isOpenModal, modalContent, modalTitle, showModal } =
     useModal();
 
   return (
     <div className="flex justify-center">
-      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-        {({ handleSubmit, setFieldValue, values }) => (
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        validationSchema={validationSchema}
+      >
+        {({ handleSubmit, setFieldValue, values, isSubmitting }) => (
           <div className="grid grid-cols-3 gap-3 w-[1200px] bg-white p-10">
             <Label className="font-bold text-xl text-center mb-3 bg-slate-100 p-3 col-span-full">
               Crear producto
@@ -34,23 +40,21 @@ export const CreateProducts = () => {
             <LabelInput label="Marca" name="details[brand]" />
             <LabelInput label="Estilo" name="details[style]" />
             <LabelInput label="Color" name="details[color]" />
-            <LabelInput label="Edad" name="details[age]" inputType="number" />
+            <LabelInput label="Edad" name="details[age]" />
             <LabelInput label="Genero" name="details[gender]" />
             <LabelInput
               label="Unidades"
               name="details[stock]"
               inputType="number"
             />
-            <Input
-              accept="image/*"
-              type="file"
-              className="cursor-pointer hover:text-slate-600 col-span-full"
+            <ImageUploadInput
+              name="primary_image"
               onChange={(e) => {
-                if (e.target.files?.[0]) {
-                  const file = e.target.files?.[0];
+                const file = e.target.files?.[0];
+                if (file) {
                   const url = URL.createObjectURL(file);
                   setImage(url);
-                  return setFieldValue('primary_image', e.target.files[0]);
+                  setFieldValue('primary_image', e.currentTarget.files![0]);
                 }
               }}
             />
@@ -74,6 +78,7 @@ export const CreateProducts = () => {
             >
               Seleccionar categoría
             </Button>
+            <ErrorMessage name="category" />
             <Button
               className="col-span-full"
               variant="outline"
@@ -93,6 +98,7 @@ export const CreateProducts = () => {
             >
               Selecciona un talle/numero
             </Button>
+            <ErrorMessage name="size" />
             <Modal isOpen={isOpenModal} onRequestClose={hideModal}>
               <CardTitle className="text-center">{modalTitle}</CardTitle>
               {modalContent}
@@ -100,8 +106,19 @@ export const CreateProducts = () => {
             <Button
               className="col-span-full"
               type="submit"
+              disabled={
+                isSubmitting ||
+                !image ||
+                !values.category.category_id ||
+                !values.size.size_id
+              }
               onClick={() => handleSubmit()}
             >
+              <div className="w-5 mx-1">
+                {isSubmitting && (
+                  <Icons type="refresh" className="h-5 animate-spin" />
+                )}
+              </div>
               Crear producto
             </Button>
           </div>

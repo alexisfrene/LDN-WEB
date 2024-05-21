@@ -13,7 +13,7 @@ export {
 export {
   getAllProducts,
   handleFilterSubmit,
-  removeProductsBySupabase,
+  removeProduct,
   updateProductsBySupabase,
   createProducts,
   getAvailableProductCountByVariationId,
@@ -26,6 +26,7 @@ export {
   addCategoryConfig,
   deleteCategoryConfig,
   updateCategoryConfig,
+  getUrlAvatar,
 } from './config';
 export { registerUser, loginUser } from './user';
 export { addMovement, getMovement } from './finance';

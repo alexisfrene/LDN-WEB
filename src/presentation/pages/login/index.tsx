@@ -29,7 +29,10 @@ const LoginPage: React.FC = () => {
       const res = await loginUser(values);
 
       if (res?.data.session_token) {
-        insertSessionToken({ session_token: res?.data.session_token });
+        insertSessionToken({
+          session_token: res?.data.session_token,
+          avatar: '',
+        });
         return navigate('/home');
       }
       alert('Error');

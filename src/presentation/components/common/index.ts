@@ -1,15 +1,10 @@
-export { DropdownInput, Dropdown } from './DropDown';
-export { LoadingIndicator } from './Loading';
-export { Snackbar } from './Snackbar';
-export {
-  Modal,
-  ModalWhite,
-  ModalDelete,
-  ModalCategory,
-  ModalSize,
-} from './Modal';
-export { PaginationBar } from './PaginationBar';
-export { Layout } from './Layout';
-export { ImageWithSkeleton } from './ImageWithSkeleton';
-export { Icons } from './Icons';
-export { LabelInput } from './LabelInput';
+export * from './DropDown';
+export * from './Loading';
+export * from './Snackbar';
+export * from './Modal';
+export * from './PaginationBar';
+export * from './Layout';
+export * from './ImageWithSkeleton';
+export * from './Icons';
+export * from './LabelInput';
+export * from './ImageUploadInput';
