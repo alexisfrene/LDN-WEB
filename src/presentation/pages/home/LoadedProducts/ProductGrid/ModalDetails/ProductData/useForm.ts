@@ -1,28 +1,16 @@
-export interface useFormProps {
-  produc_description: string;
-  produc_price: string;
-  produc_brand: string;
-  produc_category: string;
-  produc_size: string;
-}
-
-export const useForm = (): useFormProps => {
+export const useForm = (id: string) => {
   return {
-    produc_description: "",
-    produc_price: "",
-    produc_brand: "",
-    produc_category: "",
-    produc_size: "",
+    product_id: id,
+    description: '',
+    price: '',
+    name: '',
+    size: {
+      size_id: '',
+      size_value_id: '',
+    },
+    category: {
+      category_id: '',
+      category_value_id: '',
+    },
   };
-};
-
-export const getDynamicValue = (
-  form: useFormProps,
-  key: string
-): string | undefined => {
-  if (key in form) {
-    return form[key as keyof useFormProps];
-  } else {
-    return undefined;
-  }
 };

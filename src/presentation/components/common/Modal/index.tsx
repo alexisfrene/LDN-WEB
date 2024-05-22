@@ -101,14 +101,15 @@ export const ModalCategory: React.FC<ModalCategoryProps> = ({
 
   return (
     <>
-      {categories.map((category) => {
+      {categories.map((category, index) => {
         return (
-          <>
+          <Card key={index + category.category_id}>
             <CardTitle className="my-3">{category.title}</CardTitle>
             <CardContent className="grid grid-cols-3 gap-3">
               {category.values.map(({ value, id }) => {
                 return (
                   <Button
+                    key={id}
                     variant="link"
                     className={`col-span-1 ${
                       selected.category_id === category.category_id &&
@@ -128,7 +129,7 @@ export const ModalCategory: React.FC<ModalCategoryProps> = ({
                 );
               })}
             </CardContent>
-          </>
+          </Card>
         );
       })}
       <div className="flex justify-center gap-5">
@@ -168,12 +169,13 @@ export const ModalSize: React.FC<ModalSizeProps> = ({
 
   return (
     <div>
-      {size.map((item) => (
-        <Card>
+      {size.map((item, index) => (
+        <Card key={index + item.size_id}>
           <CardTitle>{item.title}</CardTitle>
           <CardContent>
             {item.values.map(({ value, id }) => (
               <Button
+                key={id}
                 variant="link"
                 onClick={() =>
                   setSelected({ size_id: item.size_id, size_value_id: id })

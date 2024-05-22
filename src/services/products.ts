@@ -55,6 +55,7 @@ export const createProducts = async (values: Product) => {
     }
     const details = values?.details;
     formData.append('details[color]', details?.color || '');
+    formData.append('details[age]', details?.age || '');
     formData.append('details[gender]', details?.gender || '');
     formData.append('details[brand]', details?.brand || '');
     formData.append('details[style]', details?.style || '');
@@ -129,7 +130,23 @@ export const updateProductDetails = async (
 ) => {
   try {
     const res = await axiosInstance.patch(
-      `/products/${product_id}`,
+      `/products/${product_id}?type=details`,
+      newDetails,
+    );
+
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateProductData = async (
+  newDetails: any,
+  product_id: string,
+) => {
+  try {
+    const res = await axiosInstance.patch(
+      `/products/${product_id}?type=data`,
       newDetails,
     );
 

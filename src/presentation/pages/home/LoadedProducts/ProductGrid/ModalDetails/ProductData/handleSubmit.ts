@@ -1,25 +1,26 @@
-import { updateProductsBySupabase } from '@services';
-import { useFormProps } from './useForm';
-
-interface SubmitParams {
-  resetForm: () => void;
-}
+//import {  } from '@services';
+import { updateProductData } from '@src/services';
+import { FormikHelpers, FormikValues } from 'formik';
 
 export const handleSubmit = async (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  values: { [key in keyof useFormProps]: any },
-  { resetForm }: SubmitParams,
-  id: string | undefined,
-  reloadProducts: () => void,
+  values: FormikValues,
+  formikHelpers: FormikHelpers<FormikValues>,
 ) => {
-  const filteredObject = Object.fromEntries(
-    Object.entries(values).filter(([, value]) => value !== ''),
-  ) as useFormProps;
-  if (id) {
-    await updateProductsBySupabase(filteredObject, id);
-    reloadProducts();
-    resetForm();
-  } else {
-    console.error('Falta el ID');
+  try {
+    const data = {
+      name: values?.name || '',
+      price: values?.price || '',
+      description: values?.description || '',
+      category_id: values?.category?.category_id || '',
+      category_value: values?.category?.category_value_id || '',
+      size_id: values?.size?.size_id || '',
+      size_value: values?.size?.size_value_id || '',
+    };
+    const res = await updateProductData(data, values.product_id);
+    console.log(res);
+  } catch (error) {
+    console.log('Error al actualizar datos del producto !', error);
+  } finally {
+    formikHelpers.resetForm();
   }
 };
