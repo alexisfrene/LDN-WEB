@@ -1,35 +1,58 @@
 import { ProductDataTable } from '@components';
-import { Product } from '@src/types';
 import { handleSubmit } from './handleSubmit';
-interface StyleDataProps {
-  product: Product;
+import { useState } from 'react';
+export interface StyleDataProps {
+  style: string;
+  brand: string;
+  age: string;
+  color: string;
+  gender: string;
+  product_id: string;
 }
 
-export const StyleData: React.FC<StyleDataProps> = ({ product }) => {
+export const StyleData: React.FC<StyleDataProps> = ({
+  age,
+  brand,
+  color,
+  gender,
+  product_id,
+  style,
+}) => {
+  const [selected, setSelected] = useState({
+    age,
+    brand,
+    color,
+    gender,
+    product_id,
+    style,
+  });
+  const refresh = (data: StyleDataProps) => {
+    setSelected(data);
+  };
   const dataVist = [
     {
       label: 'Estilo :',
-      value: product.details?.style,
+      value: selected.style,
       name: 'style',
     },
     {
       label: 'Marca :',
-      value: product.details?.brand,
+      value: selected.brand,
       name: 'brand',
     },
     {
       label: 'Edad :',
-      value: product.details?.age,
+      value: selected.age,
       name: 'age',
     },
     {
       label: 'Color :',
-      value: product.details?.color,
+      value: selected.color,
       name: 'color',
     },
     {
       label: 'Genero :',
-      value: product.details?.gender,
+      value: selected.gender,
       name: 'gender',
     },
   ];
@@ -39,12 +62,13 @@ export const StyleData: React.FC<StyleDataProps> = ({ product }) => {
     color: '',
     gender: '',
     styles: '',
-    product_id: product.product_id,
+    product_id: selected.product_id,
   };
+  const submit = handleSubmit(refresh);
   return (
     <ProductDataTable
       dataVist={dataVist}
-      handleSubmit={handleSubmit}
+      handleSubmit={submit}
       initialValues={initialValues}
       title="Detalles del producto"
     />

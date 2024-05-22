@@ -1,43 +1,66 @@
+import { useState } from 'react';
 import { useForm } from './useForm';
 import { handleSubmit } from './handleSubmit';
 import { ProductDataTable } from '@components';
-import { Product } from '@src/types';
 
-interface DataOfProductsProps {
-  product: Product;
+export interface DataOfProductsProps {
+  price: string;
+  description: string;
+  category: string;
+  size: string;
+  product_id: string;
+  name: string;
 }
 
-export const ProductData: React.FC<DataOfProductsProps> = ({ product }) => {
+export const ProductData: React.FC<DataOfProductsProps> = ({
+  name,
+  price,
+  description,
+  category,
+  size,
+  product_id,
+}) => {
+  const [selected, setSelected] = useState({
+    name,
+    price,
+    description,
+    category,
+    size,
+    product_id,
+  });
+  const refresh = (data: DataOfProductsProps) => {
+    setSelected(data);
+  };
   const dataVist = [
     {
       label: 'Nombre :',
-      value: product.name,
+      value: selected.name,
       name: 'name',
     },
     {
       label: 'Precio:',
-      value: `$ ${product.price}`,
+      value: `$ ${selected.price}`,
       name: 'price',
     },
     {
       label: 'Descripción:',
-      value: product.description,
+      value: selected.description,
       name: 'description',
     },
     {
       label: 'Categoría:',
-      value: product.category,
+      value: selected.category,
       name: 'category',
     },
-    { label: 'Numero/Talle:', value: product.size, name: 'size' },
+    { label: 'Numero/Talle:', value: selected.size, name: 'size' },
   ];
-
-  const initialValues = useForm(product.product_id!);
+  const initialValues = useForm(selected.product_id!);
+  const submit = handleSubmit(refresh);
 
   return (
     <ProductDataTable
       dataVist={dataVist}
-      handleSubmit={handleSubmit}
+      handleSubmit={submit}
       initialValues={initialValues}
       title="Información básica"
     />

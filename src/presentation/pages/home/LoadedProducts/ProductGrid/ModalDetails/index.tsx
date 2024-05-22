@@ -1,47 +1,67 @@
 import React from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components';
-import { Products } from '@src/types';
+import {
+  ScrollArea,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@components';
+import { Product } from '@src/types';
 import { ProductData } from './ProductData';
 import { StyleData } from './StyleData';
 import { VariationData } from './VariationData';
+const tabs = ['product_dates', 'styles', 'images'];
 
 interface ModalDetailsProps {
-  product: Products;
+  product: Product;
 }
 export const ModalDetails: React.FC<ModalDetailsProps> = ({ product }) => {
+  const tabsStyles = 'text-base w-44';
   return (
-    <div className="rounded-lg overflow-y-auto mt-2">
-      <Tabs defaultValue="Datos del producto">
-        <TabsList className="flex justify-between rounded-t-lg p-2 bg-slate-100">
-          <TabsTrigger value="Datos del producto" className="text-xl">
-            Datos del producto
-          </TabsTrigger>
-          <TabsTrigger value="Estilos" className="text-xl">
-            Estilos
-          </TabsTrigger>
-          <TabsTrigger value="Imágenes" className="text-xl">
-            Imágenes
-          </TabsTrigger>
-        </TabsList>
-        <div className="mt-3 flex justify-center items-center flex-col">
-          <img
-            src={product.primary_image}
-            className="object-cover h-96 w-96 rounded-lg mb-3 mx-auto my-auto"
-            alt={product.name}
-          />
-          <div className="h-72">
-            <TabsContent value="Datos del producto">
-              <ProductData product={product} />
-            </TabsContent>
-            <TabsContent value="Estilos">
-              <StyleData product={product} />
-            </TabsContent>
-            <TabsContent value="Imágenes">
-              <VariationData product={product} />
-            </TabsContent>
-          </div>
-        </div>
-      </Tabs>
-    </div>
+    <Tabs defaultValue={tabs[0]} className="bg-slate-100 p-3 rounded-xl">
+      <TabsList className="flex justify-between rounded-t-lg p-2 bg-slate-100">
+        <TabsTrigger value={tabs[0]} className={tabsStyles}>
+          Datos del producto
+        </TabsTrigger>
+        <TabsTrigger value={tabs[1]} className={tabsStyles}>
+          Estilos
+        </TabsTrigger>
+        <TabsTrigger value={tabs[2]} className={tabsStyles}>
+          Imágenes
+        </TabsTrigger>
+      </TabsList>
+      <div className="mt-3 flex justify-center items-center flex-col">
+        <img
+          src={product.primary_image}
+          className="h-60 w-60 rounded-lg"
+          alt={product.name}
+        />
+        <ScrollArea className="h-72">
+          <TabsContent value={tabs[0]}>
+            <ProductData
+              category={product.category!}
+              description={product.description!}
+              name={product.name}
+              price={product.price.toString()}
+              product_id={product.product_id!}
+              size={product.size!}
+            />
+          </TabsContent>
+          <TabsContent value={tabs[1]}>
+            <StyleData
+              age={product.details?.age!}
+              brand={product.details?.brand!}
+              color={product.details?.color!}
+              gender={product.details?.gender!}
+              product_id={product.product_id!}
+              style={product.details?.style!}
+            />
+          </TabsContent>
+          <TabsContent value={tabs[2]}>
+            <VariationData product={product} />
+          </TabsContent>
+        </ScrollArea>
+      </div>
+    </Tabs>
   );
 };

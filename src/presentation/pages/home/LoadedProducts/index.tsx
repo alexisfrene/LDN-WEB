@@ -7,10 +7,10 @@ const ProductsTabs = ['Stock de productos', 'Crear producto'];
 export const LoadedProducts: React.FC = () => {
   return (
     <ProductsNavBar tabs={ProductsTabs}>
-      <TabsContent value="Stock de productos">
+      <TabsContent value={ProductsTabs[0]}>
         <ProductGrid />
       </TabsContent>
-      <TabsContent value="Crear producto">
+      <TabsContent value={ProductsTabs[1]}>
         <CreateProducts />
       </TabsContent>
     </ProductsNavBar>

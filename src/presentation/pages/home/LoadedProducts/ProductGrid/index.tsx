@@ -59,7 +59,11 @@ export const ProductGrid: React.FC = () => {
           })}
         </div>
       </ScrollArea>
-      <Modal isOpen={isOpenModal} onRequestClose={hideModal}>
+      <Modal
+        isOpen={isOpenModal}
+        onRequestClose={hideModal}
+        className="bg-transparent border-none"
+      >
         <div>{modalTitle}</div>
         {modalContent}
       </Modal>

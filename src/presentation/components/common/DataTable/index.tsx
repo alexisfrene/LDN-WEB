@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormikHelpers, FormikValues, useFormik } from 'formik';
 import {
   Button,
@@ -84,6 +84,10 @@ export const ProductDataTable: React.FC<DataOfProductsProps> = ({
       Seleccionar categoría
     </Button>
   );
+
+  useEffect(() => {
+    setTimeout(() => setModalEdit(false), 200);
+  }, [initialValues]);
 
   return (
     <div>
