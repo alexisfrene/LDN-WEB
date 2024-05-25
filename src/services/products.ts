@@ -1,5 +1,5 @@
-import { axiosInstance, axiosInstanceFormData, supabase } from '@lib';
-import { Category, Details, Product, Size, UUID } from '@src/types';
+import { axiosInstance, axiosInstanceFormData } from '@lib';
+import { Details, Product } from '@src/types';
 
 export const getAllProducts = async () => {
   try {
@@ -19,23 +19,6 @@ export const getImageUrl = async (publicId: string) => {
     return url.data;
   } catch (error) {
     console.log('ERROR  GET IMAGE ->', error);
-  }
-};
-export const getAllCategories = async (): Promise<Category[] | undefined> => {
-  try {
-    const res = await axiosInstance.get('/categories');
-
-    if (res.data) return res.data;
-  } catch (error) {
-    console.log('ERROR IN CATEGORIES -->', error);
-  }
-};
-export const getAllSizes = async (): Promise<Size[] | undefined> => {
-  try {
-    const res = await axiosInstance('/size');
-    return res.data;
-  } catch (error) {
-    console.log('ERROR IN SIZES ALL -->', error);
   }
 };
 
@@ -70,50 +53,50 @@ export const createProducts = async (values: Product) => {
   }
 };
 
-interface filterProps {
-  category: string | boolean;
-  size: string | boolean;
-}
+// interface filterProps {
+//   category: string | boolean;
+//   size: string | boolean;
+// }
 
-export const handleFilterSubmit = async (
-  filter: filterProps,
-  setProducts: SetStateFunction<Product[] | null>,
-) => {
-  if (filter.category && filter.size) {
-    const { data } = await supabase
-      .from('ldn_producs')
-      .select()
-      .eq('produc_category', filter.category)
-      .eq('produc_size', filter.size);
+// export const handleFilterSubmit = async (
+//   filter: filterProps,
+//   setProducts: SetStateFunction<Product[] | null>,
+// ) => {
+//   if (filter.category && filter.size) {
+//     const { data } = await supabase
+//       .from('ldn_producs')
+//       .select()
+//       .eq('produc_category', filter.category)
+//       .eq('produc_size', filter.size);
 
-    if (data) {
-      return setProducts(data?.sort((a, b) => b.produc_price - a.produc_price));
-    } else {
-      return setProducts([]);
-    }
-  }
+//     if (data) {
+//       return setProducts(data?.sort((a, b) => b.produc_price - a.produc_price));
+//     } else {
+//       return setProducts([]);
+//     }
+//   }
 
-  if (filter.category) {
-    const { data } = await supabase
-      .from('ldn_producs')
-      .select()
-      .eq('produc_category', filter.category);
+//   if (filter.category) {
+//     const { data } = await supabase
+//       .from('ldn_producs')
+//       .select()
+//       .eq('produc_category', filter.category);
 
-    if (data) {
-      return setProducts(data?.sort((a, b) => b.produc_price - a.produc_price));
-    }
-  }
+//     if (data) {
+//       return setProducts(data?.sort((a, b) => b.produc_price - a.produc_price));
+//     }
+//   }
 
-  if (filter.size) {
-    const { data } = await supabase
-      .from('ldn_producs')
-      .select()
-      .eq('produc_size', filter.size);
-    if (data) {
-      return setProducts(data?.sort((a, b) => b.produc_price - a.produc_price));
-    }
-  }
-};
+//   if (filter.size) {
+//     const { data } = await supabase
+//       .from('ldn_producs')
+//       .select()
+//       .eq('produc_size', filter.size);
+//     if (data) {
+//       return setProducts(data?.sort((a, b) => b.produc_price - a.produc_price));
+//     }
+//   }
+// };
 
 export const removeProduct = async (id: string) => {
   try {
@@ -156,25 +139,25 @@ export const updateProductData = async (
   }
 };
 
-export const getAvailableProductCountByVariationId = async (
-  variationId: UUID,
-) => {
-  try {
-    const { data, error } = await supabase
-      .from('ldn_producs')
-      .select('*', { count: 'exact' })
-      .eq('produc_variations', variationId)
-      .eq('produc_state', true);
+// export const getAvailableProductCountByVariationId = async (
+//   variationId: UUID,
+// ) => {
+//   try {
+//     const { data, error } = await supabase
+//       .from('ldn_producs')
+//       .select('*', { count: 'exact' })
+//       .eq('produc_variations', variationId)
+//       .eq('produc_state', true);
 
-    if (error) {
-      console.error('Error executing the query:', error);
+//     if (error) {
+//       console.error('Error executing the query:', error);
 
-      return null;
-    }
+//       return null;
+//     }
 
-    return data.length;
-  } catch (error) {
-    console.error('General error:', error);
-    return null;
-  }
-};
+//     return data.length;
+//   } catch (error) {
+//     console.error('General error:', error);
+//     return null;
+//   }
+// };

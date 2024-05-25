@@ -96,7 +96,7 @@ export const ImageGrid: React.FC = () => {
 
   return (
     <div className="mx-3">
-      <NavFilters setState={setCategory} />
+      {/* <NavFilters setState={setCategory} />
       <ScrollArea className="lg:h-[69vh] xl:h-[68vh] 2xl:h-[72vh] col-span-full">
         <div className="grid gap-3 sm:grid-cols-1  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
           {pagination && pagination.map(renderProductCard)}
@@ -116,7 +116,7 @@ export const ImageGrid: React.FC = () => {
         hideDeleteModal={hideDeleteModal}
         handleDeleteProduct={() => handleDeleteProduct(selectedId)}
       />
-      <LoadingIndicator isLoading={loading} />
+      <LoadingIndicator isLoading={loading} /> */}
     </div>
   );
 };

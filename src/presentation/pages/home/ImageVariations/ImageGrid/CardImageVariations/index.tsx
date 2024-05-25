@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { getAvailableProductCountByVariationId } from '@services';
 import { ImageVariantsProduct } from '@src/types';
 import { Button, Card, CardContent, CardHeader, CardTitle } from '@components';
 import { useEffect, useState } from 'react';
@@ -17,7 +16,7 @@ export const CardImageVariations: React.FC<CardImageVariationsProps> = ({
 }) => {
   const [cant, setCant] = useState(0);
   const getProductCount = async () => {
-    const res = await getAvailableProductCountByVariationId(product.id);
+    const res = {};
     if (res) {
       setCant(res);
     }

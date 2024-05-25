@@ -55,7 +55,7 @@ export const CreateProducts: React.FC = () => {
   };
   return (
     <div className="flex justify-center">
-      <Formik initialValues={useForm()} onSubmit={useSubmit()}>
+      {/* <Formik initialValues={useForm()} onSubmit={useSubmit()}>
         {({
           values,
           handleChange,
@@ -180,7 +180,7 @@ export const CreateProducts: React.FC = () => {
             </Button>
           </form>
         )}
-      </Formik>
+      </Formik> */}
     </div>
   );
 };

@@ -66,7 +66,7 @@ export const ModalDelete: React.FC<ModalDeleteProps> = ({
   text = '¿Estás seguro de eliminar este producto?',
 }) => {
   return (
-    <div className="rounded-sm">
+    <div className="rounded-sm bg-slate-200">
       <h3 className="text-xl font-semibold mb-4 text-center">{text}</h3>
       <div className="flex justify-evenly">
         <Button variant="destructive" onClick={handleDeleteProduct}>

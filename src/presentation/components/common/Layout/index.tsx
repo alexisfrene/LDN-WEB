@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect } from 'react';
-import logo from '@src/assets/favicon.png';
+import logo from '@assets/favicon.png';
 import { Avatar, AvatarFallback, AvatarImage } from '../../ui';
-import { useSessionStore } from '@src/global';
+import { useSessionStore } from '@global';
 import { getUrlAvatar } from '@src/services';
 
 interface LayoutProps {
