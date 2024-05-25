@@ -1,20 +1,23 @@
-import React from 'react';
+import React, { Ref } from 'react';
 import { ErrorMessage, FormikValues, useFormikContext } from 'formik';
 import { Input } from '../../ui';
 
 interface ImageUploadInputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   name: string;
+  ref?: Ref<HTMLInputElement> | undefined;
 }
 
 export const ImageUploadInput: React.FC<ImageUploadInputProps> = ({
   onChange,
   name,
+  ref,
 }) => {
   const { errors } = useFormikContext<FormikValues>();
   return (
     <>
       <Input
+        ref={ref}
         accept="image/*"
         name={name}
         type="file"

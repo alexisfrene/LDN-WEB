@@ -28,7 +28,7 @@ export const Config: React.FC = () => {
 
   const config = [
     {
-      description: 'Editar las categorías de los productos',
+      description: 'Ajustes en categorías de productos',
       icon: (
         <Icons
           type="copy_manual"

@@ -114,7 +114,11 @@ export interface Category {
 export interface Value {
   id: string;
   value: string;
-  icon_url: string;
+  icon_url?: string;
+  icon?: {
+    url: String;
+    file: File;
+  };
 }
 
 export interface Size {
@@ -127,4 +131,9 @@ export interface Size {
 export interface Value {
   id: string;
   value: string;
+}
+
+export interface CategoryCreate {
+  title: string;
+  values: Value[];
 }
