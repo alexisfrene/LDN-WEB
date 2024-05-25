@@ -7,7 +7,17 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@src/*": ["./src/*"],
+      "@assets/*": ["./src/presentation/assets/*"],
+      "@config/*": ["./src/config/*"],
+      "@core/*": ["./src/core/*"],
+      "@global": ["./src/presentation/global"],
+      "@services": ["./src/services"],
+      "@hooks": ["./src/presentation/hooks"],
+      "@types": ["./src/types"],
+      "@lib": ["./src/lib"],
+      "@presentation/*": ["./src/presentation/*"],
+      "@components": ["./src/presentation/components"]
     },
     /* Bundler mode */
     "moduleResolution": "bundler",

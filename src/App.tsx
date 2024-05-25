@@ -1,13 +1,13 @@
 import React, { lazy, Suspense, useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { LoadingIndicator, Toaster, WithAuth } from './components';
-import TestView from './pages/testView';
-import { login } from './lib/connectionToSupabase';
-const FilingPage = lazy(() => import('./pages/filing'));
-const SingUpPage = lazy(() => import('./pages/sign'));
-const HomePage = lazy(() => import('./pages/home'));
-const LoginPage = lazy(() => import('./pages/login'));
-const ErrorPage = lazy(() => import('./pages/error'));
+import { LoadingIndicator, Toaster, WithAuth } from '@components';
+import TestView from '@presentation/pages/testView';
+import { login } from '@lib';
+const FilingPage = lazy(() => import('./presentation/pages/filing'));
+const SingUpPage = lazy(() => import('./presentation/pages/sign'));
+const HomePage = lazy(() => import('./presentation/pages/home'));
+const LoginPage = lazy(() => import('./presentation/pages/login'));
+const ErrorPage = lazy(() => import('./presentation/pages/error'));
 
 const router = createBrowserRouter([
   {

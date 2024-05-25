@@ -75,3 +75,56 @@ export type Filters = {
   category: string;
   size: string;
 };
+
+export interface Product {
+  size_value: string;
+  size_id: string;
+  category?: string;
+  details?: Details;
+  size?: string;
+  name: string;
+  product_id?: string;
+  description?: string;
+  primary_image?: string;
+  price: number;
+  state?: boolean;
+  code?: number;
+  stock?: number;
+  discount?: number;
+  category_id?: string;
+  category_value?: string;
+}
+
+export interface Details {
+  detail_id?: string;
+  gender?: string;
+  color?: string;
+  brand?: string;
+  style?: string;
+  age?: string;
+}
+
+export interface Category {
+  category_id: string;
+  title: string;
+  values: Value[];
+  user_id: string;
+}
+
+export interface Value {
+  id: string;
+  value: string;
+  icon_url: string;
+}
+
+export interface Size {
+  size_id: string;
+  title: string;
+  values: Value[];
+  user_id: string;
+}
+
+export interface Value {
+  id: string;
+  value: string;
+}

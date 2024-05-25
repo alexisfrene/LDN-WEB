@@ -1,4 +1,4 @@
-export { supabase } from './connectionToSupabase';
+export { supabase, login } from './connectionToSupabase';
 export {
   cn,
   getCurrentFormattedDate,
@@ -6,4 +6,5 @@ export {
   urlImageVariation,
   axiosInstance,
   axiosInstanceFormData,
+  removeEmptyStringProperties,
 } from './utils';
