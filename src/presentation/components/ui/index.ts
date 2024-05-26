@@ -20,3 +20,4 @@ export * from './toggle-group';
 export * from './sheet';
 export * from './avatar';
 export * from './accordion';
+export * from './badge';

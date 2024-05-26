@@ -2,6 +2,10 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { Category } from '@src/types';
 import { getAllCategories } from '@src/services';
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Badge,
   Button,
   Card,
   CardContent,
@@ -54,24 +58,31 @@ export const CategoryEdit: React.FC<CategoryEditProps> = ({ showSheet }) => {
                 <CardHeader>
                   <CardTitle>{title}</CardTitle>
                 </CardHeader>
-                <ScrollArea className="h-[13vh]">
-                  <CardContent className="flex flex-row gap-5">
+                <ScrollArea className="h-[11vh]">
+                  <CardContent className="flex flex-row gap-5 flex-wrap">
                     {values.map((e) => (
-                      <div
-                        key={e.id}
-                        className="flex items-center gap-2 bg-slate-200 p-1 rounded-md"
-                      >
-                        <img
-                          src={e.icon_url}
-                          alt={e.value}
-                          className="h-12 w-12 rounded-full"
-                        />
-                        <p className="text-lg">{e.value}</p>
-                      </div>
+                      <Badge key={e.id} variant="secondary">
+                        <Avatar>
+                          <AvatarImage src={e.icon_url} alt="@ldn" />
+                          <AvatarFallback>{e.value[0]}</AvatarFallback>
+                        </Avatar>
+                        {e.value}
+                      </Badge>
                     ))}
-                    <div className="flex items-center gap-2 bg-green-400 p-1 rounded-md cursor-pointer hover:bg-green-500">
+                    <Badge
+                      className="bg-green-400 cursor-pointer hover:bg-green-500"
+                      onClick={() => {
+                        return showSheet(
+                          'Agregar una categoría nueva',
+                          <FormAddCategory
+                            type="value"
+                            category_id={category_id}
+                          />,
+                        );
+                      }}
+                    >
                       <Icons type="plus_circle" height={45} />
-                    </div>
+                    </Badge>
                   </CardContent>
                 </ScrollArea>
               </Card>

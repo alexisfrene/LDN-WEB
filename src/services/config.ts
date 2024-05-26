@@ -1,5 +1,5 @@
 import { axiosInstance, axiosInstanceFormData } from '@src/lib';
-import { Category, Size } from '@src/types';
+import { Category, Size, Value } from '@src/types';
 
 export const getAllCategories = async (): Promise<Category[] | undefined> => {
   try {
@@ -47,6 +47,20 @@ export const addCategoryConfig = async (data: any) => {
     return res.data;
   } catch (error) {
     console.log('Error in addCategoryConfig', error);
+  }
+};
+export const addValueCategory = async (values: any, category_id: string) => {
+  try {
+    const formData = new FormData();
+    formData.append('value', values.value);
+    formData.append('files', values.icon!);
+    const res = await axiosInstanceFormData.patch(
+      `/categories/${category_id}`,
+      formData,
+    );
+    return res.data;
+  } catch (error) {
+    console.log('Error in addValueCategory', error);
   }
 };
 export const deleteCategoryConfig = () => {};
