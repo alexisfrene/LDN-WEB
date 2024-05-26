@@ -18,6 +18,14 @@ export const getAllSizes = async (): Promise<Size[] | undefined> => {
     console.log('ERROR IN SIZES ALL -->', error);
   }
 };
+export const addSize = async (values: any) => {
+  try {
+    const res = await axiosInstance.post('/size', values);
+    return res.data;
+  } catch (error) {
+    console.log('Error in addSize', error);
+  }
+};
 export const getUrlAvatar = async () => {
   try {
     const res = await axiosInstance.get('/user/avatar');

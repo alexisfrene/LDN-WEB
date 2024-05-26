@@ -8,34 +8,56 @@ import {
   Modal,
   Label,
   Icons,
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
 } from '@components';
 import { useModal } from '@presentation/hooks';
 import { CategoryEdit } from './CategoryEdit';
 import { getUrlAvatar } from '@src/services';
+import { SizeEdit } from './SizeEdit';
 
 export const Config: React.FC = () => {
   const [avatar, setAvatar] = useState('');
   const { hideModal, isOpenModal, modalContent, showModal, modalTitle } =
     useModal();
+  const {
+    hideModal: hideSheet,
+    isOpenModal: isOpenSheet,
+    modalContent: sheetContent,
+    modalTitle: sheetTitle,
+    showModal: showSheet,
+  } = useModal();
   const getAvatarImage = async () => {
     const res = await getUrlAvatar();
     setAvatar(res);
   };
-
-  useEffect(() => {
-    getAvatarImage();
-  }, []);
-
   const config = [
     {
-      description: 'Ajustes en categorías de productos',
+      description: 'Ajustes en categorías',
       icon: (
         <Icons
           type="copy_manual"
           className="text-slate-500 w-6 col-span-1 hover:text-slate-700 cursor-pointer"
         />
       ),
-      onClick: () => showModal('Editando categorías', <CategoryEdit />),
+      onClick: () =>
+        showModal(
+          'Editando categorías',
+          <CategoryEdit showSheet={showSheet} />,
+        ),
+    },
+    {
+      description: 'Ajustes en talles/números',
+      icon: (
+        <Icons
+          type="copy_manual"
+          className="text-slate-500 w-6 col-span-1 hover:text-slate-700 cursor-pointer"
+        />
+      ),
+      onClick: () =>
+        showModal('Editar talles/números', <SizeEdit showSheet={showSheet} />),
     },
     {
       description: 'Editar logo',
@@ -68,6 +90,9 @@ export const Config: React.FC = () => {
       </div>
     ));
   };
+  useEffect(() => {
+    getAvatarImage();
+  }, []);
 
   return (
     <Card className="h-full">
@@ -81,6 +106,14 @@ export const Config: React.FC = () => {
         <Label>{modalTitle}</Label>
         {modalContent}
       </Modal>
+      <Sheet open={isOpenSheet} onOpenChange={hideSheet}>
+        <SheetContent className="w-[400px] sm:w-[540px]">
+          <SheetHeader>
+            <SheetTitle>{sheetTitle}</SheetTitle>
+          </SheetHeader>
+          {sheetContent}
+        </SheetContent>
+      </Sheet>
     </Card>
   );
 };
