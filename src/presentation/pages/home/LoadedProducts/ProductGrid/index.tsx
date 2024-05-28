@@ -33,7 +33,7 @@ export const ProductGrid: React.FC = () => {
 
   return (
     <div className="mx-3">
-      <ScrollArea className="lg:h-[69vh] xl:h-[68vh] 2xl:h-[72vh] col-span-full">
+      <ScrollArea className="col-span-full lg:h-[69vh] xl:h-[68vh] 2xl:h-[72vh]">
         <div className="grid gap-3 sm:grid-cols-1  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
           {products.map((product, index) => {
             return (
@@ -62,7 +62,7 @@ export const ProductGrid: React.FC = () => {
       <Modal
         isOpen={isOpenModal}
         onRequestClose={hideModal}
-        className="bg-transparent border-none"
+        className="border-none bg-transparent"
       >
         <div>{modalTitle}</div>
         {modalContent}

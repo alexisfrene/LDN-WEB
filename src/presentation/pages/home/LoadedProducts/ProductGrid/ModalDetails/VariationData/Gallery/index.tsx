@@ -35,7 +35,7 @@ export const Gallery: React.FC<GalleryImagesVariantsProps> = ({
                   key={imageIndex}
                   src={`${import.meta.env.VITE_HOST_NAME}/${image}`}
                   alt={image}
-                  className="h-28 w-28 object-cover rounded shadow-md transition-all duration-300 transform hover:scale-105 col-span-1"
+                  className="col-span-1 h-28 w-28 transform rounded object-cover shadow-md transition-all duration-300 hover:scale-105"
                 />
               ))}
             </div>

@@ -11,20 +11,20 @@ export const AddVariations: React.FC<AddVariationsProps> = ({
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <h3 className="text-xl mt-3 ">
+    <div className="flex flex-col items-center justify-center">
+      <h3 className="mt-3 text-xl ">
         ¿Deseas agregar más imágenes del producto?
       </h3>
       <Icons
         type="plus_circle"
         height={100}
-        className="text-green-600 hover:text-green-700 cursor-pointer"
+        className="cursor-pointer text-green-600 hover:text-green-700"
         onClick={() => {
           setIsOpenModal(true);
         }}
       />
       {isOpenModal && (
-        <div className="absolute z-50 w-screen h-screen -top-16">
+        <div className="absolute -top-16 z-50 h-screen w-screen">
           <ImageGallery
             setIsOpenModal={setIsOpenModal}
             isOpenModal={isOpenModal}

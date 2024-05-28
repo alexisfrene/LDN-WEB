@@ -35,7 +35,7 @@ export const Summary: React.FC = () => {
   return (
     <ResizablePanelGroup
       direction="horizontal"
-      className="max-w-full col-span-11"
+      className="col-span-11 max-w-full"
     >
       <ResizablePanel defaultSize={50}>
         <ResizablePanelGroup direction="vertical">
