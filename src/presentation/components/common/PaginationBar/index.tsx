@@ -74,7 +74,7 @@ export const PaginationBar: React.FC<PaginationBarProps> = ({
   return (
     <>
       <Separator className="sm:mb-0 xl:my-1" />
-      <div className="items-center flex justify-center col-span-full bg-amber-400 h-12 rounded-xl mb-1">
+      <div className="col-span-full mb-1 flex h-12 items-center justify-center rounded-xl bg-amber-400">
         <Pagination>
           <PaginationContent>
             <PaginationItem>

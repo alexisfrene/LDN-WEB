@@ -1,6 +1,6 @@
 import React, { Ref } from 'react';
 import { ErrorMessage, FormikValues, useFormikContext } from 'formik';
-import { Input } from '../../ui';
+import { Input } from '@components';
 
 interface ImageUploadInputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -26,7 +26,7 @@ export const ImageUploadInput: React.FC<ImageUploadInputProps> = ({
         }`}
         onChange={onChange}
       />
-      <p className="text-red-600 text-xs my-1">
+      <p className="my-1 text-xs text-red-600">
         <ErrorMessage name={name} />
       </p>
     </>

@@ -44,10 +44,10 @@ export const ModalWhite: React.FC<ModalWhiteProps> = ({
 }) => {
   return (
     <Modal isOpen={isOpen} onRequestClose={() => setModal()}>
-      <div className="bg-white grid grid-cols-12 p-3 gap-2">
+      <div className="grid grid-cols-12 gap-2 bg-white p-3">
         <h3 className="col-span-full mb-3 text-xl font-semibold">{label}</h3>
         {children}
-        <div className="col-span-full mt-3 font-medium flex justify-evenly">
+        <div className="col-span-full mt-3 flex justify-evenly font-medium">
           <Button onClick={() => setModal()} variant="default">
             Aceptar
           </Button>
@@ -67,13 +67,13 @@ export const ModalDelete: React.FC<ModalDeleteProps> = ({
 }) => {
   return (
     <div className="rounded-sm bg-slate-200">
-      <h3 className="text-xl font-semibold mb-4 text-center">{text}</h3>
+      <h3 className="mb-4 text-center text-xl font-semibold">{text}</h3>
       <div className="flex justify-evenly">
         <Button variant="destructive" onClick={handleDeleteProduct}>
           Aceptar
         </Button>
         <Button
-          className="bg-gray-300 hover:bg-gray-350"
+          className="hover:bg-gray-350 bg-gray-300"
           onClick={hideDeleteModal}
         >
           Cancelar

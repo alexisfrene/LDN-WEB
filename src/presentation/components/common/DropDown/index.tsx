@@ -8,7 +8,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@components';
-import { DropdownTypes } from '@presentation/mocks';
 
 interface Option {
   type: string;
@@ -71,13 +70,4 @@ export const FieldForm: React.FC<FieldFormProps> = ({
       )}
     </Field>
   );
-};
-
-type DropdownProps = {
-  variant: 'colors' | 'genders' | 'brands' | 'styles' | 'ages';
-};
-
-export const Dropdown: React.FC<DropdownProps> = ({ variant }) => {
-  const { name, title, options } = DropdownTypes[variant];
-  return <FieldForm name={name} title={title} option={options} />;
 };

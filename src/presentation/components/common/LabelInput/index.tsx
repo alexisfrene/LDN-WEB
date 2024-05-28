@@ -1,6 +1,6 @@
 import React from 'react';
-import { Input, Label } from '../../ui';
 import { ErrorMessage, FormikValues, useFormikContext } from 'formik';
+import { Input, Label } from '@components';
 
 interface LabelInputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -30,7 +30,7 @@ export const LabelInput: React.FC<LabelInputProps> = ({
         value={values[name]}
         className={errors[name] && 'border-red-600'}
       />
-      <p className="text-red-600 text-xs my-1 h-1">
+      <p className="my-1 h-1 text-xs text-red-600">
         <ErrorMessage name={name} />
       </p>
     </Label>

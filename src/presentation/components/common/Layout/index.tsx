@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect } from 'react';
 import logo from '@assets/favicon.png';
-import { Avatar, AvatarFallback, AvatarImage } from '../../ui';
+import { Avatar, AvatarFallback, AvatarImage } from '@components';
 import { useSessionStore } from '@global';
 import { getUrlAvatar } from '@src/services';
 
@@ -22,14 +22,14 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   }, []);
   return (
     <>
-      <div className="bg-gradient-to-t from-amber-200 to-amber-400 p-1 h-[9vh] flex justify-between">
+      <div className="flex h-[9vh] justify-between bg-gradient-to-t from-amber-200 to-amber-400 p-1">
         <img
           src={logo}
-          className="max-h-[9vh] lg:ml-6 object-scale-down"
+          className="max-h-[9vh] object-scale-down lg:ml-6"
           loading="lazy"
           alt="logo-ldn"
         />
-        <Avatar className="my-2 mx-5">
+        <Avatar className="mx-5 my-2">
           <AvatarImage src={avatar} alt="@shadcn" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>

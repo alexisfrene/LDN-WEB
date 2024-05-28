@@ -1,5 +1,5 @@
 import { axiosInstance, axiosInstanceFormData } from '@src/lib';
-import { Category, Size, Value } from '@src/types';
+import { Category, Size } from '@src/types';
 
 export const getAllCategories = async (): Promise<Category[] | undefined> => {
   try {
