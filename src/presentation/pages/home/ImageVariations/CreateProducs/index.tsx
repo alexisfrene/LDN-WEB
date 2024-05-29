@@ -12,7 +12,7 @@ import {
 } from '@components';
 import defaultImage from '@assets/default.png';
 import { useModal } from '@presentation/hooks';
-import { Filters } from '@src/types';
+
 import { filterAndMapTitles } from '@lib';
 
 export const CreateProducts: React.FC = () => {

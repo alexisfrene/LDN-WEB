@@ -1,5 +1,4 @@
 import { fetchProductById } from '@services';
-import { ImageVariantsProduct } from '@src/types';
 import React, { useEffect, useState } from 'react';
 interface GalleryImagesVariantsProps {
   ImageVariantsId: string | null;

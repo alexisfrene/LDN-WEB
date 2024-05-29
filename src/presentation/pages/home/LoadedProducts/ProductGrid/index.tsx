@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import { Product } from '@src/types';
 import { getAllProducts, removeProduct } from '@src/services';
 import { ProductCard } from './ProductCard';
 import { Modal, ModalDelete, ScrollArea } from '@components';

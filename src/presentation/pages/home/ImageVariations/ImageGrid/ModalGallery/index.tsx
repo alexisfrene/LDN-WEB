@@ -1,4 +1,3 @@
-import { ImageVariantsProduct } from '@src/types';
 import { ViewImage } from './ViewImage';
 import { FormAddImages } from './FormAddImages';
 import {
@@ -49,7 +48,7 @@ export const ModalGallery: React.FC<ModalGalleryProps> = ({
     <Modal
       isOpen={isGalleryModalOpen}
       onRequestClose={hideGalleryModal}
-      className="max-w-fit min-w-[70vw]"
+      className="min-w-[70vw] max-w-fit"
     >
       {selected ? (
         <Tabs defaultValue={infoTab} className="h-[89vh]">

@@ -1,9 +1,9 @@
-export type StyleProduct = 'urban' | 'sports' | 'unspecified';
-export type AgeProduct = 'child' | 'adult';
-export type BrandProduct = 'nike' | 'puma' | 'addidas' | 'other';
-export type GenderProduct = 'male' | 'female' | 'unspecified';
-export type UUID = `${string}-${string}-${string}-${string}-${string}`;
-export type CategoryProduct =
+type StyleProduct = 'urban' | 'sports' | 'unspecified';
+type AgeProduct = 'child' | 'adult';
+type BrandProduct = 'nike' | 'puma' | 'addidas' | 'other';
+type GenderProduct = 'male' | 'female' | 'unspecified';
+type UUID = `${string}-${string}-${string}-${string}-${string}`;
+type CategoryProduct =
   | 't-shirts'
   | 'pants'
   | 'sneakers'
@@ -23,14 +23,14 @@ export type CategoryProduct =
   | 'sandals'
   | 'other';
 
-export type detailsImageVariation = {
+type detailsImageVariation = {
   color: string;
   gender: GenderProduct;
   brand: BrandProduct;
   style: StyleProduct;
 };
 
-export type ImageVariantsProduct = {
+type ImageVariantsProduct = {
   description: string;
   primary_image: string;
   category: CategoryProduct;
@@ -42,13 +42,13 @@ export type ImageVariantsProduct = {
   details: detailsImageVariation;
 };
 
-export type VariationsType = {
+type VariationsType = {
   name: string;
   id: UUID;
   images: string[];
 };
 
-export interface ProductsBySupabase {
+interface ProductsBySupabase {
   id?: UUID;
   created_at?: Date;
   user?: UUID;
@@ -71,12 +71,12 @@ export interface ProductsBySupabase {
   produc_variations?: string;
 }
 
-export type Filters = {
+type Filters = {
   category: string;
   size: string;
 };
 
-export interface CategoryCreate {
+interface CategoryCreate {
   title: string;
   values: Value[];
 }

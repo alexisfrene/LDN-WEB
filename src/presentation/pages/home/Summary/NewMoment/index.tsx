@@ -18,7 +18,6 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from '@components';
-import { AddMovementProps } from '@src/types';
 
 type NewMomentProps = {
   handleSubmit: (values: AddMovementProps) => void;

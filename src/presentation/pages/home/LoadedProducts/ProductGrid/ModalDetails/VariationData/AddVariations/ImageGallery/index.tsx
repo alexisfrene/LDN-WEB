@@ -17,7 +17,6 @@ import {
   SelectValue,
 } from '@components';
 import { fetchProductsForCategory, insertImageId } from '@services';
-import { ImageVariantsProduct } from '@src/types';
 import { useState } from 'react';
 
 interface ImageGalleryProps {

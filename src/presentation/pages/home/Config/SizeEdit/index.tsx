@@ -1,7 +1,6 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import { Button, Icons } from '@src/presentation/components';
 import { getAllSizes } from '@src/services';
-import { Size } from '@src/types';
 import { FormAddSize } from './FormAddSize';
 interface SizeEditProps {
   showSheet: (title: string, content: ReactElement) => void;
@@ -18,8 +17,8 @@ export const SizeEdit: React.FC<SizeEditProps> = ({ showSheet }) => {
   return (
     <div>
       {sizes.length === 0 ? (
-        <div className="min-h-[50vh] flex justify-center">
-          <div className="flex justify-center flex-col">
+        <div className="flex min-h-[50vh] justify-center">
+          <div className="flex flex-col justify-center">
             <p>No tienes ninguna categoría cargada </p>
             <Icons type="cog_6_tooth" height={100} />
             <Button

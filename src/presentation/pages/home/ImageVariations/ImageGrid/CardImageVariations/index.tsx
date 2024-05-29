@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ImageVariantsProduct } from '@src/types';
 import { Button, Card, CardContent, CardHeader, CardTitle } from '@components';
 import { useEffect, useState } from 'react';
 
@@ -43,7 +42,7 @@ export const CardImageVariations: React.FC<CardImageVariationsProps> = ({
         <img
           src={`${import.meta.env.VITE_HOST_NAME}/${product.miniature_image}`}
           alt={product.description}
-          className="w-96 h-96 object-fill cursor-pointer rounded-xl lg:h-52 2xl:h-56"
+          className="h-96 w-96 cursor-pointer rounded-xl object-fill lg:h-52 2xl:h-56"
           onClick={onCLickImage}
           loading="lazy"
         />

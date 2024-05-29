@@ -11,7 +11,6 @@ import { LoadingContext } from '@presentation/context';
 import { useModal } from '@presentation/hooks';
 import { removeCollection } from '@services';
 import { CollectionContent } from './CollectionContent';
-import { ImageVariantsProduct } from '@src/types';
 
 interface ViewImageProps {
   productSelected: ImageVariantsProduct;
@@ -60,7 +59,7 @@ export const ViewImage: React.FC<ViewImageProps> = ({
 
   return (
     <>
-      <Card className="min-h-[84vh] flex flex-col">
+      <Card className="flex min-h-[84vh] flex-col">
         <CardHeader>
           <CardTitle>{selected.description?.toUpperCase()}</CardTitle>
           <CardDescription>

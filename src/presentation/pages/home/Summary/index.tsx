@@ -7,7 +7,6 @@ import {
 import { addMovement, getMovement } from '@services';
 import { NewMoment } from './NewMoment';
 import { TableMoment } from './TableMoment';
-import { AddMovementProps, Movement } from '@src/types';
 import { TableTotal } from './TableTotal';
 import { ImportantDates } from './ImportantDates';
 

@@ -6,7 +6,6 @@ import {
   TabsList,
   TabsTrigger,
 } from '@components';
-import { Product } from '@src/types';
 import { ProductData } from './ProductData';
 import { StyleData } from './StyleData';
 import { VariationData } from './VariationData';

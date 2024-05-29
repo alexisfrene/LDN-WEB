@@ -2,8 +2,6 @@ import React, { useContext, useState } from 'react';
 import { Button, ModalCategory } from '@components';
 import { SnackbarContext } from '@presentation/context';
 import { fetchProductsForCategory } from '@services';
-import { filterAndMapTitles } from '@lib';
-import { ImageVariantsProduct } from '@src/types';
 
 type NavFiltersProps = {
   setState: (data: ImageVariantsProduct[]) => void;
@@ -30,7 +28,7 @@ export const NavFilters: React.FC<NavFiltersProps> = ({ setState }) => {
   };
 
   return (
-    <div className="flex justify-start gap-10 items-center bg-amber-400 h-12 p-3 rounded-xl mb-3">
+    <div className="mb-3 flex h-12 items-center justify-start gap-10 rounded-xl bg-amber-400 p-3">
       <span>Filtrar por : </span>
       <Button onClick={() => setIsOpen(true)} variant="secondary">
         Categoría
@@ -46,7 +44,7 @@ export const NavFilters: React.FC<NavFiltersProps> = ({ setState }) => {
       </Button>
       {filter.category && (
         <>
-          <p>{'Categoría :' + filterAndMapTitles(filter.category)}</p>
+          <p>{'Categoría :'}</p>
           <Button onClick={clearFilters} variant="destructive">
             Borrar filtros
           </Button>

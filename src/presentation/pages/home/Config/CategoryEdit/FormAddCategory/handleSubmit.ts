@@ -1,6 +1,5 @@
-import { addCategoryConfig, addValueCategory } from '@services';
-import { CategoryCreate } from '@src/types';
 import { toast } from 'sonner';
+import { addCategoryConfig, addValueCategory } from '@services';
 
 export const handleSubmitAdd = async (values: CategoryCreate) => {
   const res = await addCategoryConfig(values);
