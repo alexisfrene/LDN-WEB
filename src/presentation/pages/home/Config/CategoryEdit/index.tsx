@@ -1,5 +1,4 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import { Category } from '@src/types';
 import { getAllCategories } from '@src/services';
 import { FormAddCategory } from './FormAddCategory';
 import {
@@ -43,10 +42,10 @@ export const CategoryEdit: React.FC<CategoryEditProps> = ({ showSheet }) => {
   }, []);
 
   return (
-    <div className="min-w-[70vw] flex flex-col">
+    <div className="flex min-w-[70vw] flex-col">
       {category.length === 0 ? (
-        <div className="min-h-[50vh] flex justify-center">
-          <div className="flex justify-center flex-col">
+        <div className="flex min-h-[50vh] justify-center">
+          <div className="flex flex-col justify-center">
             <p>No tienes ninguna categoría cargada </p>
             <Icons type="cog_6_tooth" height={100} />
             <Button
@@ -81,7 +80,7 @@ export const CategoryEdit: React.FC<CategoryEditProps> = ({ showSheet }) => {
                     <Icons
                       type="check"
                       height={23}
-                      className="absolute right-0 top-0 cursor-pointer mx-1 bg-green-400 text-white"
+                      className="absolute right-0 top-0 mx-1 cursor-pointer bg-green-400 text-white"
                       onClick={() => setSelected('')}
                     />
                   ) : (
@@ -122,7 +121,7 @@ export const CategoryEdit: React.FC<CategoryEditProps> = ({ showSheet }) => {
                   )}
                 </CardHeader>
 
-                <CardContent className="flex flex-row gap-5 flex-wrap">
+                <CardContent className="flex flex-row flex-wrap gap-5">
                   {values.map((e) => (
                     <Badge key={e.id} variant="secondary" className="relative">
                       <Avatar>
@@ -134,14 +133,14 @@ export const CategoryEdit: React.FC<CategoryEditProps> = ({ showSheet }) => {
                         <Icons
                           type="close"
                           height={15}
-                          className="absolute right-0 top-0 bg-red-500 hover:bg-red-400 cursor-pointer rounded-tr-sm"
+                          className="absolute right-0 top-0 cursor-pointer rounded-tr-sm bg-red-500 hover:bg-red-400"
                         />
                       )}
                     </Badge>
                   ))}
                   {category_id === selected && (
                     <Badge
-                      className="bg-green-400 cursor-pointer hover:bg-green-500"
+                      className="cursor-pointer bg-green-400 hover:bg-green-500"
                       onClick={() => {
                         return showSheet(
                           'Agregar una categoría nueva',

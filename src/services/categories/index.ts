@@ -1,5 +1,4 @@
 import { axiosInstance, axiosInstanceFormData } from '@src/lib';
-import { Category, Size } from '@src/types';
 
 export const getAllCategories = async (): Promise<Category[] | undefined> => {
   try {
@@ -8,30 +7,6 @@ export const getAllCategories = async (): Promise<Category[] | undefined> => {
     if (res.data) return res.data;
   } catch (error) {
     console.log('ERROR IN CATEGORIES -->', error);
-  }
-};
-export const getAllSizes = async (): Promise<Size[] | undefined> => {
-  try {
-    const res = await axiosInstance('/size');
-    return res.data;
-  } catch (error) {
-    console.log('ERROR IN SIZES ALL -->', error);
-  }
-};
-export const addSize = async (values: any) => {
-  try {
-    const res = await axiosInstance.post('/size', values);
-    return res.data;
-  } catch (error) {
-    console.log('Error in addSize', error);
-  }
-};
-export const getUrlAvatar = async () => {
-  try {
-    const res = await axiosInstance.get('/user/avatar');
-    return res.data;
-  } catch (error) {
-    console.log(error);
   }
 };
 
@@ -49,6 +24,7 @@ export const addCategoryConfig = async (data: any) => {
     console.log('Error in addCategoryConfig', error);
   }
 };
+
 export const addValueCategory = async (values: any, category_id: string) => {
   try {
     const formData = new FormData();
@@ -63,5 +39,6 @@ export const addValueCategory = async (values: any, category_id: string) => {
     console.log('Error in addValueCategory', error);
   }
 };
+
 export const deleteCategoryConfig = () => {};
 export const updateCategoryConfig = () => {};

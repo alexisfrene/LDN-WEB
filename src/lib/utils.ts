@@ -1,7 +1,6 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import axios from 'axios';
-import { producsCategory } from '@presentation/mocks';
 import { Product } from '@src/types';
 
 export function cn(...inputs: ClassValue[]) {
@@ -16,14 +15,6 @@ export const getCurrentFormattedDate = () => {
   const formattedDate = year + '-' + month + '-' + day;
 
   return formattedDate;
-};
-
-export const filterAndMapTitles = (filterType: string): string | undefined => {
-  const matchingCategory = producsCategory.find(
-    (category) => category.type === filterType,
-  );
-
-  return matchingCategory?.title;
 };
 
 export const urlImageVariation = /uploads.*original/;

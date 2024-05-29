@@ -12,12 +12,10 @@ import {
   Select,
   SelectContent,
   SelectGroup,
-  SelectItem,
   SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@components';
-import { producsCategory } from '@presentation/mocks';
 import { fetchProductsForCategory, insertImageId } from '@services';
 import { ImageVariantsProduct } from '@src/types';
 import { useState } from 'react';
@@ -72,11 +70,6 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             <SelectContent className="text-xl">
               <SelectGroup>
                 <SelectLabel>Categorías</SelectLabel>
-                {producsCategory.map((option) => (
-                  <SelectItem key={option.type} value={option.type}>
-                    {option.title}
-                  </SelectItem>
-                ))}
               </SelectGroup>
             </SelectContent>
           </Select>

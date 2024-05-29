@@ -1,5 +1,4 @@
 import { axiosInstance, axiosInstanceFormData } from '@lib';
-import { Details, Product } from '@src/types';
 
 export const getAllProducts = async () => {
   try {
@@ -53,51 +52,6 @@ export const createProducts = async (values: Product) => {
   }
 };
 
-// interface filterProps {
-//   category: string | boolean;
-//   size: string | boolean;
-// }
-
-// export const handleFilterSubmit = async (
-//   filter: filterProps,
-//   setProducts: SetStateFunction<Product[] | null>,
-// ) => {
-//   if (filter.category && filter.size) {
-//     const { data } = await supabase
-//       .from('ldn_producs')
-//       .select()
-//       .eq('produc_category', filter.category)
-//       .eq('produc_size', filter.size);
-
-//     if (data) {
-//       return setProducts(data?.sort((a, b) => b.produc_price - a.produc_price));
-//     } else {
-//       return setProducts([]);
-//     }
-//   }
-
-//   if (filter.category) {
-//     const { data } = await supabase
-//       .from('ldn_producs')
-//       .select()
-//       .eq('produc_category', filter.category);
-
-//     if (data) {
-//       return setProducts(data?.sort((a, b) => b.produc_price - a.produc_price));
-//     }
-//   }
-
-//   if (filter.size) {
-//     const { data } = await supabase
-//       .from('ldn_producs')
-//       .select()
-//       .eq('produc_size', filter.size);
-//     if (data) {
-//       return setProducts(data?.sort((a, b) => b.produc_price - a.produc_price));
-//     }
-//   }
-// };
-
 export const removeProduct = async (id: string) => {
   try {
     const res = await axiosInstance.delete(`/products/${id}`);
@@ -138,26 +92,3 @@ export const updateProductData = async (
     console.error(error);
   }
 };
-
-// export const getAvailableProductCountByVariationId = async (
-//   variationId: UUID,
-// ) => {
-//   try {
-//     const { data, error } = await supabase
-//       .from('ldn_producs')
-//       .select('*', { count: 'exact' })
-//       .eq('produc_variations', variationId)
-//       .eq('produc_state', true);
-
-//     if (error) {
-//       console.error('Error executing the query:', error);
-
-//       return null;
-//     }
-
-//     return data.length;
-//   } catch (error) {
-//     console.error('General error:', error);
-//     return null;
-//   }
-// };
