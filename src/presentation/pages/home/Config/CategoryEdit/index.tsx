@@ -1,5 +1,9 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import { deleteValueCategory, getAllCategories } from '@src/services';
+import {
+  deleteCollectionCategory,
+  deleteValueCategory,
+  modifyTitleCollection,
+} from '@src/services';
 import { FormAddCategory } from './FormAddCategory';
 import {
   AlertDialog,
@@ -33,6 +37,7 @@ interface CategoryEditProps {
 
 export const CategoryEdit: React.FC<CategoryEditProps> = ({ showSheet }) => {
   const [selected, setSelected] = useState<string>();
+  const [collectionTitle, setCollectionTitle] = useState<string>('');
   const categories = useCategoriesStore((state) => state.categories);
   const refreshCategories = useCategoriesStore(
     (state) => state.refreshCategories,
@@ -68,17 +73,37 @@ export const CategoryEdit: React.FC<CategoryEditProps> = ({ showSheet }) => {
                 <CardHeader className="relative">
                   {selected === category_id ? (
                     <>
-                      <Label>Nombre de la colección </Label>
-                      <Input placeholder={title} />
+                      <Label className="w-full">Nombre de la colección </Label>
+                      <div className="flex">
+                        <Input
+                          placeholder={title}
+                          onChange={(e) => setCollectionTitle(e.target.value)}
+                        />
+                        <Button
+                          className="cursor-pointer rounded-md bg-green-400 hover:bg-green-500"
+                          disabled={
+                            title === collectionTitle ||
+                            collectionTitle.length === 0
+                          }
+                          onClick={async () => {
+                            await modifyTitleCollection(
+                              collectionTitle,
+                              category_id,
+                            );
+                          }}
+                        >
+                          <Icons type="check" className="h-8" />
+                        </Button>
+                      </div>
                     </>
                   ) : (
-                    <CardTitle>{title}</CardTitle>
+                    <CardTitle className="my-5">{title}</CardTitle>
                   )}
                   {selected === category_id ? (
                     <Icons
-                      type="check"
-                      height={23}
-                      className="absolute right-0 top-0 mx-1 cursor-pointer bg-green-400 text-white"
+                      type="close"
+                      height={20}
+                      className="absolute right-0 top-0 mx-1 cursor-pointer text-slate-500 hover:text-slate-600"
                       onClick={() => setSelected('')}
                     />
                   ) : (
@@ -111,7 +136,13 @@ export const CategoryEdit: React.FC<CategoryEditProps> = ({ showSheet }) => {
                           </AlertDialogHeader>
                           <AlertDialogFooter>
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction>Continue</AlertDialogAction>
+                            <AlertDialogAction
+                              onClick={async () => {
+                                await deleteCollectionCategory(category_id);
+                              }}
+                            >
+                              Continue
+                            </AlertDialogAction>
                           </AlertDialogFooter>
                         </AlertDialogContent>
                       </AlertDialog>

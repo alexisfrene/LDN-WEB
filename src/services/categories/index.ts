@@ -32,12 +32,30 @@ export const addValueCategory = async (values: any, category_id: string) => {
     formData.append('value', values.value);
     formData.append('files', values.icon!);
     const res = await axiosInstanceFormData.patch(
-      `/categories/${category_id}`,
+      `/categories/${category_id}?type=add`,
       formData,
     );
     return res.data;
   } catch (error) {
     console.log('Error in addValueCategory', error);
+  }
+};
+
+export const modifyTitleCollection = async (
+  title: string,
+  category_id: string,
+) => {
+  try {
+    const formData = new FormData();
+    formData.append('title', title);
+    const res = await axiosInstanceFormData.patch(
+      `/categories/${category_id}?type=title`,
+      formData,
+    );
+    toast('Titulo editado con éxito!');
+    return res.data;
+  } catch (error) {
+    console.log('Error in modifyTitleCollection', error);
   }
 };
 
@@ -48,6 +66,19 @@ export const deleteValueCategory = async (
   try {
     const res = await axiosInstance.delete(
       `/categories/${category_id}?type=value&value_id=${category_value}`,
+    );
+    toast('Valor eliminado con éxito!');
+
+    return res.data;
+  } catch (error) {
+    console.log('Error in addValueCategory', error);
+  }
+};
+
+export const deleteCollectionCategory = async (category_id: string) => {
+  try {
+    const res = await axiosInstance.delete(
+      `/categories/${category_id}?type=collection`,
     );
     toast('Valor eliminado con éxito!');
 
