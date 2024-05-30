@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { handleSubmitAddValues } from './handleSubmit';
 import { Label, Input, ImageUploadInput, Button } from '@components';
+import { useCategoriesStore } from '@src/presentation/global/useCategoriesStore';
 
 type IconProps = {
   url: string;
@@ -21,9 +22,9 @@ export const FormAddNewValue: React.FC<FormAddNewValueProps> = ({
         value: '',
         icon: null,
       }}
-      onSubmit={async (values) =>
-        await handleSubmitAddValues(values, category_id)
-      }
+      onSubmit={async (values) => {
+        await handleSubmitAddValues(values, category_id);
+      }}
     >
       {({ handleSubmit, setFieldValue, values, isSubmitting }) => (
         <div>

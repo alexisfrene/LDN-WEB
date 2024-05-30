@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import { getAllCategories } from '@src/services';
+import { deleteValueCategory, getAllCategories } from '@src/services';
 import { FormAddCategory } from './FormAddCategory';
 import {
   AlertDialog,
@@ -25,25 +25,24 @@ import {
   Label,
   ScrollArea,
 } from '@components';
+import { useCategoriesStore } from '@src/presentation/global/useCategoriesStore';
 
 interface CategoryEditProps {
   showSheet: (title: string, content: ReactElement) => void;
 }
+
 export const CategoryEdit: React.FC<CategoryEditProps> = ({ showSheet }) => {
   const [selected, setSelected] = useState<string>();
-  const [category, setCategory] = useState<Category[] | []>([]);
-  const getCategory = async () => {
-    const res = await getAllCategories();
-    if (Array.isArray(res)) return setCategory(res);
-  };
-
+  const categories = useCategoriesStore((state) => state.categories);
+  const refreshCategories = useCategoriesStore(
+    (state) => state.refreshCategories,
+  );
   useEffect(() => {
-    getCategory();
-  }, []);
-
+    refreshCategories();
+  }, [categories, refreshCategories]);
   return (
     <div className="flex min-w-[70vw] flex-col">
-      {category.length === 0 ? (
+      {categories.length === 0 ? (
         <div className="flex min-h-[50vh] justify-center">
           <div className="flex flex-col justify-center">
             <p>No tienes ninguna categoría cargada </p>
@@ -64,7 +63,7 @@ export const CategoryEdit: React.FC<CategoryEditProps> = ({ showSheet }) => {
       ) : (
         <>
           <ScrollArea className="h-[70vh] px-2">
-            {category.map(({ values, title, category_id }) => (
+            {categories.map(({ values, title, category_id }) => (
               <Card key={category_id}>
                 <CardHeader className="relative">
                   {selected === category_id ? (
@@ -75,7 +74,6 @@ export const CategoryEdit: React.FC<CategoryEditProps> = ({ showSheet }) => {
                   ) : (
                     <CardTitle>{title}</CardTitle>
                   )}
-
                   {selected === category_id ? (
                     <Icons
                       type="check"
@@ -130,11 +128,36 @@ export const CategoryEdit: React.FC<CategoryEditProps> = ({ showSheet }) => {
                       </Avatar>
                       {e.value}
                       {category_id === selected && (
-                        <Icons
-                          type="close"
-                          height={15}
-                          className="absolute right-0 top-0 cursor-pointer rounded-tr-sm bg-red-500 hover:bg-red-400"
-                        />
+                        <AlertDialog>
+                          <AlertDialogTrigger>
+                            <Icons
+                              type="close"
+                              height={15}
+                              className="absolute right-0 top-0 cursor-pointer rounded-tr-sm bg-red-500 hover:bg-red-400"
+                            />
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>
+                                {`Estas seguro de  eliminar ${e.value.toUpperCase()} ?`}
+                              </AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Esta acción es permanente se perderán los datos
+                                y las imágenes asociadas a la misma!
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction
+                                onClick={async () => {
+                                  await deleteValueCategory(e.id, category_id);
+                                }}
+                              >
+                                Continue
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
                       )}
                     </Badge>
                   ))}

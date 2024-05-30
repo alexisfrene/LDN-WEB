@@ -1,4 +1,5 @@
 import { axiosInstance, axiosInstanceFormData } from '@src/lib';
+import { toast } from 'sonner';
 
 export const getAllCategories = async (): Promise<Category[] | undefined> => {
   try {
@@ -34,6 +35,22 @@ export const addValueCategory = async (values: any, category_id: string) => {
       `/categories/${category_id}`,
       formData,
     );
+    return res.data;
+  } catch (error) {
+    console.log('Error in addValueCategory', error);
+  }
+};
+
+export const deleteValueCategory = async (
+  category_value: string,
+  category_id: string,
+) => {
+  try {
+    const res = await axiosInstance.delete(
+      `/categories/${category_id}?type=value&value_id=${category_value}`,
+    );
+    toast('Valor eliminado con éxito!');
+
     return res.data;
   } catch (error) {
     console.log('Error in addValueCategory', error);
