@@ -8,6 +8,7 @@ const SingUpPage = lazy(() => import('./presentation/pages/sign'));
 const HomePage = lazy(() => import('./presentation/pages/home'));
 const LoginPage = lazy(() => import('./presentation/pages/login'));
 const ErrorPage = lazy(() => import('./presentation/pages/error'));
+const UIPages = lazy(() => import('./presentation/pages/ui'));
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: '/signup',
     element: <SingUpPage />,
+  },
+  {
+    path: '/ui',
+    element: <UIPages />,
   },
 ]);
 

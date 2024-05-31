@@ -2,7 +2,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import {
   deleteCollectionCategory,
   deleteValueCategory,
-  modifyTitleCollection,
+  modifyTitleCollectionCategory,
 } from '@src/services';
 import { FormAddCategory } from './FormAddCategory';
 import {
@@ -29,7 +29,7 @@ import {
   Label,
   ScrollArea,
 } from '@components';
-import { useCategoriesStore } from '@src/presentation/global/useCategoriesStore';
+import { useCategoriesStore } from '@global';
 
 interface CategoryEditProps {
   showSheet: (title: string, content: ReactElement) => void;
@@ -86,7 +86,7 @@ export const CategoryEdit: React.FC<CategoryEditProps> = ({ showSheet }) => {
                             collectionTitle.length === 0
                           }
                           onClick={async () => {
-                            await modifyTitleCollection(
+                            await modifyTitleCollectionCategory(
                               collectionTitle,
                               category_id,
                             );

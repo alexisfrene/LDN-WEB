@@ -41,7 +41,7 @@ export const addValueCategory = async (values: any, category_id: string) => {
   }
 };
 
-export const modifyTitleCollection = async (
+export const modifyTitleCollectionCategory = async (
   title: string,
   category_id: string,
 ) => {
