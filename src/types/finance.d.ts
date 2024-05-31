@@ -1,12 +1,12 @@
 import { UUID } from '.';
 
-export type Movement = {
+type Movement = {
   amount: number;
   description: string;
   date: string;
   price: number;
 };
-export type AddMovementProps = {
+type AddMovementProps = {
   id?: UUID;
   created_at?: Date;
   category: string;

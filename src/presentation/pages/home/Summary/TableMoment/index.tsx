@@ -12,10 +12,9 @@ import {
   TableHeader,
   TableRow,
 } from '@components';
-import { Movement } from '@src/types';
 
 type TableMomentProps = {
-  movement: Movement[] | [];
+  movement: any[] | [];
   total: number;
 };
 

@@ -1,8 +1,6 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import axios from 'axios';
-import { producsCategory } from '@presentation/mocks';
-import { Products } from '@src/types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -16,14 +14,6 @@ export const getCurrentFormattedDate = () => {
   const formattedDate = year + '-' + month + '-' + day;
 
   return formattedDate;
-};
-
-export const filterAndMapTitles = (filterType: string): string | undefined => {
-  const matchingCategory = producsCategory.find(
-    (category) => category.type === filterType,
-  );
-
-  return matchingCategory?.title;
 };
 
 export const urlImageVariation = /uploads.*original/;
@@ -53,17 +43,17 @@ export const axiosInstanceFormData = axios.create({
   },
 });
 
-export const removeEmptyStringProperties = (obj: Products): Products => {
-  const cleanedObject: Partial<Products> = {};
+export const removeEmptyStringProperties = (obj: Product): Product => {
+  const cleanedObject: Partial<Product> = {};
 
   for (const [key, value] of Object.entries(obj)) {
     if (
       (typeof value === 'string' && value.trim() !== '') ||
       typeof value !== 'string'
     ) {
-      cleanedObject[key as keyof Products] = value;
+      cleanedObject[key as keyof Product] = value;
     }
   }
 
-  return cleanedObject as Products;
+  return cleanedObject as Product;
 };

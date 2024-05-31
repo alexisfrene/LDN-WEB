@@ -1,7 +1,6 @@
-import { createProducts } from '@src/services';
-import { Product } from '@src/types';
 import { FormikHelpers } from 'formik';
 import { toast } from 'sonner';
+import { createProducts } from '@src/services';
 
 interface InitialValues {
   name: string;

@@ -38,14 +38,14 @@ const HomePage: React.FC = () => {
     <Layout>
       <Tabs
         defaultValue={tabResumen}
-        className="grid grid-cols-12 min-h-[91vh]"
+        className="grid min-h-[91vh] grid-cols-12"
       >
-        <TabsList className="col-span-1 flex flex-col h-full justify-start bg-gradient-to-t from-amber-200 to-amber-400 gap-2">
+        <TabsList className="col-span-1 flex h-full flex-col justify-start gap-2 bg-gradient-to-t from-amber-200 to-amber-400">
           {tabButtons.map(({ title, icon }) => (
             <TabsTrigger
               value={title}
               key={title}
-              className="flex flex-col bg-amber-500 w-full"
+              className="flex w-full flex-col bg-amber-500"
             >
               {title}
               {icon}

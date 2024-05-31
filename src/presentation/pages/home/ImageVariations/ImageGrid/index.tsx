@@ -11,7 +11,6 @@ import {
   ScrollArea,
 } from '@components';
 import { SnackbarContext } from '@presentation/context';
-import { ImageVariantsProduct, UUID } from '@src/types';
 
 export const ImageGrid: React.FC = () => {
   const [loading, setLoading] = useState(false);

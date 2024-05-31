@@ -12,14 +12,11 @@ import {
   Select,
   SelectContent,
   SelectGroup,
-  SelectItem,
   SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@components';
-import { producsCategory } from '@presentation/mocks';
 import { fetchProductsForCategory, insertImageId } from '@services';
-import { ImageVariantsProduct } from '@src/types';
 import { useState } from 'react';
 
 interface ImageGalleryProps {
@@ -72,11 +69,6 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             <SelectContent className="text-xl">
               <SelectGroup>
                 <SelectLabel>Categorías</SelectLabel>
-                {producsCategory.map((option) => (
-                  <SelectItem key={option.type} value={option.type}>
-                    {option.title}
-                  </SelectItem>
-                ))}
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -88,14 +80,14 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             productImages?.map((product) => (
               <div
                 key={product.id}
-                className={`bg-white border p-4 rounded-md overflow-hidden cursor-pointer ${
+                className={`cursor-pointer overflow-hidden rounded-md border bg-white p-4 ${
                   product.id === selectedProductId?.id
                     ? 'border-amber-600'
                     : 'border-gray-300'
                 }`}
                 onClick={() => handleCardClick(product)}
               >
-                <h3 className="text-sm font-semibold mb-1 h-10 truncate">
+                <h3 className="mb-1 h-10 truncate text-sm font-semibold">
                   {product.description}
                 </h3>
                 <img
@@ -103,12 +95,12 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                     product.miniature_image
                   }`}
                   alt={product.description}
-                  className="object-fill mb-2 rounded"
+                  className="mb-2 rounded object-fill"
                 />
               </div>
             ))
           ) : (
-            <p className="col-span-6 text-center flex flex-col items-center justify-center h-[73vh] text-2xl text-slate-300 mr-20 mb-20">
+            <p className="col-span-6 mb-20 mr-20 flex h-[73vh] flex-col items-center justify-center text-center text-2xl text-slate-300">
               Selecciona una categoría !!!
               <Icons type="warning" width={96} className="m-5" />
             </p>
@@ -121,7 +113,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             <p hidden={!selectedProductId}>
               Estás por ligar las siguientes variantes:
             </p>
-            <ScrollArea className="h-[20.5vh] bg-slate-200 p-5 rounded-sm">
+            <ScrollArea className="h-[20.5vh] rounded-sm bg-slate-200 p-5">
               {selectedProductId?.variations.map((variation, index) => (
                 <div key={index} className="grid grid-cols-6 gap-5">
                   {variation.images.map((image, imageIndex) => (
@@ -129,7 +121,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       key={imageIndex}
                       src={`${import.meta.env.VITE_HOST_NAME}/${image}`}
                       alt={image}
-                      className="w-full h-32 object-cover mb-2 rounded shadow-md transition-all duration-300 transform hover:scale-105 col-span-1"
+                      className="col-span-1 mb-2 h-32 w-full transform rounded object-cover shadow-md transition-all duration-300 hover:scale-105"
                     />
                   ))}
                 </div>
@@ -137,7 +129,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             </ScrollArea>
           </div>
         )}
-        <div className="w-full flex justify-center gap-16 flex-1 mt-2">
+        <div className="mt-2 flex w-full flex-1 justify-center gap-16">
           <Button onClick={handleInsertIdImage}> Guardar</Button>
           <Button onClick={() => setIsOpenModal(false)} variant="destructive">
             Cancelar

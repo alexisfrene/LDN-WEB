@@ -13,7 +13,6 @@ import {
 } from '@components';
 import { urlImageVariation } from '@lib';
 import { modifyCollection } from '@services';
-import { UUID, VariationsType } from '@src/types';
 
 type CollectionContentProps = {
   collection: VariationsType;
@@ -79,18 +78,18 @@ export const CollectionContent: React.FC<CollectionContentProps> = ({
             <div className="flex justify-between">
               <Input
                 placeholder={collection.name}
-                className="w-96 h-8"
+                className="h-8 w-96"
                 onChange={(e) => setName(e.target.value)}
               />
               <div className="flex gap-2">
                 <Icons
                   type="check"
-                  className="h-8 text-slate-200 hover:text-slate-900 cursor-pointer bg-green-300 hover:bg-green-400 p-1"
+                  className="h-8 cursor-pointer bg-green-300 p-1 text-slate-200 hover:bg-green-400 hover:text-slate-900"
                   onClick={handleSaveChange}
                 />
                 <Icons
                   type="close"
-                  className="h-8 text-slate-200 hover:text-slate-900 cursor-pointer bg-red-400 hover:bg-red-500 p-1"
+                  className="h-8 cursor-pointer bg-red-400 p-1 text-slate-200 hover:bg-red-500 hover:text-slate-900"
                   onClick={handleXMark}
                 />
               </div>
@@ -101,14 +100,14 @@ export const CollectionContent: React.FC<CollectionContentProps> = ({
               <div className="flex gap-1">
                 <Icons
                   type="cog_6_tooth"
-                  className="h-8 text-slate-200 hover:text-slate-900 cursor-pointer  p-1"
+                  className="h-8 cursor-pointer p-1 text-slate-200  hover:text-slate-900"
                   onClick={() => {
                     setEdit(true);
                   }}
                 />
                 <Icons
                   type="trash"
-                  className="h-8 text-slate-200 hover:text-red-500 cursor-pointer  p-1"
+                  className="h-8 cursor-pointer p-1 text-slate-200  hover:text-red-500"
                   onClick={() => handleDeleteModal(collection.id)}
                 />
               </div>
@@ -116,7 +115,7 @@ export const CollectionContent: React.FC<CollectionContentProps> = ({
           )}
         </CardTitle>
       </CardHeader>
-      <ScrollArea className="mx-12 bg-slate-100 p-1 h-96">
+      <ScrollArea className="mx-12 h-96 bg-slate-100 p-1">
         <div className="grid grid-cols-4 gap-6">
           {images.map((image: string, imageIndex: number) => {
             return (
@@ -127,7 +126,7 @@ export const CollectionContent: React.FC<CollectionContentProps> = ({
                 {edit && (
                   <Icons
                     type="trash"
-                    className="h-8 text-red-500 hover:text-red-600 hover:scale-105 cursor-pointer p-1 absolute"
+                    className="absolute h-8 cursor-pointer p-1 text-red-500 hover:scale-105 hover:text-red-600"
                     onClick={() => handleDeleteImage(image)}
                   />
                 )}
@@ -143,7 +142,7 @@ export const CollectionContent: React.FC<CollectionContentProps> = ({
             );
           })}
           {edit && (
-            <div className="col-span-1 h-60 w-60 p-14 bg-slate-200">
+            <div className="col-span-1 h-60 w-60 bg-slate-200 p-14">
               <input
                 type="file"
                 accept="image/*"
@@ -153,7 +152,7 @@ export const CollectionContent: React.FC<CollectionContentProps> = ({
               />
               <Icons
                 type="plus_circle"
-                className="text-green-300 cursor-pointer hover:text-green-400"
+                className="cursor-pointer text-green-300 hover:text-green-400"
                 onClick={handleIconClick}
               />
             </div>

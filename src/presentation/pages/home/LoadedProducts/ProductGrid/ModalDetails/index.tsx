@@ -6,7 +6,6 @@ import {
   TabsList,
   TabsTrigger,
 } from '@components';
-import { Product } from '@src/types';
 import { ProductData } from './ProductData';
 import { StyleData } from './StyleData';
 import { VariationData } from './VariationData';
@@ -18,8 +17,8 @@ interface ModalDetailsProps {
 export const ModalDetails: React.FC<ModalDetailsProps> = ({ product }) => {
   const tabsStyles = 'text-base w-44';
   return (
-    <Tabs defaultValue={tabs[0]} className="bg-slate-100 p-3 rounded-xl">
-      <TabsList className="flex justify-between rounded-t-lg p-2 bg-slate-100">
+    <Tabs defaultValue={tabs[0]} className="rounded-xl bg-slate-100 p-3">
+      <TabsList className="flex justify-between rounded-t-lg bg-slate-100 p-2">
         <TabsTrigger value={tabs[0]} className={tabsStyles}>
           Datos del producto
         </TabsTrigger>
@@ -30,7 +29,7 @@ export const ModalDetails: React.FC<ModalDetailsProps> = ({ product }) => {
           Imágenes
         </TabsTrigger>
       </TabsList>
-      <div className="mt-3 flex justify-center items-center flex-col">
+      <div className="mt-3 flex flex-col items-center justify-center">
         <img
           src={product.primary_image}
           className="h-60 w-60 rounded-lg"

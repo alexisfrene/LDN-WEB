@@ -14,7 +14,7 @@ export const WithAuth: React.FC<{ children: React.ReactNode }> = ({
   }, [token]);
 
   if (!token || token.length === 0) {
-    return <div>Error no estas logueado</div>; //TODO:Mejorar es msj error
+    return <div>Error no estas autentificado</div>;
   }
   return children;
 };

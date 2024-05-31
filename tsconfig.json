@@ -14,7 +14,6 @@
       "@global": ["./src/presentation/global"],
       "@services": ["./src/services"],
       "@hooks": ["./src/presentation/hooks"],
-      "@types": ["./src/types"],
       "@lib": ["./src/lib"],
       "@presentation/*": ["./src/presentation/*"],
       "@components": ["./src/presentation/components"]

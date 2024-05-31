@@ -1,10 +1,9 @@
 import React from 'react';
-import { Products } from '@src/types';
 import { Gallery } from './Gallery';
 import { AddVariations } from './AddVariations';
 
 interface ImagesVariantsProps {
-  product: Products;
+  product: Product;
 }
 
 export const VariationData: React.FC<ImagesVariantsProps> = ({ product }) => {

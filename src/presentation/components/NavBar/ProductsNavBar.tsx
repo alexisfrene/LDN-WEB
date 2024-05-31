@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { TabsList, Tabs, TabsTrigger, Label } from '..';
+import { TabsList, Tabs, TabsTrigger, Label } from '@components';
 interface ProductsNavBarProps {
   tabs: string[];
   children: ReactNode;
@@ -14,7 +14,7 @@ export const ProductsNavBar: React.FC<ProductsNavBarProps> = ({
         {tabs.map((title) => {
           return (
             <TabsTrigger key={title} value={title}>
-              <Label className="w-96 text-xl cursor-pointer">{title}</Label>
+              <Label className="w-96 cursor-pointer text-xl">{title}</Label>
             </TabsTrigger>
           );
         })}

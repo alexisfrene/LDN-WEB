@@ -1,5 +1,4 @@
 import { toast } from 'sonner';
-import { UUID } from '@src/types';
 import { axiosInstance, axiosInstanceFormData, urlImageVariation } from '@lib';
 
 export interface ProductFormData {

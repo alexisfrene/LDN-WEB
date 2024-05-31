@@ -1,14 +1,5 @@
+import { axiosInstance } from '@src/lib';
 import axios from 'axios';
-
-interface registerUserValues {
-  first_name: string;
-  last_name: string;
-  email: string;
-  password: string;
-  gender: string;
-  username: string;
-  birthday_date: string | Date;
-}
 
 export const registerUser = async (values: registerUserValues) => {
   try {
@@ -24,11 +15,6 @@ export const registerUser = async (values: registerUserValues) => {
   }
 };
 
-interface loginUserValues {
-  password: string;
-  email_or_user: string;
-}
-
 export const loginUser = async (values: loginUserValues) => {
   try {
     const { password, email_or_user } = values;
@@ -37,6 +23,15 @@ export const loginUser = async (values: loginUserValues) => {
       { password, email_or_user },
     );
 
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getUrlAvatar = async () => {
+  try {
+    const res = await axiosInstance.get('/user/avatar');
     return res.data;
   } catch (error) {
     console.log(error);

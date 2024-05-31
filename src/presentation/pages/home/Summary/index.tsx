@@ -7,7 +7,6 @@ import {
 import { addMovement, getMovement } from '@services';
 import { NewMoment } from './NewMoment';
 import { TableMoment } from './TableMoment';
-import { AddMovementProps, Movement } from '@src/types';
 import { TableTotal } from './TableTotal';
 import { ImportantDates } from './ImportantDates';
 
@@ -35,7 +34,7 @@ export const Summary: React.FC = () => {
   return (
     <ResizablePanelGroup
       direction="horizontal"
-      className="max-w-full col-span-11"
+      className="col-span-11 max-w-full"
     >
       <ResizablePanel defaultSize={50}>
         <ResizablePanelGroup direction="vertical">
