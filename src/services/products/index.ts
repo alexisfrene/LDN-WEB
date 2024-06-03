@@ -92,3 +92,19 @@ export const updateProductData = async (
     console.error(error);
   }
 };
+
+export const updatePrimaryImage = async (file: File, product_id: string) => {
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const res = await axiosInstanceFormData.patch(
+      `/products/${product_id}?type=image`,
+      formData,
+    );
+
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
