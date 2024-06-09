@@ -44,7 +44,7 @@ export const CategoryEdit: React.FC<CategoryEditProps> = ({ showSheet }) => {
   );
   useEffect(() => {
     refreshCategories();
-  }, [categories, refreshCategories]);
+  }, []);
   return (
     <div className="flex min-w-[70vw] flex-col">
       {categories.length === 0 ? (
