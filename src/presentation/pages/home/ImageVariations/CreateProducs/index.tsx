@@ -1,186 +1,167 @@
-import { useState, ChangeEvent } from 'react';
-import { Formik } from 'formik';
-import { useSubmit } from './useSubmit';
-import { useForm } from './useForm';
+//import defaultImage from '@assets/default.png';
 import {
-  Dropdown,
-  Input,
-  Label,
-  ImageWithSkeleton,
-  ModalCategory,
   Button,
-} from '@components';
-import defaultImage from '@assets/default.png';
-import { useModal } from '@presentation/hooks';
+  CardTitle,
+  Icons,
+  ImageUploadInput,
+  Separator,
+  Label,
+  LabelInput,
+  Modal,
+  ModalCategory,
+  ModalSize,
+} from '@src/presentation/components';
+import { useModal } from '@src/presentation/hooks';
+import { ErrorMessage, Formik } from 'formik';
+import { useState } from 'react';
 
-import { filterAndMapTitles } from '@lib';
+type ImagesValues = {
+  url: string;
+  file: File;
+};
 
 export const CreateProducts: React.FC = () => {
-  const [selectedImage, setSelectedImage] = useState<string>(defaultImage);
-  const [secondaryImages, setSecondaryImages] = useState<
-    FileList | null | File[]
-  >(null);
-  const [filter, setFilter] = useState<Filters>({
-    category: '',
-    size: '',
-  });
-  const {
-    hideModal: hideCategoryModal,
-    isOpenModal: isCategoryModalOpen,
-    showModal: showCategoryModal,
-  } = useModal();
-  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setSelectedImage(imageUrl);
-    }
-  };
-  const handleSecondaryImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files) {
-      setSecondaryImages(files);
-    }
-  };
-  const handleFilterClick = (
-    setFieldValue: (key: string, value: string) => void,
-  ) => {
-    return (selectedFilter: string, filterType: string) => {
-      setFilter({
-        ...filter,
-        [filterType]: selectedFilter,
-      });
-      setFieldValue('category', selectedFilter);
-    };
-  };
+  const [image, setImage] = useState<ImagesValues>();
+  const { hideModal, isOpenModal, modalContent, modalTitle, showModal } =
+    useModal();
   return (
     <div className="flex justify-center">
-      {/* <Formik initialValues={useForm()} onSubmit={useSubmit()}>
-        {({
-          values,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          setFieldValue,
-        }) => (
-          <form
-            onSubmit={handleSubmit}
-            className="mb-4 bg-white p-10 min-w-[640px]"
-          >
-            <Label>
-              Ingresa una descripción :
-              <Input
-                name="description"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                maxLength={30}
-                value={values.description}
-                placeholder="Zapatillas Nike Blancas ..."
-              />
-            </Label>
-            <Label>
-              Nombre de la colección de imágenes:
-              <Input
-                name="collection"
-                maxLength={25}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.collection}
-                placeholder="Imágenes sin fondo ..."
-              />
-            </Label>
-            <Dropdown variant="colors" />
-            <Dropdown variant="genders" />
-            <Dropdown variant="brands" />
-            <Dropdown variant="styles" />
+      <Formik
+        initialValues={{
+          category: { category_id: '', category_value_id: '' },
+          size: { size_id: '', size_value_id: '' },
+          title: '',
+          images: [],
+        }}
+        onSubmit={(values, { setSubmitting }) => {
+          setTimeout(() => {
+            alert(JSON.stringify(values, null, 2));
+            setSubmitting(false);
+          }, 400);
+        }}
+      >
+        {({ values, handleSubmit, isSubmitting, setFieldValue }) => (
+          <form onSubmit={handleSubmit}>
+            <LabelInput label="Titulo" name="title" inputType="text" />
+            <ImageUploadInput
+              name="images"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  const url = URL.createObjectURL(file);
+                  setImage({
+                    url,
+                    file: e.currentTarget.files![0],
+                  });
+                }
+              }}
+            />
             <Button
-              onClick={() => showCategoryModal()}
-              variant="outline"
-              className="my-3"
               type="button"
+              variant="secondary"
+              onClick={() => {
+                setFieldValue('images', [
+                  ...values.images,
+                  { image, id: crypto.randomUUID() },
+                ]);
+              }}
             >
-              {filter.category.length
-                ? `Categoría : ${filterAndMapTitles(
-                    filter.category,
-                  )?.toLocaleLowerCase()}`
-                : 'Selecciona una categoría'}
+              Agregar
             </Button>
-            <div className="flex gap-3">
-              <Label>Selecciona una imagen principal :</Label>
-              <Input
-                type="file"
-                name="mainImage"
-                className="w-28"
-                onChange={(event) => {
-                  handleImageChange(event);
-                  setFieldValue('mainImage', event.currentTarget.files![0]);
-                }}
-                onBlur={handleBlur}
-              />
-              <div className="relative m-3">
-                <ImageWithSkeleton url={selectedImage} className="w-40" />
-                {defaultImage !== selectedImage && (
-                  <button
-                    onClick={() => {
-                      setFieldValue('mainImage', null);
-                      setSelectedImage(defaultImage);
+            <div className="my-3 grid grid-cols-2 gap-3">
+              {values.images.map((value: any) => {
+                return (
+                  <div key={value.id} className="relative bg-slate-200">
+                    <Icons
+                      type="close"
+                      className="absolute right-0 h-4 cursor-pointer bg-red-500"
+                      onClick={() => {
+                        const res = values.images.filter(
+                          (e: { id: string }) => e?.id !== value.id,
+                        );
+                        setFieldValue('values', res);
+                      }}
+                    />
+
+                    <div className="m-1 flex justify-center">
+                      <img
+                        src={value.image.url}
+                        className="h-[64px] w-[64px]"
+                      />
+                    </div>
+                    <div className="m-1 flex justify-center">
+                      <Label>{value.value}</Label>
+                    </div>
+                    <Separator />
+                  </div>
+                );
+              })}
+            </div>
+            <Button
+              className="col-span-full"
+              variant="outline"
+              onClick={() =>
+                showModal(
+                  'Selecciona una categoría :',
+                  <ModalCategory
+                    onRequestClose={hideModal}
+                    handleChange={(value) => {
+                      setFieldValue('category', value);
+                      hideModal();
                     }}
-                    className="absolute top-0 right-0 m-1 w-6 h-6 bg-red-500 text-white rounded-sm cursor-pointer transition-transform transform hover:scale-105"
-                  >
-                    X
-                  </button>
+                    values={values.category}
+                  />,
+                )
+              }
+            >
+              Seleccionar categoría
+            </Button>
+            <ErrorMessage name="category" />
+            <Button
+              className="col-span-full"
+              variant="outline"
+              onClick={() =>
+                showModal(
+                  'Selecciona un talle/numero :',
+                  <ModalSize
+                    onRequestClose={hideModal}
+                    handleChange={(value) => {
+                      setFieldValue('size', value);
+                      hideModal();
+                    }}
+                    values={values.size}
+                  />,
+                )
+              }
+            >
+              Selecciona un talle/numero
+            </Button>
+            <ErrorMessage name="size" />
+            <Modal isOpen={isOpenModal} onRequestClose={hideModal}>
+              <CardTitle className="text-center">{modalTitle}</CardTitle>
+              {modalContent}
+            </Modal>
+            <Button
+              className="col-span-full"
+              type="submit"
+              disabled={
+                isSubmitting ||
+                !image ||
+                !values.category.category_id ||
+                !values.size.size_id
+              }
+              onClick={() => handleSubmit()}
+            >
+              <div className="mx-1 w-5">
+                {isSubmitting && (
+                  <Icons type="refresh" className="h-5 animate-spin" />
                 )}
               </div>
-            </div>
-            <Label>
-              Selecciona las imágenes secundarias:
-              <Input
-                type="file"
-                name="secondaryImages"
-                multiple
-                onChange={(event) => {
-                  handleSecondaryImageChange(event);
-                  setFieldValue('secondaryImages', event.currentTarget.files);
-                }}
-                onBlur={handleBlur}
-              />
-            </Label>
-            <div className="grid grid-cols-5 gap-5">
-              {secondaryImages &&
-                Array.from(secondaryImages).map((file, index) => {
-                  const imageUrl = URL.createObjectURL(file);
-                  return (
-                    <div key={index} className="relative col-span-1">
-                      <ImageWithSkeleton url={imageUrl} className="w-28 h-28" />
-                      <button
-                        onClick={() => {
-                          const filesArray = Array.from(secondaryImages);
-                          const newFileList = filesArray.filter(
-                            (e) => e.name !== file.name,
-                          );
-                          setFieldValue('secondaryImages', newFileList);
-                          setSecondaryImages(newFileList);
-                        }}
-                        className="absolute top-0 right-0 m-1 w-6 h-6 bg-red-500 text-white rounded-sm cursor-pointer transition-transform transform hover:scale-105"
-                      >
-                        X
-                      </button>
-                    </div>
-                  );
-                })}
-            </div>
-            <ModalCategory
-              isCategoryModalOpen={isCategoryModalOpen}
-              handleFilterClick={handleFilterClick(setFieldValue)}
-              handleCloseModal={hideCategoryModal}
-              filter={filter}
-            />
-            <Button type="submit" className="w-full mt-3">
               Crear producto
             </Button>
           </form>
         )}
-      </Formik> */}
+      </Formik>
     </div>
   );
 };

@@ -29,7 +29,7 @@ export const FormAddNew: React.FC = () => {
         title: '',
         values: [] as ValueProps[],
       }}
-      onSubmit={async (values) => await handleSubmitAdd(values, () => {})}
+      onSubmit={async (values) => await handleSubmitAdd(values)}
     >
       {({ handleSubmit, setFieldValue, values, isSubmitting }) => (
         <div>
@@ -74,14 +74,14 @@ export const FormAddNew: React.FC = () => {
           >
             Agregar
           </Button>
-          <div className="grid grid-cols-2 gap-3 my-3">
+          <div className="my-3 grid grid-cols-2 gap-3">
             {values.values.map(
               (value: { value: string; icon: { url: string }; id: string }) => {
                 return (
-                  <div key={value.id} className="bg-slate-200 relative">
+                  <div key={value.id} className="relative bg-slate-200">
                     <Icons
                       type="close"
-                      className="h-4 bg-red-500 cursor-pointer absolute right-0"
+                      className="absolute right-0 h-4 cursor-pointer bg-red-500"
                       onClick={() => {
                         console.log('click');
                         const res = values.values.filter(
@@ -91,10 +91,10 @@ export const FormAddNew: React.FC = () => {
                       }}
                     />
 
-                    <div className="flex justify-center m-1">
-                      <img src={value.icon.url} className="w-[64px] h-[64px]" />
+                    <div className="m-1 flex justify-center">
+                      <img src={value.icon.url} className="h-[64px] w-[64px]" />
                     </div>
-                    <div className="flex justify-center m-1">
+                    <div className="m-1 flex justify-center">
                       <Label>{value.value}</Label>
                     </div>
                     <Separator />
