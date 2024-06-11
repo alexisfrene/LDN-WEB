@@ -12,8 +12,8 @@ import {
   ModalCategory,
   ModalSize,
 } from '@components';
-import handleSubmit from './handleSubmit';
 import { useModal } from '@hooks';
+import handleSubmit from './handleSubmit';
 import initialValues from './initialValues';
 import validationSchema from './validationSchema';
 
@@ -30,8 +30,8 @@ export const CreateProducts: React.FC = () => {
         validationSchema={validationSchema}
       >
         {({ handleSubmit, setFieldValue, values, isSubmitting }) => (
-          <div className="grid grid-cols-3 gap-3 w-[1200px] bg-white p-10">
-            <Label className="font-bold text-xl text-center mb-3 bg-slate-100 p-3 col-span-full">
+          <div className="grid w-[1200px] grid-cols-3 gap-3 bg-white p-10">
+            <Label className="col-span-full mb-3 bg-slate-100 p-3 text-center text-xl font-bold">
               Crear producto
             </Label>
             <LabelInput label="Nombre del producto" name="name" />
@@ -58,7 +58,7 @@ export const CreateProducts: React.FC = () => {
                 }
               }}
             />
-            {image && <ImageWithSkeleton url={image} className="w-36 h-36" />}
+            {image && <ImageWithSkeleton url={image} className="h-36 w-36" />}
             <Button
               className="col-span-full"
               variant="outline"
@@ -114,7 +114,7 @@ export const CreateProducts: React.FC = () => {
               }
               onClick={() => handleSubmit()}
             >
-              <div className="w-5 mx-1">
+              <div className="mx-1 w-5">
                 {isSubmitting && (
                   <Icons type="refresh" className="h-5 animate-spin" />
                 )}

@@ -1,11 +1,7 @@
-interface Size {
-  size_id: string;
+interface Variation {
   title: string;
-  values: Value[];
-  user_id: string;
-}
-
-interface Value {
-  id: string;
-  value: string;
+  label: string;
+  category_id: string;
+  category_value: string;
+  files: File[];
 }
