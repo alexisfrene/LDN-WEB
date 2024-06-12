@@ -1,7 +1,6 @@
-import { supabase } from '../lib';
-import { Movement, AddMovementProps } from '@/types';
+import { supabase } from '@lib';
 
-export const addMovement = async (newMovement: AddMovementProps) => {
+export const addMovement = async (newMovement: any) => {
   try {
     const { data, error } = await supabase
       .from('ldn_finance')
@@ -19,7 +18,7 @@ export const addMovement = async (newMovement: AddMovementProps) => {
   }
 };
 
-export const getMovement = async (): Promise<Movement[] | []> => {
+export const getMovement = async (): Promise<any[] | []> => {
   try {
     const { data: ldn_finance, error } = await supabase
       .from('ldn_finance')
