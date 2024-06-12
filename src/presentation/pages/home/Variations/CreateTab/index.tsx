@@ -13,12 +13,6 @@ import {
 import { useModal } from '@hooks';
 import { handleSubmit } from './handleSubmit';
 
-type ImagesValues = {
-  url: string;
-  file: File;
-  id: string;
-};
-
 export const CreateVariation: React.FC = () => {
   const [image, setImages] = useState<ImagesValues[]>([]);
   const { hideModal, isOpenModal, modalContent, modalTitle, showModal } =

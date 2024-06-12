@@ -1,12 +1,12 @@
-import { Separator } from '@radix-ui/react-separator';
+import React from 'react';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@src/presentation/components';
-import React from 'react';
+  Separator,
+} from '@components';
 
 interface Props {
   variation: Variants;

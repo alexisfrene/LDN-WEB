@@ -1,10 +1,10 @@
-import { LoadingIndicator, Modal } from '@src/presentation/components';
-import { getAllVariations } from '@src/services';
-import { useQuery } from '@tanstack/react-query';
 import React from 'react';
-import { CardImageVariations } from './CardImageVariations';
-import { ModalGallery } from './ModalGallery';
-import { useModal } from '@src/presentation/hooks';
+import { LoadingIndicator, Modal } from '@components';
+import { getAllVariations } from '@services';
+import { useModal } from '@hooks';
+import { useQuery } from '@tanstack/react-query';
+import { VariationCard } from './VariationCard';
+import { VariationDetail } from './VariationDetail';
 
 export const ImageGrid: React.FC = () => {
   const { hideModal, isOpenModal, modalContent, modalTitle, showModal } =
@@ -22,9 +22,9 @@ export const ImageGrid: React.FC = () => {
   return (
     <div className="grid grid-cols-3">
       {data.map((variation: Variants) => (
-        <CardImageVariations
+        <VariationCard
           onCLickImage={() => {
-            showModal('', <ModalGallery variationSelected={variation} />);
+            showModal('', <VariationDetail variationSelected={variation} />);
           }}
           handleDelete={() => {}}
           variation={variation}

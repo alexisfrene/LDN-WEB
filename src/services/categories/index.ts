@@ -26,7 +26,10 @@ export const addCategoryConfig = async (data: Category) => {
   }
 };
 
-export const addValueCategory = async (values: any, category_id: string) => {
+export const addValueCategory = async (
+  values: { value: string; icon: File },
+  category_id: string,
+) => {
   try {
     const formData = new FormData();
     formData.append('value', values.value);

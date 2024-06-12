@@ -16,8 +16,6 @@ export const getCurrentFormattedDate = () => {
   return formattedDate;
 };
 
-export const urlImageVariation = /uploads.*original/;
-
 const localStorageUserData = localStorage.getItem('user-storage');
 
 const parsedDataUser =

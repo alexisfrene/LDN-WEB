@@ -1,13 +1,12 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Card, CardContent, CardHeader, CardTitle } from '@components';
 
-interface CardImageVariationsProps {
+interface Props {
   variation: Variants;
   handleDelete: () => void;
   onCLickImage: () => void;
 }
 
-export const CardImageVariations: React.FC<CardImageVariationsProps> = ({
+export const VariationCard: React.FC<Props> = ({
   variation,
   handleDelete,
   onCLickImage,
