@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { handleSubmitAddValues } from './handleSubmit';
 import { Label, Input, ImageUploadInput, Button } from '@components';
-import { useCategoriesStore } from '@src/presentation/global/useCategoriesStore';
 
 type IconProps = {
   url: string;

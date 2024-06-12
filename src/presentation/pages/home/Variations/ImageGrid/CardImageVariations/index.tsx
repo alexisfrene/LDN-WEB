@@ -3,13 +3,13 @@ import { Button, Card, CardContent, CardHeader, CardTitle } from '@components';
 
 interface CardImageVariationsProps {
   variation: Variants;
-  onClick: () => void;
+  handleDelete: () => void;
   onCLickImage: () => void;
 }
 
 export const CardImageVariations: React.FC<CardImageVariationsProps> = ({
   variation,
-  onClick,
+  handleDelete,
   onCLickImage,
 }) => {
   return (
@@ -19,7 +19,7 @@ export const CardImageVariations: React.FC<CardImageVariationsProps> = ({
           {variation.title}
           <Button
             variant="destructive"
-            onClick={onClick}
+            onClick={handleDelete}
             className="lg:h-6 lg:w-6 lg:text-xs 2xl:h-8 2xl:text-base"
           >
             X

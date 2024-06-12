@@ -4,7 +4,7 @@ import { ImageGrid } from './ImageGrid';
 import { CreateVariation } from './CreateProducs';
 const imageTabs = ['Ver imágenes', 'Crear Producto'];
 
-export const ImageVariations: React.FC = () => {
+export const Variations: React.FC = () => {
   return (
     <ProductsNavBar tabs={imageTabs}>
       <TabsContent value="Ver imágenes">

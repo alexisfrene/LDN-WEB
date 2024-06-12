@@ -29,7 +29,14 @@ export const FormAddNew: React.FC = () => {
         title: '',
         values: [] as ValueProps[],
       }}
-      onSubmit={async (values) => await handleSubmitAdd(values)}
+      onSubmit={async (values) =>
+        await handleSubmitAdd({
+          title: values.title,
+          values: values.values,
+          category_id: '',
+          user_id: '',
+        })
+      }
     >
       {({ handleSubmit, setFieldValue, values, isSubmitting }) => (
         <div>

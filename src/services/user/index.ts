@@ -21,6 +21,11 @@ export const loginUser = async (values: loginUserValues) => {
     const res = await axios.post(
       `${import.meta.env.VITE_API_NAME}/user/login`,
       { password, email_or_user },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
     );
 
     return res.data;

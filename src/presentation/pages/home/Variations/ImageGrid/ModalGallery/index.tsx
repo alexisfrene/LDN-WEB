@@ -5,6 +5,7 @@ import {
   ScrollArea,
   TabsContent,
 } from '@components';
+import { GalleryTab } from './GalleryTab';
 
 const imagesTab = 'images';
 const createVariation = 'addImages';
@@ -17,17 +18,16 @@ export const ModalGallery: React.FC<ModalGalleryProps> = ({
   variationSelected,
 }) => {
   return (
-    <div className="min-w-[70vw] max-w-fit">
+    <div>
       {variationSelected && (
-        <Tabs defaultValue={imagesTab} className="h-[89vh]">
+        <Tabs defaultValue={imagesTab} className="h-[80vh]">
           <TabsList className="grid grid-cols-3">
-            <TabsTrigger value={imagesTab}>Información</TabsTrigger>
             <TabsTrigger value={imagesTab}>Ver imágenes</TabsTrigger>
             <TabsTrigger value={createVariation}>Agregar imágenes</TabsTrigger>
           </TabsList>
           <ScrollArea className="h-[85vh]">
             <TabsContent value={imagesTab}>
-              {/* <ViewImage productSelected={selected} refresh={refresh} /> */}
+              <GalleryTab variation={variationSelected} />
             </TabsContent>
             <TabsContent value={createVariation}>
               {/* <FormAddImages

@@ -26,12 +26,16 @@ export const ImageGrid: React.FC = () => {
           onCLickImage={() => {
             showModal('', <ModalGallery variationSelected={variation} />);
           }}
-          onClick={() => {}}
+          handleDelete={() => {}}
           variation={variation}
           key={variation.variation_id}
         />
       ))}
-      <Modal isOpen={isOpenModal} onRequestClose={hideModal}>
+      <Modal
+        isOpen={isOpenModal}
+        onRequestClose={hideModal}
+        className="max-w-fit"
+      >
         <div>{modalTitle}</div>
         {modalContent}
       </Modal>

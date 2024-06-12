@@ -11,7 +11,7 @@ export const getAllCategories = async (): Promise<Category[] | undefined> => {
   }
 };
 
-export const addCategoryConfig = async (data: any) => {
+export const addCategoryConfig = async (data: Category) => {
   try {
     const formData = new FormData();
     formData.append('title', data.title);

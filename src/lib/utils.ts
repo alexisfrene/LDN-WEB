@@ -30,8 +30,8 @@ const sessionToken = parsedDataUser?.state?.session_token;
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_NAME,
   headers: {
-    Authorization: `Bearer ${sessionToken}`,
     'Content-Type': 'application/json',
+    Authorization: `Bearer ${sessionToken}`,
   },
 });
 

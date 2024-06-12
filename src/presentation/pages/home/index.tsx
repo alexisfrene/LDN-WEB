@@ -8,8 +8,8 @@ import {
   TabsTrigger,
 } from '@components';
 import { Summary } from './Summary';
-import { LoadedProducts } from './LoadedProducts';
-import { ImageVariations } from './ImageVariations';
+import { Products } from './Products';
+import { Variations } from './Variations';
 import { Config } from './Config';
 
 const tabResumen = 'Resumen';
@@ -56,10 +56,10 @@ const HomePage: React.FC = () => {
           <Summary />
         </TabsContent>
         <TabsContent value={tabImágenes} className="col-span-11">
-          <ImageVariations />
+          <Variations />
         </TabsContent>
         <TabsContent value={tabProductos} className="col-span-11">
-          <LoadedProducts />
+          <Products />
         </TabsContent>
         <TabsContent value={tabConfig} className="col-span-11">
           <Config />
