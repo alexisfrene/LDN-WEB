@@ -18,10 +18,11 @@ interface Props {
 
 export const CollectionTab: React.FC<Props> = () => {
   const [image, setImages] = useState<ImagesValues[]>([]);
+  
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Crear una nueva variación </CardTitle>
+        <CardTitle>Crear una nueva coleccion </CardTitle>
       </CardHeader>
       <CardContent>
         <Formik

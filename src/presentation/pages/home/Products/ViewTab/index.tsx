@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import { getAllProducts, removeProduct } from '@src/services';
-import { ProductCard } from './ProductCard';
+import { getAllProducts, removeProduct } from '@services';
 import { Modal, ModalDelete, ScrollArea } from '@components';
 import { useModal } from '@hooks';
-import { ModalDetails } from './ModalDetails';
+import { ProductDetail } from './ProductDetail'
+import { ProductCard } from './ProductCard';
 
 export const ProductGrid: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -39,7 +39,7 @@ export const ProductGrid: React.FC = () => {
               <ProductCard
                 key={index}
                 handleClick={() => {
-                  showModal('', <ModalDetails product={product} />);
+                  showModal('', <ProductDetail product={product} />);
                 }}
                 removeProduct={() => {
                   showModal(

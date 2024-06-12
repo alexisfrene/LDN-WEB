@@ -8,13 +8,13 @@ import {
   AspectRatio,
 } from '@components';
 
-interface ProductCardProps {
+interface Props {
   product: Product;
   handleClick: () => void;
   removeProduct: () => void;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({
+export const ProductCard: React.FC<Props> = ({
   product,
   handleClick,
   removeProduct,
