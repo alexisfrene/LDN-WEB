@@ -1,7 +1,7 @@
 import React from 'react';
 import { ProductsNavBar, TabsContent } from '@components';
-import { ImageGrid } from './ImageGrid';
-import { CreateVariation } from './CreateProducs';
+import { ImageGrid } from './ViewTab';
+import { CreateVariation } from './CreateTab';
 const imageTabs = ['Ver imágenes', 'Crear Producto'];
 
 export const Variations: React.FC = () => {
