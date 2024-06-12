@@ -12,6 +12,7 @@
     "reduxjs",
     "sonner",
     "supabase",
-    "tailwindcss"
+    "tailwindcss",
+    "Vist"
   ]
 }

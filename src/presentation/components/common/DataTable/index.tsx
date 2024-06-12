@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FormikHelpers, FormikValues, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import {
   Button,
   CardTitle,
@@ -8,22 +8,7 @@ import {
   ModalCategory,
   ModalSize,
 } from '@components';
-import { useModal } from '@src/presentation/hooks';
-
-type DataRowType = {
-  label?: string;
-  value?: string;
-  name: string;
-};
-interface DataOfProductsProps {
-  dataVist: DataRowType[];
-  initialValues: FormikValues;
-  title: string;
-  handleSubmit: (
-    values: FormikValues,
-    formikHelpers: FormikHelpers<FormikValues>,
-  ) => void;
-}
+import { useModal } from '@hooks';
 
 export const ProductDataTable: React.FC<DataOfProductsProps> = ({
   dataVist,

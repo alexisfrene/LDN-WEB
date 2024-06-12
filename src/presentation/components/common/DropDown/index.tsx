@@ -9,17 +9,6 @@ import {
   SelectValue,
 } from '@components';
 
-interface Option {
-  type: string;
-  title: string;
-}
-
-interface DropdownInputProps {
-  title: string;
-  options: Option[];
-  name: string;
-}
-
 export const DropdownInput: React.FC<DropdownInputProps> = ({
   title,
   options,
@@ -53,11 +42,6 @@ export const DropdownInput: React.FC<DropdownInputProps> = ({
   );
 };
 
-type FieldFormProps = {
-  name: string;
-  title: string;
-  option: Option[];
-};
 export const FieldForm: React.FC<FieldFormProps> = ({
   name,
   title,

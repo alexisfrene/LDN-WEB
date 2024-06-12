@@ -1,14 +1,8 @@
-import React, { ImgHTMLAttributes, useState } from 'react';
+import React, { useState } from 'react';
 import { SkeletonLoading } from '../Skeleton';
 import { cn } from '@lib';
 
-interface ImageWithSkeletonProps extends ImgHTMLAttributes<HTMLImageElement> {
-  url: string;
-  width?: number;
-  height?: number;
-  className?: string;
-}
-export const ImageWithSkeleton: React.FC<ImageWithSkeletonProps> = ({
+export const ImageLoader: React.FC<Props> = ({
   url,
   width = 60,
   height = 60,

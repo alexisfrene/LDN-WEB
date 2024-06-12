@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { handleSubmitAddValues } from './handleSubmit';
-import { Label, Input, ImageUploadInput, Button } from '@components';
+import { Label, Input, ImageUploader, Button } from '@components';
 
 type IconProps = {
   url: string;
@@ -36,7 +36,7 @@ export const FormAddNewValue: React.FC<FormAddNewValueProps> = ({
             onChange={(e) => setFieldValue('value', e.target.value)}
           />
           <Label>Ingrese un icono :</Label>
-          <ImageUploadInput
+          <ImageUploader
             name="icon"
             onChange={(e) => {
               const file = e.target.files?.[0];

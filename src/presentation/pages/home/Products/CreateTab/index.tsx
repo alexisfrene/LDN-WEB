@@ -4,8 +4,8 @@ import {
   Button,
   CardTitle,
   Icons,
-  ImageUploadInput,
-  ImageWithSkeleton,
+  ImageUploader,
+  ImageLoader,
   Label,
   LabelInput,
   Modal,
@@ -47,7 +47,7 @@ export const CreateProducts: React.FC = () => {
               name="details[stock]"
               inputType="number"
             />
-            <ImageUploadInput
+            <ImageUploader
               name="primary_image"
               onChange={(e) => {
                 const file = e.target.files?.[0];
@@ -58,7 +58,7 @@ export const CreateProducts: React.FC = () => {
                 }
               }}
             />
-            {image && <ImageWithSkeleton url={image} className="h-36 w-36" />}
+            {image && <ImageLoader url={image} className="h-36 w-36" />}
             <Button
               className="col-span-full"
               variant="outline"

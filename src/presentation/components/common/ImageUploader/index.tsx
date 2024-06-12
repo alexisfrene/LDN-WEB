@@ -2,17 +2,13 @@ import React, { Ref } from 'react';
 import { ErrorMessage, FormikValues, useFormikContext } from 'formik';
 import { Input } from '@components';
 
-interface ImageUploadInputProps {
+interface Props {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   name: string;
   ref?: Ref<HTMLInputElement> | undefined;
 }
 
-export const ImageUploadInput: React.FC<ImageUploadInputProps> = ({
-  onChange,
-  name,
-  ref,
-}) => {
+export const ImageUploader: React.FC<Props> = ({ onChange, name, ref }) => {
   const { errors } = useFormikContext<FormikValues>();
   return (
     <>

@@ -19,7 +19,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   useEffect(() => {
     getAvatarImage();
-  }, []);
+  }, [session_token]);
   return (
     <>
       <div className="flex h-[9vh] justify-between bg-gradient-to-t from-amber-200 to-amber-400 p-1">

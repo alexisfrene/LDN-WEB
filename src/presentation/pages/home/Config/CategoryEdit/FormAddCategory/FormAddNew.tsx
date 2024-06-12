@@ -4,7 +4,7 @@ import { handleSubmitAdd } from './handleSubmit';
 import {
   Label,
   Input,
-  ImageUploadInput,
+  ImageUploader,
   Button,
   Icons,
   Separator,
@@ -55,7 +55,7 @@ export const FormAddNew: React.FC = () => {
             onChange={(e) => setValue(e.target.value)}
           />
           <Label>Ingrese un icono :</Label>
-          <ImageUploadInput
+          <ImageUploader
             name="icon"
             onChange={(e) => {
               const file = e.target.files?.[0];

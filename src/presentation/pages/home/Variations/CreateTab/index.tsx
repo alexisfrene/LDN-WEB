@@ -4,7 +4,7 @@ import {
   Button,
   CardTitle,
   Icons,
-  ImageUploadInput,
+  ImageUploader,
   Separator,
   LabelInput,
   Modal,
@@ -41,7 +41,7 @@ export const CreateVariation: React.FC = () => {
             name="label"
             inputType="text"
           />
-          <ImageUploadInput
+          <ImageUploader
             name="images"
             onChange={(e) => {
               const file = e.target.files?.[0];

@@ -10,8 +10,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
   Icons,
-  ImageUploadInput,
-  ImageWithSkeleton,
+  ImageUploader,
+  ImageLoader,
   ScrollArea,
   Tabs,
   TabsContent,
@@ -73,7 +73,7 @@ export const ModalDetails: React.FC<ModalDetailsProps> = ({ product }) => {
               >
                 {({ setFieldValue, handleSubmit }) => (
                   <form onSubmit={handleSubmit}>
-                    <ImageUploadInput
+                    <ImageUploader
                       name="primary_image"
                       onChange={(e) => {
                         const file = e.target.files?.[0];
@@ -87,9 +87,7 @@ export const ModalDetails: React.FC<ModalDetailsProps> = ({ product }) => {
                         }
                       }}
                     />
-                    {image && (
-                      <ImageWithSkeleton url={image} className="h-36 w-36" />
-                    )}
+                    {image && <ImageLoader url={image} className="h-36 w-36" />}
                     <AlertDialogFooter>
                       <AlertDialogCancel type="button">
                         Cancel
