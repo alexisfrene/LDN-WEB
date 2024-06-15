@@ -1,4 +1,5 @@
 import { axiosInstance, axiosInstanceFormData } from '@src/lib';
+import { toast } from 'sonner';
 
 export const getAllVariations = async () => {
   try {
@@ -33,6 +34,64 @@ export const getVariationById = async (id: string) => {
   try {
     const res = await axiosInstance(`/variations/${id}`);
     return res.data;
+  } catch (error) {
+    console.log('Error al buscar por id las variaciones');
+  }
+};
+
+export const deleteVariationById = async (id: string) => {
+  try {
+    const res = await axiosInstance.delete(`/variations/${id}`);
+    toast('Variación eliminada correctamente');
+    return res.data;
+  } catch (error) {
+    console.log('Error al buscar por id las variaciones');
+  }
+};
+
+export const addImageCollection = async (
+  variation_id: string,
+  collection_id: string,
+  file: File,
+) => {
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+    const res = await axiosInstanceFormData.patch(
+      `/variations/${variation_id}?edit=add_image&collection_id=${collection_id}`,
+      formData,
+    );
+    toast('imagen cargada con éxito');
+    console.log(res.data);
+    return res.data;
+  } catch (error) {
+    console.log('Error al buscar por id las variaciones');
+  }
+};
+
+export const removeImageCollection = async (
+  variation_id: string,
+  collection_id: string,
+  url: string,
+) => {
+  try {
+    const formData = new FormData();
+    const publicId = url.match(/variations\/(\d+)/);
+    const extractedNumber = publicId ? publicId[1] : null;
+
+    if (extractedNumber) {
+      console.log(extractedNumber);
+      formData.append('public_id', extractedNumber);
+      const res = await axiosInstanceFormData.patch(
+        `/variations/${variation_id}?edit=remove_image&collection_id=${collection_id}`,
+        formData,
+      );
+      toast('imagen cargada con éxito');
+      console.log(res.data);
+      return res.data;
+    } else {
+      return false;
+    }
   } catch (error) {
     console.log('Error al buscar por id las variaciones');
   }

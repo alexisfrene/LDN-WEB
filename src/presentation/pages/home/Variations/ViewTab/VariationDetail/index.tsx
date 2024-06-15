@@ -2,7 +2,7 @@ import { ScrollArea, TabsContent, MenuTabs } from '@components';
 import { GalleryTab } from './GalleryTab';
 import { CollectionTab } from './CollectionTab';
 
-const tabs = ['Ver imágenes', 'Agregar imágenes'];
+const tabs = ['Ver imágenes', 'Agregar una colección'];
 
 interface Props {
   variationSelected: Variants;

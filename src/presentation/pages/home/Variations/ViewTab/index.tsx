@@ -1,6 +1,6 @@
 import React from 'react';
 import { LoadingIndicator, Modal } from '@components';
-import { getAllVariations } from '@services';
+import { deleteVariationById, getAllVariations } from '@services';
 import { useModal } from '@hooks';
 import { useQuery } from '@tanstack/react-query';
 import { VariationCard } from './VariationCard';
@@ -26,7 +26,9 @@ export const ImageGrid: React.FC = () => {
           onCLickImage={() => {
             showModal('', <VariationDetail variationSelected={variation} />);
           }}
-          handleDelete={() => {}}
+          handleDelete={async () => {
+            await deleteVariationById(variation.variation_id);
+          }}
           variation={variation}
           key={variation.variation_id}
         />
