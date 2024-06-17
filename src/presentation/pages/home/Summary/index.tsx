@@ -9,6 +9,7 @@ import { NewMoment } from './NewMoment';
 import { TableMoment } from './TableMoment';
 import { TableTotal } from './TableTotal';
 import { ImportantDates } from './ImportantDates';
+import { AddMovementProps, Movement } from '@src/types/finance';
 
 export const Summary: React.FC = () => {
   const [movement, setMovement] = useState<Movement[] | []>([]);
