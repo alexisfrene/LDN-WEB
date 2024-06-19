@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { ErrorMessage, Formik } from 'formik';
 import {
   Button,
@@ -41,7 +42,7 @@ export const CreateVariation: React.FC = () => {
               const file = e.target.files?.[0];
               if (file) {
                 const url = URL.createObjectURL(file);
-                setImages([...image, { url, file, id: crypto.randomUUID() }]);
+                setImages([...image, { url, file, id: uuidv4() }]);
               }
             }}
           />

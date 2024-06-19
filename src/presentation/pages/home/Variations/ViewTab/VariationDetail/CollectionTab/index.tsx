@@ -1,3 +1,6 @@
+import React, { useState } from 'react';
+import { Formik } from 'formik';
+import { v4 as uuidv4 } from 'uuid';
 import {
   Button,
   Card,
@@ -9,8 +12,6 @@ import {
   LabelInput,
   Separator,
 } from '@src/presentation/components';
-import { Formik } from 'formik';
-import React, { useState } from 'react';
 
 interface Props {
   variationId: string;
@@ -18,11 +19,11 @@ interface Props {
 
 export const CollectionTab: React.FC<Props> = () => {
   const [image, setImages] = useState<ImagesValues[]>([]);
-  
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Crear una nueva coleccion </CardTitle>
+        <CardTitle>Crear una nueva colección </CardTitle>
       </CardHeader>
       <CardContent>
         <Formik
@@ -43,10 +44,7 @@ export const CollectionTab: React.FC<Props> = () => {
                   const file = e.target.files?.[0];
                   if (file) {
                     const url = URL.createObjectURL(file);
-                    setImages([
-                      ...image,
-                      { url, file, id: crypto.randomUUID() },
-                    ]);
+                    setImages([...image, { url, file, id: uuidv4() }]);
                   }
                 }}
               />

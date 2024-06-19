@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
+import { v4 as uuidv4 } from 'uuid';
 import { handleSubmitAdd } from './handleSubmit';
 import {
   Label,
@@ -74,7 +75,7 @@ export const FormAddNew: React.FC = () => {
             onClick={() => {
               setFieldValue('values', [
                 ...values.values,
-                { value, icon, id: crypto.randomUUID() },
+                { value, icon, id: uuidv4() },
               ]);
               setValue('');
             }}
