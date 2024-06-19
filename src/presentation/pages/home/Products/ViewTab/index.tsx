@@ -3,7 +3,7 @@ import { toast } from 'sonner';
 import { getAllProducts, removeProduct } from '@services';
 import { Modal, ModalDelete, ScrollArea } from '@components';
 import { useModal } from '@hooks';
-import { ProductDetail } from './ProductDetail'
+import { ProductDetail } from './ProductDetail';
 import { ProductCard } from './ProductCard';
 
 export const ProductGrid: React.FC = () => {
@@ -32,7 +32,7 @@ export const ProductGrid: React.FC = () => {
 
   return (
     <div className="mx-3">
-      <ScrollArea className="col-span-full lg:h-[69vh] xl:h-[68vh] 2xl:h-[72vh]">
+      <ScrollArea className="lg:h-[69vh] xl:h-[68vh] 2xl:h-[72vh]">
         <div className="grid gap-3 sm:grid-cols-1  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
           {products.map((product, index) => {
             return (
@@ -61,7 +61,7 @@ export const ProductGrid: React.FC = () => {
       <Modal
         isOpen={isOpenModal}
         onRequestClose={hideModal}
-        className="border-none bg-transparent"
+        className="max-w-fit"
       >
         <div>{modalTitle}</div>
         {modalContent}

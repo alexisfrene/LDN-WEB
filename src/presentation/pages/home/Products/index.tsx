@@ -2,6 +2,7 @@ import React from 'react';
 import { MenuTabs, TabsContent } from '@components';
 import { ProductGrid } from './ViewTab';
 import { CreateProducts } from './CreateTab';
+
 const ProductsTabs = ['Stock de productos', 'Crear producto'];
 
 export const Products: React.FC = () => {
