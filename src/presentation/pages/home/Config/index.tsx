@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Card,
   CardContent,
@@ -15,13 +15,14 @@ import {
 } from '@components';
 import { useModal } from '@presentation/hooks';
 import { CategoryEdit } from './CategoryEdit';
-import { getUrlAvatar } from '@src/services';
 import { SizeEdit } from './SizeEdit';
+import { SignOff } from './SignOff';
+import { useSessionStore } from '@src/presentation/global';
 
 export const Config: React.FC = () => {
-  const [avatar, setAvatar] = useState('');
   const { hideModal, isOpenModal, modalContent, showModal, modalTitle } =
     useModal();
+  const avatar = useSessionStore((state) => state.avatar);
   const {
     hideModal: hideSheet,
     isOpenModal: isOpenSheet,
@@ -29,17 +30,14 @@ export const Config: React.FC = () => {
     modalTitle: sheetTitle,
     showModal: showSheet,
   } = useModal();
-  const getAvatarImage = async () => {
-    const res = await getUrlAvatar();
-    setAvatar(res);
-  };
+
   const config = [
     {
       description: 'Ajustes en categorías',
       icon: (
         <Icons
           type="copy_manual"
-          className="text-slate-500 w-6 col-span-1 hover:text-slate-700 cursor-pointer"
+          className="col-span-1 w-6 cursor-pointer text-slate-500 hover:text-slate-700"
         />
       ),
       onClick: () =>
@@ -53,7 +51,7 @@ export const Config: React.FC = () => {
       icon: (
         <Icons
           type="copy_manual"
-          className="text-slate-500 w-6 col-span-1 hover:text-slate-700 cursor-pointer"
+          className="col-span-1 w-6 cursor-pointer text-slate-500 hover:text-slate-700"
         />
       ),
       onClick: () =>
@@ -64,7 +62,7 @@ export const Config: React.FC = () => {
       icon: (
         <Icons
           type="copy_manual"
-          className="text-slate-500 w-6 col-span-1 hover:text-slate-700 cursor-pointer"
+          className="col-span-1 w-6 cursor-pointer text-slate-500 hover:text-slate-700"
         />
       ),
       onClick: () =>
@@ -75,12 +73,26 @@ export const Config: React.FC = () => {
           </div>,
         ),
     },
+    {
+      description: 'Cerrar sesión',
+      icon: (
+        <Icons
+          type="arrow_left_start_on_rectangle"
+          className="col-span-1 w-6 cursor-pointer text-red-500 hover:text-red-600"
+        />
+      ),
+      onClick: () =>
+        showModal(
+          'Estas seguro de cerrar sesión ?',
+          <SignOff hideModal={hideModal} />,
+        ),
+    },
   ];
   const renderRows = () => {
     return config.map((row, i) => (
-      <div className="hover:bg-slate-100 px-1" key={i}>
+      <div className="px-1 hover:bg-slate-100" key={i}>
         <Separator />
-        <CardDescription className="flex justify-between my-3 select-none">
+        <CardDescription className="my-3 flex select-none justify-between">
           {row.description}
           <span onClick={row.onClick} className="cursor-pointer">
             {row.icon}
@@ -90,9 +102,6 @@ export const Config: React.FC = () => {
       </div>
     ));
   };
-  useEffect(() => {
-    getAvatarImage();
-  }, []);
 
   return (
     <Card className="h-full">

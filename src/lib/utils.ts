@@ -2,6 +2,95 @@ import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import axios from 'axios';
 
+const getToken = () => {
+  const localStorageUserData = localStorage.getItem('user-storage');
+  const parsedDataUser =
+    typeof localStorageUserData === 'string'
+      ? JSON?.parse(localStorageUserData || '')
+      : null;
+  return parsedDataUser?.state?.session_token || '';
+};
+
+const axiosInstanceCreate = () => {
+  const instance = axios.create({
+    baseURL: import.meta.env.VITE_API_NAME,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  instance.interceptors.request.use(
+    (config) => {
+      const token = getToken();
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    },
+  );
+
+  return instance;
+};
+
+const axiosInstanceFormDataCreate = () => {
+  const instance = axios.create({
+    baseURL: import.meta.env.VITE_API_NAME,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
+  instance.interceptors.request.use(
+    (config) => {
+      const token = getToken();
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    },
+  );
+
+  return instance;
+};
+
+// const localStorageUserData = localStorage.getItem('user-storage');
+
+// const parsedDataUser =
+//   typeof localStorageUserData === 'string'
+//     ? JSON?.parse(localStorageUserData || '')
+//     : null;
+
+// const sessionToken = parsedDataUser?.state?.session_token;
+
+// const axiosInstanceCreate = () => {
+//   return axios.create({
+//     baseURL: import.meta.env.VITE_API_NAME,
+//     headers: {
+//       'Content-Type': 'application/json',
+//       Authorization: `Bearer ${sessionToken}`,
+//     },
+//   });
+// };
+// const axiosInstanceFormDataCreate = () => {
+//   return axios.create({
+//     baseURL: import.meta.env.VITE_API_NAME,
+//     headers: {
+//       Authorization: `Bearer ${sessionToken}`,
+//       'Content-Type': 'multipart/form-data',
+//     },
+//   });
+// };
+
+export const axiosInstance = axiosInstanceCreate();
+
+export const axiosInstanceFormData = axiosInstanceFormDataCreate();
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -15,31 +104,6 @@ export const getCurrentFormattedDate = () => {
 
   return formattedDate;
 };
-
-const localStorageUserData = localStorage.getItem('user-storage');
-
-const parsedDataUser =
-  typeof localStorageUserData === 'string'
-    ? JSON?.parse(localStorageUserData || '')
-    : null;
-
-const sessionToken = parsedDataUser?.state?.session_token;
-
-export const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_NAME,
-  headers: {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${sessionToken}`,
-  },
-});
-
-export const axiosInstanceFormData = axios.create({
-  baseURL: import.meta.env.VITE_API_NAME,
-  headers: {
-    Authorization: `Bearer ${sessionToken}`,
-    'Content-Type': 'multipart/form-data',
-  },
-});
 
 export const removeEmptyStringProperties = (obj: Product): Product => {
   const cleanedObject: Partial<Product> = {};

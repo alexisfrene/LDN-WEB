@@ -11,7 +11,7 @@ export const ImageGrid: React.FC = () => {
     useModal();
 
   const { isPending, error, data } = useQuery({
-    queryKey: ['data'],
+    queryKey: ['variations'],
     queryFn: () => getAllVariations(),
   });
   if (isPending) {

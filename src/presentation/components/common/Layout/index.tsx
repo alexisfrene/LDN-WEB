@@ -14,12 +14,14 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const session_token = useSessionStore((state) => state.session_token);
   const getAvatarImage = async () => {
     const res = await getUrlAvatar();
-    insertAvatar({ avatar: res, session_token });
+    insertAvatar(res);
   };
 
   useEffect(() => {
-    getAvatarImage();
-  }, [session_token]);
+    if (session_token && !avatar) {
+      getAvatarImage();
+    }
+  }, []);
   return (
     <>
       <div className="flex h-[9vh] justify-between bg-gradient-to-t from-amber-200 to-amber-400 p-1">
@@ -29,10 +31,12 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           loading="lazy"
           alt="logo-ldn"
         />
-        <Avatar className="mx-5 my-2">
-          <AvatarImage src={avatar} alt="@shadcn" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
+        {session_token && (
+          <Avatar className="mx-5 my-2">
+            <AvatarImage src={avatar} alt="@shadcn" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+        )}
       </div>
       {children}
     </>

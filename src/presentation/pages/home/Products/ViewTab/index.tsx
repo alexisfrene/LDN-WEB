@@ -1,21 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { toast } from 'sonner';
+import { useQuery } from '@tanstack/react-query';
 import { getAllProducts, removeProduct } from '@services';
-import { Modal, ModalDelete, ScrollArea } from '@components';
+import { LoadingIndicator, Modal, ModalDelete, ScrollArea } from '@components';
 import { useModal } from '@hooks';
 import { ProductDetail } from './ProductDetail';
 import { ProductCard } from './ProductCard';
 
 export const ProductGrid: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
   const { hideModal, isOpenModal, modalContent, modalTitle, showModal } =
     useModal();
-  const getProducts = async () => {
-    const res = await getAllProducts();
-    if (res) {
-      setProducts(res);
-    }
-  };
+  const { isPending, error, data } = useQuery<Product[]>({
+    queryKey: ['products'],
+    queryFn: () => getAllProducts(),
+  });
+  if (isPending) {
+    return <LoadingIndicator isLoading />;
+  }
+  if (error) return 'An error has occurred: ' + error.message;
+
   const handleDeleteProduct = async (id: string) => {
     const res = await removeProduct(id);
     if (res) {
@@ -26,15 +29,11 @@ export const ProductGrid: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    getProducts();
-  }, [products, setProducts]);
-
   return (
     <div className="mx-3">
       <ScrollArea className="lg:h-[69vh] xl:h-[68vh] 2xl:h-[72vh]">
         <div className="grid gap-3 sm:grid-cols-1  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
-          {products.map((product, index) => {
+          {data.map((product, index) => {
             return (
               <ProductCard
                 key={index}

@@ -48,6 +48,7 @@ import {
   PlusCircleIcon,
   ArrowSmallLeftIcon,
   TrashIcon,
+  ArrowLeftOnRectangleIcon,
 } from '@heroicons/react/24/outline';
 
 interface IconsProps {
@@ -65,6 +66,7 @@ const icons = {
   arrow_down: ChevronDownIcon,
   arrow_right: ChevronRightIcon,
   arrow_top: ChevronUpIcon,
+  arrow_left_start_on_rectangle: ArrowLeftOnRectangleIcon,
   send: PaperAirplaneIcon,
   building: BuildingOfficeIcon,
   close: XMarkIcon,
