@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { v4 as uuidv4 } from 'uuid';
-import { handleSubmitAdd } from './handleSubmit';
 import { Label, Input, Button, Icons, Separator } from '@components';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { addSizeCollection } from '@src/services';
 
 type ValueProps = {
   id?: string;
@@ -10,6 +11,13 @@ type ValueProps = {
 };
 export const FormAddNew: React.FC = () => {
   const [value, setValue] = useState('');
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: addSizeCollection,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['sizes'] });
+    },
+  });
 
   return (
     <Formik
@@ -17,9 +25,12 @@ export const FormAddNew: React.FC = () => {
         title: '',
         values: [] as ValueProps[],
       }}
-      onSubmit={async (values, formikHelpers) =>
-        await handleSubmitAdd(values, formikHelpers)
-      }
+      onSubmit={async (values, formikHelpers) => {
+        mutation.mutate(values);
+        setTimeout(() => {
+          formikHelpers.resetForm();
+        }, 500);
+      }}
     >
       {({ handleSubmit, setFieldValue, values, isSubmitting }) => (
         <div>

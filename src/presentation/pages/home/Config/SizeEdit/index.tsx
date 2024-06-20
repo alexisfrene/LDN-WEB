@@ -1,7 +1,9 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import {
   deleteCollectionSize,
   deleteValueSize,
+  getAllSizes,
   modifyTitleCollectionSize,
 } from '@src/services';
 import { FormAddSize } from './FormAddSize';
@@ -24,9 +26,9 @@ import {
   Icons,
   Input,
   Label,
+  LoadingIndicator,
   ScrollArea,
 } from '@components';
-import { useSizesStore } from '@global';
 
 interface SizeEditProps {
   showSheet: (title: string, content: ReactElement) => void;
@@ -35,14 +37,20 @@ interface SizeEditProps {
 export const SizeEdit: React.FC<SizeEditProps> = ({ showSheet }) => {
   const [selected, setSelected] = useState<string>();
   const [collectionTitle, setCollectionTitle] = useState<string>('');
-  const sizes = useSizesStore((state) => state.sizes);
-  const refreshSizes = useSizesStore((state) => state.refreshSizes);
-  useEffect(() => {
-    refreshSizes();
-  }, [sizes, refreshSizes]);
+
+  const { isPending, error, data } = useQuery<Size[]>({
+    queryKey: ['sizes'],
+    queryFn: getAllSizes,
+  });
+
+  if (isPending) {
+    return <LoadingIndicator isLoading />;
+  }
+  if (error) return 'An error has occurred: ' + error.message;
+
   return (
     <div className="flex min-w-[70vw] flex-col">
-      {sizes.length === 0 ? (
+      {data.length === 0 ? (
         <div className="flex min-h-[50vh] justify-center">
           <div className="flex flex-col justify-center">
             <p>No tienes ningún numero / talla cargada </p>
@@ -63,7 +71,7 @@ export const SizeEdit: React.FC<SizeEditProps> = ({ showSheet }) => {
       ) : (
         <>
           <ScrollArea className="h-[70vh] px-2">
-            {sizes.map(({ values, title, size_id }) => (
+            {data.map(({ values, title, size_id }) => (
               <Card key={size_id}>
                 <CardHeader className="relative">
                   {selected === size_id ? (

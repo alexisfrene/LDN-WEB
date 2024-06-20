@@ -1,7 +1,7 @@
 import { axiosInstance } from '@src/lib';
 import { toast } from 'sonner';
 
-export const getAllSizes = async (): Promise<Size[] | undefined> => {
+export const getAllSizes = async () => {
   try {
     const res = await axiosInstance('/size');
     return res.data;
@@ -22,7 +22,13 @@ export const addSizeCollection = async (values: {
   }
 };
 
-export const addValueSize = async (value: string, size_id: string) => {
+export const addValueSize = async ({
+  value,
+  size_id,
+}: {
+  value: string;
+  size_id: string;
+}) => {
   try {
     const res = await axiosInstance.patch(`/size/${size_id}?type=add`, {
       value,
