@@ -1,7 +1,7 @@
 import { axiosInstance, axiosInstanceFormData } from '@src/lib';
 import { toast } from 'sonner';
 
-export const getAllCategories = async (): Promise<Category[] | undefined> => {
+export const getAllCategories = async () => {
   try {
     const res = await axiosInstance.get('/categories');
 
@@ -26,10 +26,13 @@ export const addCategoryConfig = async (data: Category) => {
   }
 };
 
-export const addValueCategory = async (
-  values: { value: string; icon: File },
-  category_id: string,
-) => {
+export const addValueCategory = async ({
+  values,
+  category_id,
+}: {
+  values: { value: string; icon: File | null };
+  category_id: string;
+}) => {
   try {
     const formData = new FormData();
     formData.append('value', values.value);

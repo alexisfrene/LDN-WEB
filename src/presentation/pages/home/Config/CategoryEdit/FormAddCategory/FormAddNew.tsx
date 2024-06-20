@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { v4 as uuidv4 } from 'uuid';
-import { handleSubmitAdd } from './handleSubmit';
 import {
   Label,
   Input,
@@ -10,6 +9,8 @@ import {
   Icons,
   Separator,
 } from '@components';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { addCategoryConfig } from '@src/services';
 
 type IconProps = {
   url: string;
@@ -24,6 +25,14 @@ type ValueProps = {
 export const FormAddNew: React.FC = () => {
   const [value, setValue] = useState('');
   const [icon, setIcon] = useState<IconProps>();
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: addCategoryConfig,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
+    },
+  });
+
   return (
     <Formik
       initialValues={{
@@ -31,7 +40,7 @@ export const FormAddNew: React.FC = () => {
         values: [] as ValueProps[],
       }}
       onSubmit={async (values) =>
-        await handleSubmitAdd({
+        mutation.mutate({
           title: values.title,
           values: values.values,
           category_id: '',

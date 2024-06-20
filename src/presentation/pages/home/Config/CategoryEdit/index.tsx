@@ -1,7 +1,9 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import {
   deleteCollectionCategory,
   deleteValueCategory,
+  getAllCategories,
   modifyTitleCollectionCategory,
 } from '@src/services';
 import { FormAddCategory } from './FormAddCategory';
@@ -27,9 +29,9 @@ import {
   Icons,
   Input,
   Label,
+  LoadingIndicator,
   ScrollArea,
 } from '@components';
-import { useCategoriesStore } from '@global';
 
 interface CategoryEditProps {
   showSheet: (title: string, content: ReactElement) => void;
@@ -38,16 +40,19 @@ interface CategoryEditProps {
 export const CategoryEdit: React.FC<CategoryEditProps> = ({ showSheet }) => {
   const [selected, setSelected] = useState<string>();
   const [collectionTitle, setCollectionTitle] = useState<string>('');
-  const categories = useCategoriesStore((state) => state.categories);
-  const refreshCategories = useCategoriesStore(
-    (state) => state.refreshCategories,
-  );
-  useEffect(() => {
-    refreshCategories();
-  }, []);
+  const { isPending, error, data } = useQuery<Category[]>({
+    queryKey: ['categories'],
+    queryFn: getAllCategories,
+  });
+
+  if (isPending) {
+    return <LoadingIndicator isLoading />;
+  }
+  if (error) return 'An error has occurred: ' + error.message;
+
   return (
     <div className="flex min-w-[70vw] flex-col">
-      {categories.length === 0 ? (
+      {data.length === 0 ? (
         <div className="flex min-h-[50vh] justify-center">
           <div className="flex flex-col justify-center">
             <p>No tienes ninguna categoría cargada </p>
@@ -68,7 +73,7 @@ export const CategoryEdit: React.FC<CategoryEditProps> = ({ showSheet }) => {
       ) : (
         <>
           <ScrollArea className="h-[70vh] px-2">
-            {categories.map(({ values, title, category_id }) => (
+            {data.map(({ values, title, category_id }) => (
               <Card key={category_id}>
                 <CardHeader className="relative">
                   {selected === category_id ? (
