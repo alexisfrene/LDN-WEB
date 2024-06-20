@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   Icons,
   AlertDialogHeader,
@@ -26,6 +27,15 @@ export const AlertAddImage: React.FC<Props> = ({
   collectionId,
 }) => {
   const [image, setImage] = useState<{ file: File; url: string }>();
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: addImageCollection,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['variation_detail', 'variations'],
+      });
+    },
+  });
 
   return (
     <AlertDialog>
@@ -67,7 +77,11 @@ export const AlertAddImage: React.FC<Props> = ({
         <AlertDialogFooter>
           <AlertDialogAction
             onClick={async () =>
-              addImageCollection(variationId, collectionId, image?.file!)
+              mutation.mutate({
+                variation_id: variationId,
+                collection_id: collectionId,
+                file: image?.file!,
+              })
             }
             disabled={!image?.file}
           >

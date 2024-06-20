@@ -49,11 +49,15 @@ export const deleteVariationById = async (id: string) => {
   }
 };
 
-export const addImageCollection = async (
-  variation_id: string,
-  collection_id: string,
-  file: File,
-) => {
+export const addImageCollection = async ({
+  variation_id,
+  collection_id,
+  file,
+}: {
+  variation_id: string;
+  collection_id: string;
+  file: File;
+}) => {
   try {
     const formData = new FormData();
     formData.append('file', file);
@@ -69,11 +73,15 @@ export const addImageCollection = async (
   }
 };
 
-export const removeImageCollection = async (
-  variation_id: string,
-  collection_id: string,
-  url: string,
-) => {
+export const removeImageCollection = async ({
+  collection_id,
+  url,
+  variation_id,
+}: {
+  variation_id: string;
+  collection_id: string;
+  url: string;
+}) => {
   try {
     const formData = new FormData();
     const publicId = url.match(/variations\/(\d+)/);

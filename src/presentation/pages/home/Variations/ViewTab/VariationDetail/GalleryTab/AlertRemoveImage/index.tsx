@@ -12,6 +12,7 @@ import {
   AspectRatio,
 } from '@components';
 import { removeImageCollection } from '@services';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 interface Props {
   label: string;
@@ -30,17 +31,27 @@ export const AlertRemoveImage: React.FC<Props> = ({
   edit,
   url,
 }) => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: removeImageCollection,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['variation_detail', 'variations'],
+      });
+    },
+  });
+
   return (
     <AlertDialog>
+      {children}
       <AlertDialogTrigger className="relative">
         {edit && (
           <Icons
             type="close"
             height={20}
-            className="absolute right-0 m-0.5 cursor-pointer rounded-md bg-red-600 text-slate-50 hover:bg-red-500 hover:text-slate-100"
+            className="absolute right-0 top-0 m-0.5 cursor-pointer rounded-md bg-red-600 text-slate-50 hover:bg-red-500 hover:text-slate-100"
           />
         )}
-        {children}
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -53,11 +64,14 @@ export const AlertRemoveImage: React.FC<Props> = ({
             <img src={url} alt="Image" className="m-0.5 h-32 w-32 rounded-md" />
           </AspectRatio>
         )}
-
         <AlertDialogFooter>
           <AlertDialogAction
             onClick={async () =>
-              removeImageCollection(variationId, collectionId, url)
+              mutation.mutate({
+                variation_id: variationId,
+                collection_id: collectionId,
+                url,
+              })
             }
           >
             Ok

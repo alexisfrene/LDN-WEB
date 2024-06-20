@@ -24,7 +24,10 @@ export const ImageGrid: React.FC = () => {
       {data.map((variation: Variants) => (
         <VariationCard
           onCLickImage={() => {
-            showModal('', <VariationDetail variationSelected={variation} />);
+            showModal(
+              '',
+              <VariationDetail variationId={variation.variation_id} />,
+            );
           }}
           handleDelete={async () => {
             await deleteVariationById(variation.variation_id);
