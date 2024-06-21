@@ -1,6 +1,6 @@
 import React from 'react';
 import { toast } from 'sonner';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getAllProducts, removeProduct } from '@services';
 import { LoadingIndicator, Modal, ModalDelete, ScrollArea } from '@components';
 import { useModal } from '@hooks';
@@ -10,6 +10,15 @@ import { ProductCard } from './ProductCard';
 export const ProductGrid: React.FC = () => {
   const { hideModal, isOpenModal, modalContent, modalTitle, showModal } =
     useModal();
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: removeProduct,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['products'],
+      });
+    },
+  });
   const { isPending, error, data } = useQuery<Product[]>({
     queryKey: ['products'],
     queryFn: () => getAllProducts(),
@@ -18,16 +27,6 @@ export const ProductGrid: React.FC = () => {
     return <LoadingIndicator isLoading />;
   }
   if (error) return 'An error has occurred: ' + error.message;
-
-  const handleDeleteProduct = async (id: string) => {
-    const res = await removeProduct(id);
-    if (res) {
-      toast('Producto eliminado con éxito!');
-      hideModal();
-    } else {
-      toast('Ocurrió un error!');
-    }
-  };
 
   return (
     <div className="mx-3">
@@ -45,7 +44,9 @@ export const ProductGrid: React.FC = () => {
                     '',
                     <ModalDelete
                       handleDeleteProduct={() => {
-                        handleDeleteProduct(product.product_id!);
+                        mutation.mutate(product.product_id!);
+                        hideModal();
+                        toast('Producto eliminado');
                       }}
                       hideDeleteModal={hideModal}
                     />,
