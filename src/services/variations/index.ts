@@ -6,7 +6,8 @@ export const getAllVariations = async () => {
     const res = await axiosInstance('/variations');
     return res.data;
   } catch (error) {
-    console.log(error);
+    toast.error('Ocurrió un error al obtener las variaciones');
+    console.error('ERROR IN getAllVariations:', error);
   }
 };
 
@@ -24,9 +25,11 @@ export const createVariation = async (values: Variation) => {
     }
 
     const res = await axiosInstanceFormData.post('/variations', formData);
+    toast.success('Variación creada con éxito');
     return res.data;
   } catch (error) {
-    console.log('Error en services createVariation ->', error);
+    toast.error('Ocurrió un error al crear la variación');
+    console.error('ERROR IN createVariation:', error);
   }
 };
 
@@ -35,17 +38,19 @@ export const getVariationById = async (id: string) => {
     const res = await axiosInstance(`/variations/${id}`);
     return res.data;
   } catch (error) {
-    console.log('Error al buscar por id las variaciones');
+    toast.error('Ocurrió un error al obtener la variación por ID');
+    console.error('ERROR IN getVariationById:', error);
   }
 };
 
 export const deleteVariationById = async (id: string) => {
   try {
     const res = await axiosInstance.delete(`/variations/${id}`);
-    toast('Variación eliminada correctamente');
+    toast.success('Variación eliminada correctamente');
     return res.data;
   } catch (error) {
-    console.log('Error al buscar por id las variaciones');
+    toast.error('Ocurrió un error al eliminar la variación');
+    console.error('ERROR IN deleteVariationById:', error);
   }
 };
 
@@ -65,11 +70,11 @@ export const addImageCollection = async ({
       `/variations/${variation_id}?edit=add_image&collection_id=${collection_id}`,
       formData,
     );
-    toast('imagen cargada con éxito');
-    console.log(res.data);
+    toast.success('Imagen cargada con éxito');
     return res.data;
   } catch (error) {
-    console.log('Error al buscar por id las variaciones');
+    toast.error('Ocurrió un error al agregar la imagen a la colección');
+    console.error('ERROR IN addImageCollection:', error);
   }
 };
 
@@ -88,19 +93,19 @@ export const removeImageCollection = async ({
     const extractedNumber = publicId ? publicId[1] : null;
 
     if (extractedNumber) {
-      console.log(extractedNumber);
       formData.append('public_id', extractedNumber);
       const res = await axiosInstanceFormData.patch(
         `/variations/${variation_id}?edit=remove_image&collection_id=${collection_id}`,
         formData,
       );
-      toast('imagen cargada con éxito');
-      console.log(res.data);
+      toast.success('Imagen eliminada con éxito');
       return res.data;
     } else {
+      toast.error('No se pudo extraer el ID de la imagen');
       return false;
     }
   } catch (error) {
-    console.log('Error al buscar por id las variaciones');
+    toast.error('Ocurrió un error al eliminar la imagen de la colección');
+    console.error('ERROR IN removeImageCollection:', error);
   }
 };

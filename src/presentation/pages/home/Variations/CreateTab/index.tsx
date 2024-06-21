@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { ErrorMessage, Formik } from 'formik';
 import {
   Button,
@@ -15,9 +14,10 @@ import { useModal } from '@hooks';
 import { handleSubmit } from './handleSubmit';
 
 export const CreateVariation: React.FC = () => {
-  const [image, setImages] = useState<ImagesValues[]>([]);
+  const [images, setImages] = useState<ImagesValues[]>([]);
   const { hideModal, isOpenModal, modalContent, modalTitle, showModal } =
     useModal();
+
   return (
     <Formik
       initialValues={{
@@ -26,7 +26,10 @@ export const CreateVariation: React.FC = () => {
         label: '',
         images: [] as ImagesValues[],
       }}
-      onSubmit={handleSubmit}
+      onSubmit={(values, formikHelpers) => {
+        handleSubmit(values, formikHelpers);
+        setImages([]);
+      }}
     >
       {({ values, handleSubmit, isSubmitting, setFieldValue }) => (
         <form onSubmit={handleSubmit} className="flex flex-col px-10 pt-3">
@@ -36,25 +39,7 @@ export const CreateVariation: React.FC = () => {
             name="label"
             inputType="text"
           />
-          <ImageUploader
-            name="images"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) {
-                const url = URL.createObjectURL(file);
-                setImages([...image, { url, file, id: uuidv4() }]);
-              }
-            }}
-          />
-          <Button
-            type="button"
-            variant="secondary"
-            onClick={() => {
-              setFieldValue('images', image);
-            }}
-          >
-            Agregar
-          </Button>
+          <ImageUploader name="images" images={images} setImages={setImages} />
           <div className="my-3 grid grid-cols-2 gap-3">
             {values.images.map((value: ImagesValues) => {
               return (
@@ -70,7 +55,6 @@ export const CreateVariation: React.FC = () => {
                       setImages(res);
                     }}
                   />
-
                   <div className="m-1 flex justify-center">
                     <img src={value.url} className="h-[64px] w-[64px]" />
                   </div>

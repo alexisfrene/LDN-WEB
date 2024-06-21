@@ -4,7 +4,7 @@ import { createProducts } from '@src/services';
 
 interface InitialValues {
   name: string;
-  primary_image: string;
+  images: ImagesValues[];
   price: number;
   description: string;
   details: {
@@ -40,8 +40,9 @@ const handleSubmit = async (
       stock: values.stock,
       name: values.name,
       price: values.price,
-      primary_image: values.primary_image,
+      primary_image: values.images[0].file,
     };
+
     const res = await createProducts(product);
     if (res) {
       formikHelpers.resetForm();

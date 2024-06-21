@@ -1,6 +1,6 @@
 const initialValues = {
   name: '',
-  primary_image: '',
+  images: [] as ImagesValues[],
   price: 1,
   description: '',
   details: { age: '', brand: '', color: '', gender: '', style: '' },

@@ -1,5 +1,6 @@
 import { axiosInstance } from '@src/lib';
 import axios from 'axios';
+import { toast } from 'sonner';
 
 export const registerUser = async (values: registerUserValues) => {
   try {
@@ -9,9 +10,11 @@ export const registerUser = async (values: registerUserValues) => {
       values,
     );
 
+    toast.success('Usuario registrado con éxito!');
     return res;
   } catch (error) {
-    console.log(error);
+    toast.error('Ocurrió un error al registrar el usuario');
+    console.error('ERROR IN registerUser:', error);
   }
 };
 
@@ -28,9 +31,11 @@ export const loginUser = async (values: loginUserValues) => {
       },
     );
 
+    toast.success('Inicio de sesión exitoso!');
     return res.data;
   } catch (error) {
-    console.log(error);
+    toast.error('Ocurrió un error al iniciar sesión');
+    console.error('ERROR IN loginUser:', error);
   }
 };
 
@@ -39,6 +44,7 @@ export const getUrlAvatar = async () => {
     const res = await axiosInstance.get('/user/avatar');
     return res.data;
   } catch (error) {
-    console.log(error);
+    toast.error('Ocurrió un error al obtener la URL del avatar');
+    console.error('ERROR IN getUrlAvatar:', error);
   }
 };

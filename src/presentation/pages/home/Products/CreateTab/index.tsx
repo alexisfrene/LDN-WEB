@@ -18,7 +18,7 @@ import initialValues from './initialValues';
 import validationSchema from './validationSchema';
 
 export const CreateProducts: React.FC = () => {
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<ImagesValues[]>([]);
   const { hideModal, isOpenModal, modalContent, modalTitle, showModal } =
     useModal();
 
@@ -30,7 +30,10 @@ export const CreateProducts: React.FC = () => {
         validationSchema={validationSchema}
       >
         {({ handleSubmit, setFieldValue, values, isSubmitting }) => (
-          <div className="grid w-[1200px] grid-cols-3 gap-3 bg-white p-10">
+          <form
+            onSubmit={handleSubmit}
+            className="grid w-[1200px] grid-cols-3 gap-3 bg-white p-10"
+          >
             <Label className="col-span-full mb-3 bg-slate-100 p-3 text-center text-xl font-bold">
               Crear producto
             </Label>
@@ -47,21 +50,14 @@ export const CreateProducts: React.FC = () => {
               name="details[stock]"
               inputType="number"
             />
-            <ImageUploader
-              name="primary_image"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) {
-                  const url = URL.createObjectURL(file);
-                  setImage(url);
-                  setFieldValue('primary_image', e.currentTarget.files![0]);
-                }
-              }}
-            />
-            {image && <ImageLoader url={image} className="h-36 w-36" />}
+            <ImageUploader name="images" images={image} setImages={setImage} />
+            {values.images[0]?.url && (
+              <ImageLoader url={image[0]?.url} className="h-36 w-36" />
+            )}
             <Button
               className="col-span-full"
               variant="outline"
+              type="button"
               onClick={() =>
                 showModal(
                   'Selecciona una categoría :',
@@ -82,6 +78,7 @@ export const CreateProducts: React.FC = () => {
             <Button
               className="col-span-full"
               variant="outline"
+              type="button"
               onClick={() =>
                 showModal(
                   'Selecciona un talle/numero :',
@@ -112,7 +109,6 @@ export const CreateProducts: React.FC = () => {
                 !values.category.category_id ||
                 !values.size.size_id
               }
-              onClick={() => handleSubmit()}
             >
               <div className="mx-1 w-5">
                 {isSubmitting && (
@@ -121,7 +117,7 @@ export const CreateProducts: React.FC = () => {
               </div>
               Crear producto
             </Button>
-          </div>
+          </form>
         )}
       </Formik>
     </div>

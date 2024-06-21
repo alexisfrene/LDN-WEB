@@ -7,7 +7,7 @@ interface Product {
   name: string;
   product_id?: string;
   description?: string;
-  primary_image?: string;
+  primary_image?: string | File;
   price: number;
   state?: boolean;
   code?: number;

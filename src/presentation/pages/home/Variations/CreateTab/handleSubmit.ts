@@ -1,6 +1,5 @@
 import { FormikHelpers } from 'formik';
 import { createVariation } from '@services';
-import { toast } from 'sonner';
 
 export const handleSubmit = async (
   values: initialValues,
@@ -18,7 +17,6 @@ export const handleSubmit = async (
 
     if (res) {
       setTimeout(() => {
-        toast('Variación creada con éxito!');
         formikHelpers.resetForm();
       }, 500);
     }

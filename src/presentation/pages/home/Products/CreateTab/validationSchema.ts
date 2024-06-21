@@ -17,7 +17,6 @@ const validationSchema = Yup.object().shape({
     gender: Yup.string().max(50, 'El género no puede tener más de 50 letras'),
   }),
   stock: Yup.number().default(1),
-  primary_image: Yup.mixed().required('La imagen es obligatoria'),
   category: Yup.object().shape({
     category_id: Yup.string().required('La categoría es obligatoria'),
     category_value_id: Yup.string().required('La categoría es obligatoria'),
