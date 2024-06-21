@@ -7,9 +7,15 @@ interface Props {
   name: string;
   setImages: (values: ImagesValues[]) => void;
   images: ImagesValues[];
+  onChange?: () => void;
 }
 
-export const ImageUploader: React.FC<Props> = ({ name, setImages, images }) => {
+export const ImageUploader: React.FC<Props> = ({
+  name,
+  setImages,
+  images,
+  onChange,
+}) => {
   const { errors, setFieldValue } = useFormikContext<FormikValues>();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -43,7 +49,11 @@ export const ImageUploader: React.FC<Props> = ({ name, setImages, images }) => {
         type="button"
         variant="secondary"
         onClick={() => {
-          setFieldValue(name, images);
+          if (onChange) {
+            onChange();
+          } else {
+            setFieldValue(name, images);
+          }
           removeImage();
         }}
       >

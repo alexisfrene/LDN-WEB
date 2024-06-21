@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Formik } from 'formik';
-import { v4 as uuidv4 } from 'uuid';
 import {
   Label,
   Input,
@@ -8,8 +8,8 @@ import {
   Button,
   Icons,
   Separator,
+  LoadingIndicator,
 } from '@components';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addCategoryConfig } from '@src/services';
 
 type IconProps = {
@@ -24,7 +24,8 @@ type ValueProps = {
 };
 export const FormAddNew: React.FC = () => {
   const [value, setValue] = useState('');
-  const [icon, setIcon] = useState<IconProps>();
+  const [imageCount, setImageCount] = useState(0);
+  const [image, setImage] = useState<ImagesValues[]>([]);
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: addCategoryConfig,
@@ -39,21 +40,29 @@ export const FormAddNew: React.FC = () => {
         title: '',
         values: [] as ValueProps[],
       }}
-      onSubmit={async (values) =>
+      onSubmit={(values, formikHelpers) => {
+        console.log('Vlaues --<', values);
         mutation.mutate({
           title: values.title,
           values: values.values,
           category_id: '',
           user_id: '',
-        })
-      }
+        });
+        setTimeout(() => {
+          setValue('');
+          setImageCount(0);
+          setImage([]);
+          formikHelpers.resetForm();
+        }, 600);
+      }}
     >
-      {({ handleSubmit, setFieldValue, values, isSubmitting }) => (
+      {({ handleSubmit, setFieldValue, values }) => (
         <div>
           <Label>Nombre de la colección :</Label>
           <Input
             name="title"
             type="text"
+            value={values.title}
             onChange={(e) => setFieldValue('title', e.target.value)}
           />
           <Label>Valores :</Label>
@@ -66,31 +75,25 @@ export const FormAddNew: React.FC = () => {
           />
           <Label>Ingrese un icono :</Label>
           <ImageUploader
-            name="icon"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) {
-                const url = URL.createObjectURL(file);
-                setIcon({
-                  url,
-                  file: e.currentTarget.files![0],
-                });
-              }
-            }}
-          />
-          <Button
-            type="button"
-            variant="secondary"
-            onClick={() => {
+            name="values"
+            images={image}
+            setImages={setImage}
+            onChange={() => {
               setFieldValue('values', [
                 ...values.values,
-                { value, icon, id: uuidv4() },
+                {
+                  id: crypto.randomUUID(),
+                  value,
+                  icon: {
+                    url: image[imageCount].url,
+                    file: image[imageCount].file,
+                  },
+                },
               ]);
+              setImageCount(imageCount + 1);
               setValue('');
             }}
-          >
-            Agregar
-          </Button>
+          />
           <div className="my-3 grid grid-cols-2 gap-3">
             {values.values.map(
               (value: { value: string; icon: { url: string }; id: string }) => {
@@ -100,7 +103,6 @@ export const FormAddNew: React.FC = () => {
                       type="close"
                       className="absolute right-0 h-4 cursor-pointer bg-red-500"
                       onClick={() => {
-                        console.log('click');
                         const res = values.values.filter(
                           (e) => e.id !== value.id,
                         );
@@ -122,12 +124,14 @@ export const FormAddNew: React.FC = () => {
           </div>
 
           <Button
+            className="w-full"
             type="submit"
             onClick={() => handleSubmit()}
-            disabled={isSubmitting}
+            disabled={mutation.isPending}
           >
             Crear categoría
           </Button>
+          <LoadingIndicator isLoading={mutation.isPending} />
         </div>
       )}
     </Formik>

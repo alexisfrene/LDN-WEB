@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   deleteCollectionCategory,
   deleteValueCategory,
@@ -40,9 +40,17 @@ interface CategoryEditProps {
 export const CategoryEdit: React.FC<CategoryEditProps> = ({ showSheet }) => {
   const [selected, setSelected] = useState<string>();
   const [collectionTitle, setCollectionTitle] = useState<string>('');
+  const queryClient = useQueryClient();
   const { isPending, error, data } = useQuery<Category[]>({
     queryKey: ['categories'],
     queryFn: getAllCategories,
+  });
+  const mutation = useMutation({
+    mutationFn: deleteCollectionCategory,
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
+    },
   });
 
   if (isPending) {
@@ -142,8 +150,8 @@ export const CategoryEdit: React.FC<CategoryEditProps> = ({ showSheet }) => {
                           <AlertDialogFooter>
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
                             <AlertDialogAction
-                              onClick={async () => {
-                                await deleteCollectionCategory(category_id);
+                              onClick={() => {
+                                mutation.mutate(category_id);
                               }}
                             >
                               Continue
