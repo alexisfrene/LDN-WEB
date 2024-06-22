@@ -1,9 +1,10 @@
 import React from "react"
-import { CardDescription, Icons, Separator } from "@components";
-import { CategoryEdit } from "../CategoryEdit";
-import { SizeEdit } from "../SizeEdit";
-import { SignOff } from "../SignOff";
 import { useSessionStore } from "@global";
+import { CardDescription, Icons, Separator } from "@components";
+import { CategoryEdit } from "./CategoryEdit";
+import { SizeEdit } from "./SizeEdit";
+import { SignOff } from "./SignOff";
+
 
 interface Props {
     showModal :(title:string , content:React.ReactNode) => void;
