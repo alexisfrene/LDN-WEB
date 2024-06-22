@@ -1,5 +1,5 @@
-import React from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import React from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,13 +11,13 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
   Icons,
-  type IconsType
-} from "@components";
+  type IconsType,
+} from '@components';
 
 interface AlertDeleteProps {
   title: string;
   id: string;
-  deleteFn: (value:any) => Promise<any>;
+  deleteFn: (value: any) => Promise<any>;
   triggerIconType: IconsType;
   triggerIconHeight: number;
   triggerIconClass: string;
@@ -35,7 +35,7 @@ export const AlertDelete: React.FC<AlertDeleteProps> = ({
   triggerIconClass,
   queryKey,
   isValue = false,
-  categoryId
+  categoryId,
 }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -56,7 +56,11 @@ export const AlertDelete: React.FC<AlertDeleteProps> = ({
   return (
     <AlertDialog>
       <AlertDialogTrigger>
-        <Icons type={triggerIconType} height={triggerIconHeight} className={triggerIconClass} />
+        <Icons
+          type={triggerIconType}
+          height={triggerIconHeight}
+          className={triggerIconClass}
+        />
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -64,7 +68,8 @@ export const AlertDelete: React.FC<AlertDeleteProps> = ({
             {`Estas seguro de eliminar ${title.toUpperCase()}?`}
           </AlertDialogTitle>
           <AlertDialogDescription>
-            Esta acción es permanente, se perderán los datos y las imágenes asociadas a la misma!
+            Esta acción es permanente, se perderán los datos y las imágenes
+            asociadas a la misma!
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

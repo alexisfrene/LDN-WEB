@@ -1,12 +1,8 @@
 import React, { ReactElement } from 'react';
-import {  useQuery } from '@tanstack/react-query';
-import {
-  getAllCategories,
-} from '@src/services';
-import {
-  LoadingIndicator,
-} from '@components';
-import { NotCategories } from './NotCategories';
+import { useQuery } from '@tanstack/react-query';
+import { getAllCategories } from '@services';
+import { LoadingIndicator } from '@components';
+import { NotCategories } from './ViewCategories/NotCategories';
 import { ViewCategories } from './ViewCategories';
 
 interface CategoryEditProps {
@@ -26,9 +22,9 @@ export const CategoryEdit: React.FC<CategoryEditProps> = ({ showSheet }) => {
   return (
     <div className="flex min-w-[70vw] flex-col">
       {data.length === 0 ? (
-    <NotCategories showSheet={showSheet} />
+        <NotCategories showSheet={showSheet} />
       ) : (
-      <ViewCategories  showSheet={showSheet} data={data}/>
+        <ViewCategories showSheet={showSheet} data={data} />
       )}
     </div>
   );

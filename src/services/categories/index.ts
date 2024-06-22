@@ -51,10 +51,13 @@ export const addValueCategory = async ({
   }
 };
 
-export const modifyTitleCollectionCategory = async (
-  title: string,
-  category_id: string,
-) => {
+export const modifyTitleCollectionCategory = async ({
+  category_id,
+  title,
+}: {
+  title: string;
+  category_id: string;
+}) => {
   try {
     const formData = new FormData();
     formData.append('title', title);
@@ -70,10 +73,13 @@ export const modifyTitleCollectionCategory = async (
   }
 };
 
-export const deleteValueCategory = async (
-{category_id , category_value}: { category_value: string,
-  category_id: string,}
-) => {
+export const deleteValueCategory = async ({
+  category_id,
+  category_value,
+}: {
+  category_value: string;
+  category_id: string;
+}) => {
   try {
     const res = await axiosInstance.delete(
       `/categories/${category_id}?type=value&value_id=${category_value}`,
