@@ -18,6 +18,7 @@ import {
 } from '@services';
 import { FormAddSize } from './FormAddSize';
 import { AlertDelete } from './AlertDelete';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 interface Props {
   data: Size[];
@@ -27,6 +28,14 @@ interface Props {
 export const ViewSizes: React.FC<Props> = ({ data, showSheet }) => {
   const [selected, setSelected] = useState<string>();
   const [collectionTitle, setCollectionTitle] = useState<string>('');
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: modifyTitleCollectionSize,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['sizes'] });
+    },
+  });
+
   return (
     <>
       <ScrollArea className="h-[70vh] px-2">
@@ -47,11 +56,8 @@ export const ViewSizes: React.FC<Props> = ({ data, showSheet }) => {
                         title === collectionTitle ||
                         collectionTitle.length === 0
                       }
-                      onClick={async () => {
-                        await modifyTitleCollectionSize(
-                          collectionTitle,
-                          size_id,
-                        );
+                      onClick={() => {
+                        mutation.mutate({ title: collectionTitle, size_id });
                       }}
                     >
                       <Icons type="check" className="h-8" />

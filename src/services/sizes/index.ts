@@ -44,10 +44,13 @@ export const addValueSize = async ({
   }
 };
 
-export const modifyTitleCollectionSize = async (
-  title: string,
-  size_id: string,
-) => {
+export const modifyTitleCollectionSize = async ({
+  size_id,
+  title,
+}: {
+  title: string;
+  size_id: string;
+}) => {
   try {
     const res = await axiosInstance.patch(`/size/${size_id}?type=title`, {
       title,
