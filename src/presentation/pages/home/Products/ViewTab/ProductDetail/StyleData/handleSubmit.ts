@@ -28,7 +28,7 @@ export const handleSubmit = (refresh: (data: StyleDataProps) => void) => {
       });
       setTimeout(() => toast('Datos actualizados con éxito!'), 200);
     } catch (error) {
-      console.log('Error al actualizar datos del producto !', error);
+      console.error('Error al actualizar datos del producto !', error);
     } finally {
       formikHelpers.resetForm();
     }

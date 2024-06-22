@@ -7,13 +7,13 @@ export const addMovement = async (newMovement: any) => {
       .insert([newMovement])
       .select();
     if (error) {
-      console.log(error);
+      console.error(error);
       return null;
     } else {
       return data;
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
 };
@@ -27,7 +27,7 @@ export const getMovement = async (): Promise<any[] | []> => {
       .limit(10);
 
     if (error) {
-      console.log(error);
+      console.error(error);
       return [];
     } else {
       if (ldn_finance) {
@@ -37,7 +37,7 @@ export const getMovement = async (): Promise<any[] | []> => {
       }
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return [];
   }
 };

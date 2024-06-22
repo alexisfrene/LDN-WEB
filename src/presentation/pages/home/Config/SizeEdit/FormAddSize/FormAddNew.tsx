@@ -70,7 +70,6 @@ export const FormAddNew: React.FC = () => {
                     type="close"
                     className="absolute right-0 h-4 cursor-pointer bg-red-500"
                     onClick={() => {
-                      console.log('click');
                       const res = values.values.filter(
                         (e) => e.id !== value.id,
                       );

@@ -41,7 +41,6 @@ export const FormAddNew: React.FC = () => {
         values: [] as ValueProps[],
       }}
       onSubmit={(values, formikHelpers) => {
-        console.log('Vlaues --<', values);
         mutation.mutate({
           title: values.title,
           values: values.values,

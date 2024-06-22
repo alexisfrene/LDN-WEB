@@ -21,6 +21,6 @@ export const handleSubmit = async (
       }, 500);
     }
   } catch (error) {
-    console.log('Error in Create Variation ->', error);
+    console.error('Error in Create Variation ->', error);
   }
 };

@@ -25,7 +25,6 @@ export const FormAddNewValue: React.FC<Props> = ({ category_id }) => {
         icon_url: '',
       }}
       onSubmit={(values, formikHelpers) => {
-        console.log('VALUES -->', values);
         mutation.mutate({
           values: { value: values.value, icon: values.icon },
           category_id,

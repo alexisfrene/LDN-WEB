@@ -37,7 +37,6 @@ const SingUpPage: React.FC = () => {
   const formik = useFormik({
     initialValues,
     onSubmit: async ({ passwordConfirm, ...values }, formikHelpers) => {
-      console.log(values);
       const res = await registerUser(values);
       if (res?.status === 201) {
         toast('Usuario creado exitosamente!');

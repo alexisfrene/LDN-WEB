@@ -77,7 +77,6 @@ export const NewMoment: React.FC<NewMomentProps> = ({ handleSubmit }) => {
                 <RadioGroup
                   defaultValue="cash"
                   onValueChange={(e) => setFieldValue('payment_method', e)}
-                  // onChange={(e) => console.log('payment_method', e)}
                 >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="cash" id="r1" />

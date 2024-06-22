@@ -49,7 +49,7 @@ const handleSubmit = async (
       toast('Producto creado con éxito !');
     }
   } catch (error) {
-    console.log('Error al crear producto --> ', error);
+    console.error('Error al crear producto --> ', error);
   }
 };
 export default handleSubmit;
