@@ -60,7 +60,13 @@ export const modifyTitleCollectionSize = async (
   }
 };
 
-export const deleteValueSize = async (size_value: string, size_id: string) => {
+export const deleteValueSize = async ({
+  size_id,
+  size_value,
+}: {
+  size_value: string;
+  size_id: string;
+}) => {
   try {
     const res = await axiosInstance.delete(
       `/size/${size_id}?type=value&value_id=${size_value}`,
