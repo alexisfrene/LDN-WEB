@@ -62,8 +62,6 @@ export const NewMoment: React.FC<NewMomentProps> = ({ handleSubmit }) => {
                 />
               </Label>
               <Label className="col-span-1">
-                {/* <p>Seleccionar producto :</p>
-                <Button variant="outline">Productos</Button> //TODO:Ver como hacer esto */}
                 <p>Selecciona una fecha :</p>
                 <Input
                   name="date"

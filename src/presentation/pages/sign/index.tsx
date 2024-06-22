@@ -103,7 +103,7 @@ const SingUpPage: React.FC = () => {
             <Label htmlFor="email" className="col-span-1">
               Email
               <Input
-                name="email" //TODO: ver como validar que este no se repita
+                name="email"
                 id="email"
                 onChange={formik.handleChange}
                 value={formik.values.email}

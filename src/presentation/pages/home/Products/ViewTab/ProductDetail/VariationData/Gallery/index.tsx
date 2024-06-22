@@ -18,7 +18,6 @@ export const Gallery: React.FC<GalleryImagesVariantsProps> = ({
 
   useEffect(() => {
     handleFetchImages();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

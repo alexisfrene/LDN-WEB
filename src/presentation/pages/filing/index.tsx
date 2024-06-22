@@ -2,9 +2,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSessionStore } from '@global';
 import {
-  // Avatar,
-  // AvatarFallback,
-  // AvatarImage,
   Button,
   Card,
   CardContent,
@@ -43,11 +40,6 @@ const Filing: React.FC = () => {
             <div className="w-96 h-40 border-2 flex flex-col justify-center px-14 hover:bg-slate-100 cursor-pointer">
               <CardDescription>Estas logueado con el usuario :</CardDescription>
               <div className="text-blue-600 p-3 font-bold text-lg bg-slate-200 text-center m-3 flex gap-5">
-                {/* <Avatar>
-                  <AvatarImage src={avatar_url} alt="@ldn-avatar" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-                <CardTitle>{username}</CardTitle> */}
                 Estas loqueado !
               </div>
               <Button onClick={() => navigate('/home')}>

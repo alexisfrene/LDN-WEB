@@ -116,7 +116,6 @@ export const ViewCategories:React.FC<Props> = ({data,showSheet}) => {
                          isValue={true}
                          categoryId={category_id}
                        />
-                        // <AlertDeleteValue category_id={category_id} value={e.value} value_id={e.id}  />
                       )}
                     </Badge>
                   ))}

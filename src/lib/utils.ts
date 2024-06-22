@@ -59,34 +59,6 @@ const axiosInstanceFormDataCreate = () => {
   return instance;
 };
 
-// const localStorageUserData = localStorage.getItem('user-storage');
-
-// const parsedDataUser =
-//   typeof localStorageUserData === 'string'
-//     ? JSON?.parse(localStorageUserData || '')
-//     : null;
-
-// const sessionToken = parsedDataUser?.state?.session_token;
-
-// const axiosInstanceCreate = () => {
-//   return axios.create({
-//     baseURL: import.meta.env.VITE_API_NAME,
-//     headers: {
-//       'Content-Type': 'application/json',
-//       Authorization: `Bearer ${sessionToken}`,
-//     },
-//   });
-// };
-// const axiosInstanceFormDataCreate = () => {
-//   return axios.create({
-//     baseURL: import.meta.env.VITE_API_NAME,
-//     headers: {
-//       Authorization: `Bearer ${sessionToken}`,
-//       'Content-Type': 'multipart/form-data',
-//     },
-//   });
-// };
-
 export const axiosInstance = axiosInstanceCreate();
 
 export const axiosInstanceFormData = axiosInstanceFormDataCreate();
