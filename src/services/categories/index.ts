@@ -71,8 +71,8 @@ export const modifyTitleCollectionCategory = async (
 };
 
 export const deleteValueCategory = async (
-  category_value: string,
-  category_id: string,
+{category_id , category_value}: { category_value: string,
+  category_id: string,}
 ) => {
   try {
     const res = await axiosInstance.delete(
