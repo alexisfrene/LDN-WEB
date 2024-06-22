@@ -2,13 +2,13 @@ import React, { ReactNode, useEffect } from 'react';
 import logo from '@assets/favicon.png';
 import { Avatar, AvatarFallback, AvatarImage } from '@components';
 import { useSessionStore } from '@global';
-import { getUrlAvatar } from '@src/services';
+import { getUrlAvatar } from '@services';
 
-interface LayoutProps {
+interface Props {
   children: ReactNode;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children }) => {
+export const Layout: React.FC<Props> = ({ children }) => {
   const insertAvatar = useSessionStore((state) => state.insertAvatar);
   const avatar = useSessionStore((state) => state.avatar);
   const session_token = useSessionStore((state) => state.session_token);

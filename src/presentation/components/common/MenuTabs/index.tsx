@@ -1,9 +1,11 @@
 import React, { ReactNode } from 'react';
 import { TabsList, Tabs, TabsTrigger, Label } from '@components';
+
 interface Props {
   tabs: string[];
   children: ReactNode;
 }
+
 export const MenuTabs: React.FC<Props> = ({ children, tabs }) => {
   return (
     <Tabs defaultValue={tabs[0]}>

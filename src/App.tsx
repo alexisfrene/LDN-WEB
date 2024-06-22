@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { login } from '@lib';
 import { LoadingIndicator, Toaster, WithAuth } from '@components';
+import { login } from '@lib';
 
 const FilingPage = lazy(() => import('./presentation/pages/filing'));
 const SingUpPage = lazy(() => import('./presentation/pages/sign'));

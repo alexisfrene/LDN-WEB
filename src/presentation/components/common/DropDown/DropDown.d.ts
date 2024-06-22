@@ -1,16 +1,12 @@
 type FieldFormProps = {
   name: string;
   title: string;
-  option: Option[];
+  option:  {
+    type: string;
+    title: string;
+  }[];
 };
 
-interface Option {
-  type: string;
-  title: string;
-}
+ 
 
-interface DropdownInputProps {
-  title: string;
-  options: Option[];
-  name: string;
-}
+

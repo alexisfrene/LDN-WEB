@@ -9,7 +9,16 @@ import {
   SelectValue,
 } from '@components';
 
-export const DropdownInput: React.FC<DropdownInputProps> = ({
+interface Props {
+  title: string;
+  options: {
+    type: string;
+    title: string;
+  }[];
+  name: string;
+}
+
+export const DropdownInput: React.FC<Props> = ({
   title,
   options,
   name,
