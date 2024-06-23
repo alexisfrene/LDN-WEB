@@ -7,8 +7,8 @@ type State = {
 };
 
 type Action = {
-  insertSessionToken: (values: State) => void;
-  insertAvatar: (url: State) => void;
+  insertSessionToken: (values: State['session_token']) => void;
+  insertAvatar: (url: State['avatar']) => void;
 };
 
 export const useSessionStore = create(
@@ -16,9 +16,8 @@ export const useSessionStore = create(
     (set) => ({
       session_token: '',
       avatar: '',
-      insertSessionToken: (state) =>
-        set({ session_token: state.session_token }),
-      insertAvatar: (state) => set({ avatar: state.avatar }),
+      insertSessionToken: (session_token) => set({ session_token }),
+      insertAvatar: (avatar) => set({ avatar }),
     }),
     {
       name: 'user-storage',

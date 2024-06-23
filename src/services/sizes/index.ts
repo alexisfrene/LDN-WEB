@@ -1,12 +1,13 @@
 import { axiosInstance } from '@src/lib';
 import { toast } from 'sonner';
 
-export const getAllSizes = async (): Promise<Size[] | undefined> => {
+export const getAllSizes = async () => {
   try {
     const res = await axiosInstance('/size');
     return res.data;
   } catch (error) {
-    console.log('ERROR IN SIZES ALL -->', error);
+    toast.error('Ocurrió un error al obtener los Números/Tallas');
+    console.error('ERROR IN getAllSizes:', error);
   }
 };
 
@@ -16,58 +17,78 @@ export const addSizeCollection = async (values: {
 }) => {
   try {
     const res = await axiosInstance.post('/size', values);
+    toast.success('Talla/Número agregado con éxito!');
     return res.data;
   } catch (error) {
-    console.log('Error in addSize', error);
+    toast.error('Ocurrió un error al crear Talla/Número');
+    console.error('ERROR IN addSizeCollection:', error);
   }
 };
 
-export const addValueSize = async (value: string, size_id: string) => {
+export const addValueSize = async ({
+  value,
+  size_id,
+}: {
+  value: string;
+  size_id: string;
+}) => {
   try {
     const res = await axiosInstance.patch(`/size/${size_id}?type=add`, {
       value,
     });
+    toast.success('Valor agregado con éxito!');
     return res.data;
   } catch (error) {
-    console.log('Error in addValueSize', error);
+    toast.error('Ocurrió un error al agregar el valor');
+    console.error('ERROR IN addValueSize:', error);
   }
 };
 
-export const modifyTitleCollectionSize = async (
-  title: string,
-  size_id: string,
-) => {
+export const modifyTitleCollectionSize = async ({
+  size_id,
+  title,
+}: {
+  title: string;
+  size_id: string;
+}) => {
   try {
     const res = await axiosInstance.patch(`/size/${size_id}?type=title`, {
       title,
     });
-    toast('Titulo editado con éxito!');
+    toast.success('Título editado con éxito!');
     return res.data;
   } catch (error) {
-    console.log('Error in modifyTitleCollectionSize', error);
+    toast.error('Ocurrió un error al editar el título');
+    console.error('ERROR IN modifyTitleCollectionSize:', error);
   }
 };
 
-export const deleteValueSize = async (size_value: string, size_id: string) => {
+export const deleteValueSize = async ({
+  size_id,
+  size_value,
+}: {
+  size_value: string;
+  size_id: string;
+}) => {
   try {
     const res = await axiosInstance.delete(
       `/size/${size_id}?type=value&value_id=${size_value}`,
     );
-    toast('Valor eliminado con éxito!');
-
+    toast.success('Valor eliminado con éxito!');
     return res.data;
   } catch (error) {
-    console.log('Error in deleteValueSize', error);
+    toast.error('Ocurrió un error al eliminar el valor');
+    console.error('ERROR IN deleteValueSize:', error);
   }
 };
 
 export const deleteCollectionSize = async (size_id: string) => {
   try {
     const res = await axiosInstance.delete(`/size/${size_id}?type=collection`);
-    toast('Valor eliminado con éxito!');
-
+    toast.success('Colección eliminada con éxito!');
     return res.data;
   } catch (error) {
-    console.log('Error in deleteCollectionSize', error);
+    toast.error('Ocurrió un error al eliminar la colección');
+    console.error('ERROR IN deleteCollectionSize:', error);
   }
 };

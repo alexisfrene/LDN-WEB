@@ -7,7 +7,7 @@ import {
   Dialog,
   DialogContent,
 } from '@components';
-import { getAllCategories, getAllSizes } from '@src/services';
+import { getAllCategories, getAllSizes } from '@services';
 import {
   ModalCategoryProps,
   ModalDeleteProps,

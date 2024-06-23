@@ -29,18 +29,15 @@ const LoginPage: React.FC = () => {
       const res = await loginUser(values);
 
       if (res?.data.session_token) {
-        insertSessionToken({
-          session_token: res?.data.session_token,
-          avatar: '',
-        });
-        return navigate('/home');
+        insertSessionToken(res?.data.session_token);
+        return setTimeout(() => navigate('/home'), 200);
       }
       alert('Error');
     },
   });
   return (
     <Layout>
-      <div className="flex items-center justify-center mt-10">
+      <div className="mt-10 flex items-center justify-center">
         <Card>
           <CardHeader>
             <CardTitle>Ingresar </CardTitle>

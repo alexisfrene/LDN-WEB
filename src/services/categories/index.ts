@@ -1,17 +1,17 @@
 import { axiosInstance, axiosInstanceFormData } from '@src/lib';
 import { toast } from 'sonner';
 
-export const getAllCategories = async (): Promise<Category[] | undefined> => {
+export const getAllCategories = async () => {
   try {
     const res = await axiosInstance.get('/categories');
-
-    if (res.data) return res.data;
+    return res.data;
   } catch (error) {
-    console.log('ERROR IN CATEGORIES -->', error);
+    toast.error('Ocurrió un error al obtener las categorías');
+    console.error('ERROR IN getAllCategories:', error);
   }
 };
 
-export const addCategoryConfig = async (data: any) => {
+export const addCategoryConfig = async (data: Category) => {
   try {
     const formData = new FormData();
     formData.append('title', data.title);
@@ -20,13 +20,21 @@ export const addCategoryConfig = async (data: any) => {
       formData.append(`values[${index}]`, data.values[index].value);
     }
     const res = await axiosInstanceFormData.post('/categories', formData);
+    toast.success('Categoría agregada con éxito!');
     return res.data;
   } catch (error) {
-    console.log('Error in addCategoryConfig', error);
+    toast.error('Ocurrió un error al agregar la categoría');
+    console.error('ERROR IN addCategoryConfig:', error);
   }
 };
 
-export const addValueCategory = async (values: any, category_id: string) => {
+export const addValueCategory = async ({
+  values,
+  category_id,
+}: {
+  values: { value: string; icon: File | null };
+  category_id: string;
+}) => {
   try {
     const formData = new FormData();
     formData.append('value', values.value);
@@ -35,16 +43,21 @@ export const addValueCategory = async (values: any, category_id: string) => {
       `/categories/${category_id}?type=add`,
       formData,
     );
+    toast.success('Valor agregado con éxito!');
     return res.data;
   } catch (error) {
-    console.log('Error in addValueCategory', error);
+    toast.error('Ocurrió un error al agregar el valor a la categoría');
+    console.error('ERROR IN addValueCategory:', error);
   }
 };
 
-export const modifyTitleCollectionCategory = async (
-  title: string,
-  category_id: string,
-) => {
+export const modifyTitleCollectionCategory = async ({
+  category_id,
+  title,
+}: {
+  title: string;
+  category_id: string;
+}) => {
   try {
     const formData = new FormData();
     formData.append('title', title);
@@ -52,26 +65,30 @@ export const modifyTitleCollectionCategory = async (
       `/categories/${category_id}?type=title`,
       formData,
     );
-    toast('Titulo editado con éxito!');
+    toast.success('Título editado con éxito!');
     return res.data;
   } catch (error) {
-    console.log('Error in modifyTitleCollection', error);
+    toast.error('Ocurrió un error al editar el título de la categoría');
+    console.error('ERROR IN modifyTitleCollectionCategory:', error);
   }
 };
 
-export const deleteValueCategory = async (
-  category_value: string,
-  category_id: string,
-) => {
+export const deleteValueCategory = async ({
+  category_id,
+  category_value,
+}: {
+  category_value: string;
+  category_id: string;
+}) => {
   try {
     const res = await axiosInstance.delete(
       `/categories/${category_id}?type=value&value_id=${category_value}`,
     );
-    toast('Valor eliminado con éxito!');
-
+    toast.success('Valor eliminado con éxito!');
     return res.data;
   } catch (error) {
-    console.log('Error in addValueCategory', error);
+    toast.error('Ocurrió un error al eliminar el valor de la categoría');
+    console.error('ERROR IN deleteValueCategory:', error);
   }
 };
 
@@ -80,13 +97,10 @@ export const deleteCollectionCategory = async (category_id: string) => {
     const res = await axiosInstance.delete(
       `/categories/${category_id}?type=collection`,
     );
-    toast('Valor eliminado con éxito!');
-
+    toast.success('Colección eliminada con éxito!');
     return res.data;
   } catch (error) {
-    console.log('Error in addValueCategory', error);
+    toast.error('Ocurrió un error al eliminar la colección de la categoría');
+    console.error('ERROR IN deleteCollectionCategory:', error);
   }
 };
-
-export const deleteCategoryConfig = () => {};
-export const updateCategoryConfig = () => {};

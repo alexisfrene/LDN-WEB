@@ -37,7 +37,6 @@ const SingUpPage: React.FC = () => {
   const formik = useFormik({
     initialValues,
     onSubmit: async ({ passwordConfirm, ...values }, formikHelpers) => {
-      console.log(values);
       const res = await registerUser(values);
       if (res?.status === 201) {
         toast('Usuario creado exitosamente!');
@@ -104,7 +103,7 @@ const SingUpPage: React.FC = () => {
             <Label htmlFor="email" className="col-span-1">
               Email
               <Input
-                name="email" //TODO: ver como validar que este no se repita
+                name="email"
                 id="email"
                 onChange={formik.handleChange}
                 value={formik.values.email}

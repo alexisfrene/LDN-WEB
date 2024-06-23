@@ -48,10 +48,11 @@ import {
   PlusCircleIcon,
   ArrowSmallLeftIcon,
   TrashIcon,
+  ArrowLeftOnRectangleIcon,
 } from '@heroicons/react/24/outline';
 
 interface IconsProps {
-  type: keyof typeof icons;
+  type: IconsType;
   width?: number;
   height?: number;
   className?: string;
@@ -65,6 +66,7 @@ const icons = {
   arrow_down: ChevronDownIcon,
   arrow_right: ChevronRightIcon,
   arrow_top: ChevronUpIcon,
+  arrow_left_start_on_rectangle: ArrowLeftOnRectangleIcon,
   send: PaperAirplaneIcon,
   building: BuildingOfficeIcon,
   close: XMarkIcon,
@@ -109,7 +111,7 @@ const icons = {
   arrow_small_left: ArrowSmallLeftIcon,
   trash: TrashIcon,
 };
-
+export type IconsType = keyof typeof icons;
 export const Icons: React.FC<IconsProps> = ({
   type,
   width,

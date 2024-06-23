@@ -9,7 +9,7 @@ interface Value {
   id: string;
   value: string;
   icon_url?: string;
-  icon?: {
+  icon: {
     url: String;
     file: File;
   };

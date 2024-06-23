@@ -2,14 +2,14 @@ import React from 'react';
 import { ErrorMessage, FormikValues, useFormikContext } from 'formik';
 import { Input, Label } from '@components';
 
-interface LabelInputProps {
+interface Props {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   label: string;
   name: string;
   inputType?: React.HTMLInputTypeAttribute;
 }
 
-export const LabelInput: React.FC<LabelInputProps> = ({
+export const LabelInput: React.FC<Props> = ({
   onChange,
   label,
   name,
