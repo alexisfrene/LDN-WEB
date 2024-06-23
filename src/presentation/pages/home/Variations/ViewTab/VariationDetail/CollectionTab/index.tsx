@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
-import { v4 as uuidv4 } from 'uuid';
 import {
   Button,
   Card,
@@ -18,7 +17,7 @@ interface Props {
 }
 
 export const CollectionTab: React.FC<Props> = () => {
-  const [image, setImages] = useState<ImagesValues[]>([]);
+  const [images, setImages] = useState<ImagesValues[]>([]);
 
   return (
     <Card>
@@ -40,23 +39,9 @@ export const CollectionTab: React.FC<Props> = () => {
               <LabelInput label="Nombre" name="label" />
               <ImageUploader
                 name="images"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    const url = URL.createObjectURL(file);
-                    setImages([...image, { url, file, id: uuidv4() }]);
-                  }
-                }}
+                images={images}
+                setImages={setImages}
               />
-              <Button
-                type="button"
-                variant="secondary"
-                onClick={() => {
-                  setFieldValue('images', image);
-                }}
-              >
-                Agregar
-              </Button>
               <div className="my-3 grid grid-cols-2 gap-3">
                 {values.images.map((value: ImagesValues) => {
                   return (
