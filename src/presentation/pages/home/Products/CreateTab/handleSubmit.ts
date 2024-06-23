@@ -7,7 +7,7 @@ interface InitialValues {
   images: ImagesValues[];
   price: number;
   description: string;
-  details: {
+  detail: {
     age: string;
     brand: string;
     color: string;
@@ -36,7 +36,7 @@ const handleSubmit = async (
       category_id: values.category.category_id,
       category_value: values.category.category_value_id,
       description: values.description,
-      details: values.details,
+      detail: values.detail,
       stock: values.stock,
       name: values.name,
       price: values.price,

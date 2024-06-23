@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import React from 'react';
+import { ProductDataTable } from '@components';
 import { useForm } from './useForm';
 import { handleSubmit } from './handleSubmit';
-import { ProductDataTable } from '@components';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-export interface DataOfProductsProps {
+export interface Props {
   price: string;
   description: string;
   category: string;
@@ -12,7 +13,7 @@ export interface DataOfProductsProps {
   name: string;
 }
 
-export const ProductData: React.FC<DataOfProductsProps> = ({
+export const ProductData: React.FC<Props> = ({
   name,
   price,
   description,
@@ -20,47 +21,44 @@ export const ProductData: React.FC<DataOfProductsProps> = ({
   size,
   product_id,
 }) => {
-  const [selected, setSelected] = useState({
-    name,
-    price,
-    description,
-    category,
-    size,
-    product_id,
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: handleSubmit,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['product_detail'] });
+    },
   });
-  const refresh = (data: DataOfProductsProps) => {
-    setSelected(data);
-  };
   const dataVist = [
     {
       label: 'Nombre :',
-      value: selected.name,
+      value: name,
       name: 'name',
     },
     {
       label: 'Precio:',
-      value: `$ ${selected.price}`,
+      value: `$ ${price}`,
       name: 'price',
     },
     {
       label: 'Descripción:',
-      value: selected.description,
+      value: description,
       name: 'description',
     },
     {
       label: 'Categoría:',
-      value: selected.category,
+      value: category,
       name: 'category',
     },
-    { label: 'Numero/Talle:', value: selected.size, name: 'size' },
+    { label: 'Numero/Talle:', value: size, name: 'size' },
   ];
-  const initialValues = useForm(selected.product_id!);
-  const submit = handleSubmit(refresh);
+  const initialValues = useForm(product_id!);
 
   return (
     <ProductDataTable
       dataVist={dataVist}
-      handleSubmit={submit}
+      handleSubmit={(values, formikHelpers) =>
+        mutation.mutate({ formikHelpers: formikHelpers, values: values })
+      }
       initialValues={initialValues}
       title="Información básica"
     />

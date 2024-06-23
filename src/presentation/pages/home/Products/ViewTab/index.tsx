@@ -37,7 +37,10 @@ export const ProductGrid: React.FC = () => {
               <ProductCard
                 key={index}
                 handleClick={() => {
-                  showModal('', <ProductDetail product={product} />);
+                  showModal(
+                    '',
+                    <ProductDetail product_id={product.product_id!} />,
+                  );
                 }}
                 removeProduct={() => {
                   showModal(

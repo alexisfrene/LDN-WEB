@@ -40,11 +40,11 @@ export const CreateProducts: React.FC = () => {
             <LabelInput label="Nombre del producto" name="name" />
             <LabelInput label="Precio" name="price" inputType="number" />
             <LabelInput label="Descripción" name="description" />
-            <LabelInput label="Marca" name="details[brand]" />
-            <LabelInput label="Estilo" name="details[style]" />
-            <LabelInput label="Color" name="details[color]" />
-            <LabelInput label="Edad" name="details[age]" />
-            <LabelInput label="Genero" name="details[gender]" />
+            <LabelInput label="Marca" name="detail[brand]" />
+            <LabelInput label="Estilo" name="detail[style]" />
+            <LabelInput label="Color" name="detail[color]" />
+            <LabelInput label="Edad" name="detail[age]" />
+            <LabelInput label="Genero" name="detail[gender]" />
             <LabelInput
               label="Unidades"
               name="details[stock]"

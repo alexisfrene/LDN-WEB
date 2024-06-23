@@ -1,6 +1,8 @@
+import React from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ProductDataTable } from '@components';
 import { handleSubmit } from './handleSubmit';
-import { useState } from 'react';
+
 export interface StyleDataProps {
   style: string;
   brand: string;
@@ -18,41 +20,37 @@ export const StyleData: React.FC<StyleDataProps> = ({
   product_id,
   style,
 }) => {
-  const [selected, setSelected] = useState({
-    age,
-    brand,
-    color,
-    gender,
-    product_id,
-    style,
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: handleSubmit,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['product_detail'] });
+    },
   });
-  const refresh = (data: StyleDataProps) => {
-    setSelected(data);
-  };
   const dataVist = [
     {
       label: 'Estilo :',
-      value: selected.style,
+      value: style,
       name: 'style',
     },
     {
       label: 'Marca :',
-      value: selected.brand,
+      value: brand,
       name: 'brand',
     },
     {
       label: 'Edad :',
-      value: selected.age,
+      value: age,
       name: 'age',
     },
     {
       label: 'Color :',
-      value: selected.color,
+      value: color,
       name: 'color',
     },
     {
       label: 'Genero :',
-      value: selected.gender,
+      value: gender,
       name: 'gender',
     },
   ];
@@ -62,13 +60,15 @@ export const StyleData: React.FC<StyleDataProps> = ({
     color: '',
     gender: '',
     styles: '',
-    product_id: selected.product_id,
+    product_id: product_id,
   };
-  const submit = handleSubmit(refresh);
+
   return (
     <ProductDataTable
       dataVist={dataVist}
-      handleSubmit={submit}
+      handleSubmit={(values, formikHelpers) =>
+        mutation.mutate({ formikHelpers: formikHelpers, values: values })
+      }
       initialValues={initialValues}
       title="Detalles del producto"
     />

@@ -14,6 +14,19 @@ export const getAllProducts = async () => {
   }
 };
 
+export const getByIdProduct = async (productId: string) => {
+  try {
+    const response = await axiosInstance.get(`/products/${productId}`);
+    if (response.status !== 200) {
+      throw new Error('Error al obtener productos');
+    }
+    return response.data;
+  } catch (error) {
+    toast.error('Ocurrió un error al obtener los productos');
+    console.error('ERROR IN getAllProducts:', error);
+  }
+};
+
 export const getImageUrl = async (publicId: string) => {
   try {
     const url = await axiosInstance.get(`products/image?public_id=${publicId}`);
@@ -38,12 +51,12 @@ export const createProducts = async (values: Product) => {
     if (values.primary_image) {
       formData.append('file', values.primary_image);
     }
-    const details = values?.details;
-    formData.append('details[color]', details?.color || '');
-    formData.append('details[age]', details?.age || '');
-    formData.append('details[gender]', details?.gender || '');
-    formData.append('details[brand]', details?.brand || '');
-    formData.append('details[style]', details?.style || '');
+    const detail = values?.detail;
+    formData.append('detail[color]', detail?.color || '');
+    formData.append('detail[age]', detail?.age || '');
+    formData.append('detail[gender]', detail?.gender || '');
+    formData.append('detail[brand]', detail?.brand || '');
+    formData.append('detail[style]', detail?.style || '');
 
     const response = await axiosInstanceFormData.post('/products', formData);
     if (!response) {
@@ -68,10 +81,13 @@ export const removeProduct = async (id: string) => {
   }
 };
 
-export const updateProductDetails = async (
-  newDetails: Details,
-  product_id: string,
-) => {
+export const updateProductDetails = async ({
+  newDetails,
+  product_id,
+}: {
+  newDetails: Details;
+  product_id: string;
+}) => {
   try {
     const res = await axiosInstance.patch(
       `/products/${product_id}?type=details`,
@@ -85,10 +101,13 @@ export const updateProductDetails = async (
   }
 };
 
-export const updateProductData = async (
-  newDetails: any,
-  product_id: string,
-) => {
+export const updateProductData = async ({
+  newDetails,
+  product_id,
+}: {
+  newDetails: any;
+  product_id: string;
+}) => {
   try {
     const res = await axiosInstance.patch(
       `/products/${product_id}?type=data`,
@@ -102,7 +121,13 @@ export const updateProductData = async (
   }
 };
 
-export const updatePrimaryImage = async (file: File, product_id: string) => {
+export const updatePrimaryImage = async ({
+  file,
+  product_id,
+}: {
+  file: File;
+  product_id: string;
+}) => {
   try {
     const formData = new FormData();
     formData.append('file', file);

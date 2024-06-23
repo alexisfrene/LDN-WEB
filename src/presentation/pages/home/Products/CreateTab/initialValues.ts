@@ -3,7 +3,7 @@ const initialValues = {
   images: [] as ImagesValues[],
   price: 1,
   description: '',
-  details: { age: '', brand: '', color: '', gender: '', style: '' },
+  detail: { age: '', brand: '', color: '', gender: '', style: '' },
   stock: 1,
   category: {
     category_id: '',

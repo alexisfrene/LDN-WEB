@@ -77,24 +77,14 @@ export const ProductDataTable: React.FC<DataOfProductsProps> = ({
   return (
     <div>
       <div className="mb-5 flex items-center text-2xl font-bold">
-        {modalEdit ? (
-          <Icons
-            type="arrow_small_left"
-            height={30}
-            className="cursor-pointer hover:scale-105 hover:text-slate-800"
-            onClick={() => setModalEdit(false)}
-          />
-        ) : (
-          <Icons
-            type="copy_manual"
-            height={30}
-            className="cursor-pointer hover:scale-105 hover:text-slate-800"
-            onClick={() => setModalEdit(true)}
-          />
-        )}
+        <Icons
+          type={modalEdit ? 'arrow_small_left' : 'copy_manual'}
+          height={30}
+          className="cursor-pointer hover:scale-105 hover:text-slate-800"
+          onClick={() => setModalEdit(!modalEdit)}
+        />
         <h2 className="ml-2">{title}</h2>
       </div>
-
       <form onSubmit={formik.handleSubmit}>
         {dataVist.map(({ label, value, name }, i) => (
           <div

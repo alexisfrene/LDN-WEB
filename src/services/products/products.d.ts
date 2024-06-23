@@ -2,7 +2,7 @@ interface Product {
   size_value: string;
   size_id: string;
   category?: string;
-  details?: Details;
+  detail?: Details;
   size?: string;
   name: string;
   product_id?: string;

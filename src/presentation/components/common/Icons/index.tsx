@@ -51,8 +51,6 @@ import {
   ArrowLeftOnRectangleIcon,
 } from '@heroicons/react/24/outline';
 
-export type IconsType = keyof typeof icons;
-
 interface IconsProps {
   type: IconsType;
   width?: number;
@@ -113,7 +111,7 @@ const icons = {
   arrow_small_left: ArrowSmallLeftIcon,
   trash: TrashIcon,
 };
-
+export type IconsType = keyof typeof icons;
 export const Icons: React.FC<IconsProps> = ({
   type,
   width,
@@ -133,4 +131,4 @@ export const Icons: React.FC<IconsProps> = ({
       onClick={onClick}
     />
   );
-}; 
+};
