@@ -8,22 +8,22 @@ import {
   TabsList,
   TabsTrigger,
 } from '@components';
-import { Summary } from './Summary';
+//import { Summary } from './Summary';
 import { Products } from './Products';
 import { Variations } from './Variations';
 import { Config } from './Config';
 import { useSessionStore } from '@src/presentation/global';
 
-const tabResumen = 'Resumen';
+//const tabResumen = 'Resumen';
 const tabImágenes = 'Imágenes';
 const tabProductos = 'Productos';
 const tabConfig = 'Ajustes';
 const tabsStyles = 'sm:h-6 md:h-8 lg:h-10 xl:16';
 const tabButtons = [
-  {
-    title: tabResumen,
-    icon: <Icons type="document" className={tabsStyles} />,
-  },
+  // {
+  //   title: tabResumen,
+  //   icon: <Icons type="document" className={tabsStyles} />,
+  // },
   { title: tabImágenes, icon: <Icons type="photo" className={tabsStyles} /> },
   {
     title: tabProductos,
@@ -43,7 +43,7 @@ const HomePage: React.FC = () => {
   return (
     <Layout>
       <Tabs
-        defaultValue={tabResumen}
+        defaultValue={tabProductos}
         className="grid min-h-[91vh] grid-cols-12"
       >
         <TabsList className="col-span-1 flex h-full flex-col justify-start gap-2 bg-gradient-to-t from-amber-200 to-amber-400">
@@ -58,9 +58,9 @@ const HomePage: React.FC = () => {
             </TabsTrigger>
           ))}
         </TabsList>
-        <TabsContent value={tabResumen} className="col-span-11">
+        {/* <TabsContent value={tabResumen} className="col-span-11">
           <Summary />
-        </TabsContent>
+        </TabsContent> */}
         <TabsContent value={tabImágenes} className="col-span-11">
           <Variations />
         </TabsContent>
