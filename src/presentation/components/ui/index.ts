@@ -22,3 +22,5 @@ export * from './avatar';
 export * from './accordion';
 export * from './badge';
 export * from './alert-dialog';
+export * from './switch';
+export * from './menubar';

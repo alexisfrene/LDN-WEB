@@ -91,3 +91,8 @@ export const removeEmptyStringProperties = (obj: Product): Product => {
 
   return cleanedObject as Product;
 };
+
+export const fetchImage = async (url: string) => {
+  const response = await axios.get(url, { responseType: 'blob' });
+  return URL.createObjectURL(response.data);
+};

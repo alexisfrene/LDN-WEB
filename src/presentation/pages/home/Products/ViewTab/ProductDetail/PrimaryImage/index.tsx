@@ -33,7 +33,7 @@ export const PrimaryImage: React.FC<Props> = ({ product }) => {
   });
 
   return (
-    <div className="relative">
+    <div className="relative flex max-w-prose justify-center rounded-sm bg-slate-200 py-2">
       <AlertDialog>
         <AlertDialogTrigger asChild>
           <div>
@@ -69,7 +69,11 @@ export const PrimaryImage: React.FC<Props> = ({ product }) => {
                   setImages={setImage}
                 />
                 {values.primary_image[0]?.url && (
-                  <ImageLoader url={image[0]?.url} className="h-36 w-36" />
+                  <ImageLoader
+                    url={image[0]?.url}
+                    className="h-36 w-36"
+                    alt={product.name}
+                  />
                 )}
                 <AlertDialogFooter>
                   <AlertDialogCancel type="button">Cancel</AlertDialogCancel>
@@ -80,11 +84,13 @@ export const PrimaryImage: React.FC<Props> = ({ product }) => {
           </Formik>
         </AlertDialogContent>
       </AlertDialog>
-      <img
-        src={product.primary_image?.toString()}
-        className="h-60 w-60 rounded-lg"
-        alt={product.name}
-      />
+      <div className="h-60 w-60 bg-slate-50">
+        <ImageLoader
+          url={product.primary_image?.toString()!}
+          className="h-60 w-60 rounded-lg"
+          alt={product.name}
+        />
+      </div>
     </div>
   );
 };

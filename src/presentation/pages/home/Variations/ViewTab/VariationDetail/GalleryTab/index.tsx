@@ -6,7 +6,6 @@ import {
   CardHeader,
   CardTitle,
   Icons,
-  Separator,
 } from '@components';
 import { AlertAddImage } from './AlertAddImage';
 import { AlertRemoveImage } from './AlertRemoveImage';
@@ -64,7 +63,6 @@ export const GalleryTab: React.FC<Props> = ({ variation }) => {
                 />
               )}
             </div>
-            <Separator className="h-0.5 bg-slate-200" />
           </div>
         ))}
       </CardContent>

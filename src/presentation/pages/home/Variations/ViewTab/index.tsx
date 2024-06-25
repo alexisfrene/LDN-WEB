@@ -1,8 +1,8 @@
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { LoadingIndicator, Modal } from '@components';
 import { deleteVariationById, getAllVariations } from '@services';
 import { useModal } from '@hooks';
-import { useQuery } from '@tanstack/react-query';
 import { VariationCard } from './VariationCard';
 import { VariationDetail } from './VariationDetail';
 

@@ -75,7 +75,7 @@ export const ProductDataTable: React.FC<DataOfProductsProps> = ({
   }, [initialValues]);
 
   return (
-    <div>
+    <div className="max-w-prose">
       <div className="mb-5 flex items-center text-2xl font-bold">
         <Icons
           type={modalEdit ? 'arrow_small_left' : 'copy_manual'}

@@ -3,4 +3,5 @@ interface Props extends ImgHTMLAttributes<HTMLImageElement> {
   width?: number;
   height?: number;
   className?: string;
+  alt: string;
 }

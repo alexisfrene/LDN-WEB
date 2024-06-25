@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
   AspectRatio,
+  ImageLoader,
 } from '@components';
 
 interface Props {
@@ -37,8 +38,8 @@ export const ProductCard: React.FC<Props> = ({
       </CardHeader>
       <CardContent onClick={handleClick} className="cursor-pointer">
         <AspectRatio ratio={1 / 1} className="bg-muted">
-          <img
-            src={product.primary_image?.toString()}
+          <ImageLoader
+            url={product.primary_image?.toString()!}
             className={`h-96 w-96 cursor-pointer rounded-xl object-fill lg:h-48 xl:h-64 2xl:h-56 ${
               false && 'border-2 border-dashed border-amber-900'
             }`}

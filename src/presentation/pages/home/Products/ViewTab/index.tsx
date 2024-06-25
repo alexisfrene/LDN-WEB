@@ -1,24 +1,26 @@
-import React from 'react';
-import { toast } from 'sonner';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getAllProducts, removeProduct } from '@services';
-import { LoadingIndicator, Modal, ModalDelete, ScrollArea } from '@components';
+import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { getAllProducts } from '@services';
+import {
+  LoadingIndicator,
+  Modal,
+  ScrollArea,
+  Menubar,
+  MenubarContent,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarTrigger,
+  MenubarCheckboxItem,
+  Switch,
+} from '@components';
 import { useModal } from '@hooks';
-import { ProductDetail } from './ProductDetail';
-import { ProductCard } from './ProductCard';
+import { ProductsGrid } from './ProductsGrid';
 
 export const ProductGrid: React.FC = () => {
+  const [checked, setChecked] = useState(false);
   const { hideModal, isOpenModal, modalContent, modalTitle, showModal } =
     useModal();
-  const queryClient = useQueryClient();
-  const mutation = useMutation({
-    mutationFn: removeProduct,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['products'],
-      });
-    },
-  });
+
   const { isPending, error, data } = useQuery<Product[]>({
     queryKey: ['products'],
     queryFn: () => getAllProducts(),
@@ -30,41 +32,37 @@ export const ProductGrid: React.FC = () => {
 
   return (
     <div className="mx-3">
-      <ScrollArea className="lg:h-[69vh] xl:h-[68vh] 2xl:h-[72vh]">
-        <div className="grid gap-3 sm:grid-cols-1  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
-          {data.map((product, index) => {
-            return (
-              <ProductCard
-                key={index}
-                handleClick={() => {
-                  showModal(
-                    '',
-                    <ProductDetail product_id={product.product_id!} />,
-                  );
-                }}
-                removeProduct={() => {
-                  showModal(
-                    '',
-                    <ModalDelete
-                      handleDeleteProduct={() => {
-                        mutation.mutate(product.product_id!);
-                        hideModal();
-                        toast('Producto eliminado');
-                      }}
-                      hideDeleteModal={hideModal}
-                    />,
-                  );
-                }}
-                product={product}
+      <Menubar>
+        <MenubarMenu>
+          <MenubarTrigger>Vista</MenubarTrigger>
+          <MenubarContent>
+            <MenubarCheckboxItem>
+              Ver en grilla :
+              <Switch
+                checked={checked}
+                onCheckedChange={setChecked}
+                className="mx-1"
               />
-            );
-          })}
-        </div>
+            </MenubarCheckboxItem>
+            <MenubarSeparator />
+          </MenubarContent>
+        </MenubarMenu>
+      </Menubar>
+      <ScrollArea className="h-[calc(100vh-140px)]">
+        {checked ? (
+          <ProductsGrid
+            data={data}
+            hideModal={hideModal}
+            showModal={showModal}
+          />
+        ) : (
+          <div>hola</div>
+        )}
       </ScrollArea>
       <Modal
         isOpen={isOpenModal}
         onRequestClose={hideModal}
-        className="max-w-fit"
+        className="flex max-w-fit justify-center"
       >
         <div>{modalTitle}</div>
         {modalContent}
