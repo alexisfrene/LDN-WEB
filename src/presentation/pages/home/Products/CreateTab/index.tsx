@@ -52,7 +52,11 @@ export const CreateProducts: React.FC = () => {
             />
             <ImageUploader name="images" images={image} setImages={setImage} />
             {values.images[0]?.url && (
-              <ImageLoader url={image[0]?.url} className="h-36 w-36" />
+              <ImageLoader
+                url={image[0]?.url}
+                className="h-36 w-36"
+                alt="pre-image-product"
+              />
             )}
             <Button
               className="col-span-full"
