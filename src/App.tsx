@@ -1,7 +1,6 @@
-import React, { lazy, Suspense, useEffect } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { LoadingIndicator, Toaster, WithAuth } from '@components';
-import { login } from '@lib';
 
 const FilingPage = lazy(() => import('./presentation/pages/filing'));
 const SingUpPage = lazy(() => import('./presentation/pages/sign'));
@@ -41,10 +40,6 @@ const router = createBrowserRouter([
 ]);
 
 const App: React.FC = () => {
-  useEffect(() => {
-    login();
-  }, []);
-
   return (
     <div className="min-w-screen min-h-screen bg-gradient-to-t from-orange-100 to-orange-100 font-mono font-semibold text-slate-800">
       <Suspense fallback={<LoadingIndicator isLoading />}>
